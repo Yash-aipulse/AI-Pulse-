@@ -1,1 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #FAF8F5;
+      --bg-section: #F5F2EE;
+      --text: #14110F;
+      --text-secondary: #4A4742;
+      --text-muted: #8A857F;
+      --text-dim: #B8B3AC;
+      --accent: #D6006E;
+      --border: #E8E4DE;
+      --border-strong: #D4CFC7;
+      --footer-bg: #14110F;
+      --footer-text: #C9C4BD;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', -apple-system, sans-serif;
+      font-weight: 400;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+
+    /* === NAV === */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.015em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-mark::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--bg);
+      border-radius: 50%;
+    }
+    .nav-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .back-link {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: -0.005em;
+      padding: 8px 16px;
+      border: 1px solid var(--border-strong);
+      border-radius: 2px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .back-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .back-link::before {
+      content: '←';
+      font-size: 14px;
+    }
+
+    /* === HEADER === */
+    .page-header {
+      padding: 80px 0 56px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+    .page-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .page-eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .page-header h1 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: clamp(36px, 4.6vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 20px;
+      max-width: 800px;
+    }
+    .page-header p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 720px;
+      line-height: 1.6;
+    }
+
+    /* === ARCHIVE LIST === */
+    main {
+      flex: 1;
+      padding: 64px 0 96px;
+    }
+    .issue-list {
+      max-width: 920px;
+      list-style: none;
+    }
+    .issue-item {
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0;
+      transition: background 0.2s;
+    }
+    .issue-item:hover { background: var(--bg-soft); }
+    .issue-link {
+      display: grid;
+      grid-template-columns: 140px 1fr auto;
+      gap: 32px;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      padding: 0 16px;
+    }
+    .issue-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .issue-summary {
+      font-family: 'Manrope', sans-serif;
+      font-size: 17px;
+      line-height: 1.45;
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .issue-arrow {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--text-muted);
+      font-size: 18px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .issue-item:hover .issue-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .empty-archive {
+      max-width: 920px;
+      padding: 48px 0;
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 56px 0 40px;
+      margin-top: auto;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.015em;
+      color: #FFFFFF;
+    }
+    .footer-brand-block .brand-mark { background: var(--accent); }
+    .footer-brand-block .brand-mark::after { background: var(--footer-bg); }
+    .footer-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(201, 196, 189, 0.6);
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 0 22px; }
+      .page-header { padding: 56px 0 40px; }
+      .issue-link {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 0;
+      }
+      .issue-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="brand">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </a>
+      <div class="nav-meta">
+        <a href="../index.html" class="back-link">Back to home</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HEADER ============ -->
+  <header class="page-header">
+    <div class="container">
+      <div class="page-eyebrow">Archive</div>
+      <h1>All past briefs.</h1>
+      <p>Every previous issue of AI Pulse, organized by date. The most recent issue is always at the top.</p>
+    </div>
+  </header>
+
+  <!-- ============ ARCHIVE LIST ============ -->
+  <main>
+    <div class="container">
+      <ul class="issue-list">
+
+        <!-- ============================================== -->
+        <!-- ADD NEW ISSUES AT THE TOP OF THIS LIST.          -->
+        <!-- COPY THE TEMPLATE BELOW AND FILL IN DATE + SUMMARY -->
+        <!-- ============================================== -->
+
+        <!-- TEMPLATE (copy this for each new archived issue):
+        <li class="issue-item">
+          <a href="issue-DD-MMM-YYYY.html" class="issue-link">
+            <span class="issue-date">DD MMM YYYY</span>
+            <span class="issue-summary">One-line summary of the day's lead story.</span>
+            <span class="issue-arrow">→</span>
+          </a>
+        </li>
+        -->
+
+        <li class="issue-item">
+          <a href="issue-06-may-2026.html" class="issue-link">
+            <span class="issue-date">06 May 2026</span>
+            <span class="issue-summary">Anthropic embeds Claude across Wall Street workflows; $1.5B distribution venture announced.</span>
+            <span class="issue-arrow">→</span>
+          </a>
+        </li>
+
+      </ul>
+
+      <!-- If the archive is empty, replace the <ul> above with:
+      <div class="empty-archive">
+        No archived issues yet. The first issue will appear here once a new one is published.
+      </div>
+      -->
+
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-label">Archive</div>
+    </div>
+  </footer>
+
+</body>
+</html>
 
