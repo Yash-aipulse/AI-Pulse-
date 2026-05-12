@@ -6,305 +6,457 @@
   <title>AI Pulse – Archive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #FFFFFF;
-      --bg-soft: #FAF8F5;
-      --bg-section: #F5F2EE;
-      --text: #14110F;
-      --text-secondary: #4A4742;
-      --text-muted: #8A857F;
-      --text-dim: #B8B3AC;
-      --accent: #D6006E;
-      --border: #E8E4DE;
-      --border-strong: #D4CFC7;
-      --footer-bg: #14110F;
-      --footer-text: #C9C4BD;
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
     }
-
+ 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    html { scroll-behavior: smooth; }
+ 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Manrope', -apple-system, sans-serif;
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
       font-weight: 400;
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
+      overflow-x: hidden;
+      cursor: none;
       display: flex;
       flex-direction: column;
     }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 40px;
-      width: 100%;
+    @media (max-width: 720px) { body { cursor: auto; } }
+    @media (prefers-reduced-motion: reduce) {
+      body { cursor: auto; }
+      .cursor-dot, .cursor-trail { display: none; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
     }
-
+ 
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+ 
+    /* === CUSTOM CURSOR === */
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded {
+      width: 40px; height: 40px;
+      background: rgba(94, 234, 212, 0.2);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+    .cursor-trail {
+      width: 36px; height: 36px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+ 
+    /* === PROGRESS BAR === */
+    .progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: var(--accent); z-index: 1000;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+ 
     /* === NAV === */
     nav {
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
+      padding: 18px 0;
+      background: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      position: sticky; top: 0; z-index: 100;
     }
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+ 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: -0.015em;
-      color: var(--text);
-      text-decoration: none;
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px;
+      color: var(--text); text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: none;
     }
+    .brand:hover { color: var(--accent); }
+ 
     .brand-mark {
-      width: 28px;
-      height: 28px;
+      width: 28px; height: 28px;
       background: var(--accent);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      position: relative; flex-shrink: 0;
+      transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+    }
+    .brand:hover .brand-mark {
+      transform: rotate(45deg);
+      box-shadow: 0 0 24px var(--accent-glow);
     }
     .brand-mark::after {
-      content: '';
-      width: 10px;
-      height: 10px;
-      background: var(--bg);
-      border-radius: 50%;
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 10px; height: 10px;
+      background: var(--bg); border-radius: 50%;
     }
-    .nav-meta {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-    .back-link {
-      font-family: 'Manrope', sans-serif;
+ 
+    .nav-meta { display: flex; align-items: center; gap: 12px; }
+ 
+    .nav-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
       font-weight: 500;
-      font-size: 13px;
-      letter-spacing: -0.005em;
-      padding: 8px 16px;
-      border: 1px solid var(--border-strong);
-      border-radius: 2px;
-      color: var(--text);
-      text-decoration: none;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
     }
-    .back-link:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+ 
+    .back-link {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 13px;
+      padding: 9px 20px;
+      border: 1px solid var(--border-strong);
+      border-radius: 100px;
+      color: var(--text); text-decoration: none;
+      transition: all 0.3s var(--ease-out-quart);
+      display: inline-flex; align-items: center; gap: 8px;
+      position: relative; overflow: hidden;
+      background: transparent;
+      cursor: none;
     }
     .back-link::before {
-      content: '←';
-      font-size: 14px;
+      content: ''; position: absolute; inset: 0;
+      background: var(--accent);
+      transform: translateY(101%);
+      transition: transform 0.4s var(--ease-out-quart);
     }
-
-    /* === HEADER === */
+    .back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+    .back-link:hover {
+      border-color: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    .back-link:hover::before { transform: translateY(0); }
+    .back-link svg {
+      width: 12px; height: 12px;
+      transition: transform 0.3s var(--ease-out-quart);
+    }
+    .back-link:hover svg { transform: translateX(-3px); }
+ 
+    /* === PAGE HEADER === */
     .page-header {
-      padding: 80px 0 56px;
+      padding: 100px 0 80px;
       border-bottom: 1px solid var(--border);
-      background: var(--bg-soft);
+      background: var(--bg);
+      position: relative; overflow: hidden;
     }
+ 
+    .header-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(94, 234, 212, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94, 234, 212, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at 20% 50%, black 20%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at 20% 50%, black 20%, transparent 75%);
+      pointer-events: none;
+    }
+ 
+    .page-header-inner { position: relative; z-index: 2; }
+ 
     .page-eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 28px; font-weight: 500;
+      display: flex; align-items: center; gap: 14px;
+      animation: slideInLeft 0.8s var(--ease-out-expo) both;
     }
     .page-eyebrow::before {
-      content: '';
-      width: 28px;
-      height: 1px;
+      content: ''; width: 32px; height: 1px;
       background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+      animation: lineGrow 1s var(--ease-out-expo) 0.2s both;
+      transform-origin: left;
     }
+ 
     .page-header h1 {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Carlito', sans-serif;
       font-weight: 700;
-      font-size: clamp(36px, 4.6vw, 56px);
-      line-height: 1.05;
-      letter-spacing: -0.025em;
-      color: var(--text);
-      margin-bottom: 20px;
-      max-width: 800px;
+      font-size: clamp(40px, 5.4vw, 72px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 24px; max-width: 860px;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both;
+    }
+    .page-header h1 em {
+      font-style: italic; color: var(--accent);
+      text-shadow: 0 0 30px var(--accent-glow);
     }
     .page-header p {
-      font-size: 17px;
-      color: var(--text-secondary);
-      max-width: 720px;
-      line-height: 1.6;
+      font-size: 17px; color: var(--text-secondary);
+      max-width: 640px; line-height: 1.65;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both;
     }
-
-    /* === ARCHIVE LIST === */
-    main {
-      flex: 1;
-      padding: 64px 0 96px;
+ 
+    /* === ARCHIVE MAIN === */
+    main { flex: 1; padding: 64px 0 96px; }
+ 
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text);
+      font-weight: 600;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      max-width: 920px;
+      display: flex; align-items: center; gap: 12px;
     }
+    .section-label::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+ 
+    /* === ISSUE LIST === */
     .issue-list {
       max-width: 920px;
       list-style: none;
     }
+ 
     .issue-item {
       border-bottom: 1px solid var(--border);
-      padding: 28px 0;
-      transition: background 0.2s;
+      opacity: 0; transform: translateY(24px);
+      animation: issueReveal 0.7s var(--ease-out-expo) forwards;
     }
-    .issue-item:hover { background: var(--bg-soft); }
+    .issue-item:nth-child(1)  { animation-delay: 0.05s; }
+    .issue-item:nth-child(2)  { animation-delay: 0.10s; }
+    .issue-item:nth-child(3)  { animation-delay: 0.15s; }
+    .issue-item:nth-child(4)  { animation-delay: 0.20s; }
+    .issue-item:nth-child(5)  { animation-delay: 0.25s; }
+    .issue-item:nth-child(6)  { animation-delay: 0.30s; }
+    .issue-item:nth-child(7)  { animation-delay: 0.35s; }
+    .issue-item:nth-child(8)  { animation-delay: 0.40s; }
+    .issue-item:nth-child(9)  { animation-delay: 0.45s; }
+    .issue-item:nth-child(10) { animation-delay: 0.50s; }
+ 
     .issue-link {
       display: grid;
-      grid-template-columns: 140px 1fr auto;
+      grid-template-columns: 160px 1fr 40px;
       gap: 32px;
       align-items: center;
       text-decoration: none;
       color: inherit;
-      padding: 0 16px;
+      padding: 28px 0;
+      transition: background 0.3s var(--ease-out-quart);
+      cursor: none;
+      position: relative;
     }
+    .issue-link::before {
+      content: ''; position: absolute;
+      left: -40px; right: -40px; top: 0; bottom: 0;
+      background: var(--bg-card);
+      opacity: 0;
+      transition: opacity 0.3s var(--ease-out-quart);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .issue-item:hover .issue-link::before { opacity: 1; }
+ 
     .issue-date {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .issue-summary {
-      font-family: 'Manrope', sans-serif;
-      font-size: 17px;
-      line-height: 1.45;
-      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
       font-weight: 500;
-      letter-spacing: -0.01em;
     }
+ 
+    .issue-summary {
+      font-family: 'Carlito', sans-serif;
+      font-size: 17px; line-height: 1.5;
+      color: var(--text-secondary);
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+    .issue-item:hover .issue-summary { color: var(--text); }
+ 
     .issue-arrow {
-      font-family: 'IBM Plex Mono', monospace;
-      color: var(--text-muted);
-      font-size: 18px;
-      transition: color 0.2s, transform 0.2s;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      font-size: 16px;
+      transition: color 0.3s ease, transform 0.3s var(--ease-out-quart);
+      text-align: right;
     }
     .issue-item:hover .issue-arrow {
       color: var(--accent);
       transform: translateX(4px);
+      text-shadow: 0 0 12px var(--accent-glow);
     }
-
+ 
     .empty-archive {
       max-width: 920px;
-      padding: 48px 0;
+      padding: 64px 0;
       color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: 16px; line-height: 1.7;
     }
-
+    .empty-archive strong {
+      display: block;
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-style: italic;
+      font-size: 28px; color: var(--text);
+      margin-bottom: 12px;
+    }
+ 
     /* === FOOTER === */
     footer {
-      background: var(--footer-bg);
-      color: var(--footer-text);
-      padding: 56px 0 40px;
-      margin-top: auto;
+      background: var(--bg);
+      color: var(--text-muted);
+      padding: 64px 0 48px;
+      position: relative; overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    footer::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
     .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 24px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
     }
     .footer-brand-block {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: -0.015em;
-      color: #FFFFFF;
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px; color: var(--text);
     }
-    .footer-brand-block .brand-mark { background: var(--accent); }
-    .footer-brand-block .brand-mark::after { background: var(--footer-bg); }
     .footer-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(201, 196, 189, 0.6);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted);
     }
-
+ 
+    /* Make all interactive elements use no native cursor */
+    a, button { cursor: none; }
+    @media (max-width: 720px) { a, button { cursor: pointer; } }
+ 
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes lineGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes issueReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+ 
     @media (max-width: 720px) {
       .container { padding: 0 22px; }
-      .page-header { padding: 56px 0 40px; }
+      .page-header { padding: 64px 0 48px; }
       .issue-link {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 0;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 8px 16px;
+        padding: 24px 0;
       }
-      .issue-arrow { display: none; }
+      .issue-date { grid-column: 1; grid-row: 1; }
+      .issue-summary { grid-column: 1 / -1; grid-row: 2; font-size: 15px; }
+      .issue-arrow { grid-column: 2; grid-row: 1; }
+      .issue-link::before { left: -22px; right: -22px; }
     }
   </style>
 </head>
 <body>
-
+ 
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+ 
   <!-- ============ NAV ============ -->
   <nav>
     <div class="container nav-inner">
       <a href="../index.html" class="brand">
         <div class="brand-mark"></div>
-        AI Pulse
+        <div class="brand-name">AI Pulse</div>
       </a>
       <div class="nav-meta">
-        <a href="../index.html" class="back-link">Back to home</a>
+        <span class="nav-date">Archive</span>
+        <a href="../index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+          <span>Back to home</span>
+        </a>
       </div>
     </div>
   </nav>
-
-  <!-- ============ HEADER ============ -->
+ 
+  <!-- ============ PAGE HEADER ============ -->
   <header class="page-header">
-    <div class="container">
+    <div class="header-grid"></div>
+    <div class="container page-header-inner">
       <div class="page-eyebrow">Archive</div>
-      <h1>All past briefs.</h1>
-      <p>Every previous issue of AI Pulse, organized by date. The most recent issue is always at the top.</p>
+      <h1>Every brief, <em>in full</em>.</h1>
+      <p>All past issues of AI Pulse, organized by date. The most recent issue is always at the top. Each brief is a complete, self-contained record of its publication date.</p>
     </div>
   </header>
-
+ 
   <!-- ============ ARCHIVE LIST ============ -->
   <main>
     <div class="container">
+      <div class="section-label">Past issues</div>
       <ul class="issue-list">
-
+ 
         <!-- ============================================== -->
-        <!-- ADD NEW ISSUES AT THE TOP OF THIS LIST.          -->
-        <!-- COPY THE TEMPLATE BELOW AND FILL IN DATE + SUMMARY -->
+        <!-- ADD NEW ISSUES AT THE TOP OF THIS LIST.        -->
+        <!-- Copy one <li> block and fill in date + summary -->
         <!-- ============================================== -->
-
-        <!-- TEMPLATE (copy this for each new archived issue):
+ 
         <li class="issue-item">
-          <a href="issue-DD-MMM-YYYY.html" class="issue-link">
-            <span class="issue-date">DD MMM YYYY</span>
-            <span class="issue-summary">One-line summary of the day's lead story.</span>
+          <a href="issue-09-may-2026.html" class="issue-link">
+            <span class="issue-date">09 May 2026</span>
+            <span class="issue-summary">Anthropic approaches a $900 billion valuation in a new round; Meta closes its frontier model; Five Eyes agencies warn of agentic AI risks inside critical infrastructure.</span>
             <span class="issue-arrow">→</span>
           </a>
         </li>
-        -->
-      <li class="issue-item">
-  <a href="issue-07-may-2026.html" class="issue-link">
-    <span class="issue-date">07 May 2026</span>
-    <span class="issue-summary">Anthropic adds overnight memory review to its AI agents, with one legal technology firm reporting a sixfold improvement in task completion rates.</span>
-    <span class="issue-arrow">→</span>
-  </a>
-</li>
+ 
+        <li class="issue-item">
+          <a href="issue-07-may-2026.html" class="issue-link">
+            <span class="issue-date">07 May 2026</span>
+            <span class="issue-summary">Anthropic adds overnight memory review to its AI agents, with one legal technology firm reporting a sixfold improvement in task completion rates.</span>
+            <span class="issue-arrow">→</span>
+          </a>
+        </li>
+ 
         <li class="issue-item">
           <a href="issue-06-may-2026.html" class="issue-link">
             <span class="issue-date">06 May 2026</span>
@@ -312,18 +464,21 @@
             <span class="issue-arrow">→</span>
           </a>
         </li>
-
+ 
+        <!-- ============ TEMPLATE (copy for each new issue) ============
+        <li class="issue-item">
+          <a href="issue-DD-MMM-YYYY.html" class="issue-link">
+            <span class="issue-date">DD MMM YYYY</span>
+            <span class="issue-summary">One-line summary of the day's lead story.</span>
+            <span class="issue-arrow">→</span>
+          </a>
+        </li>
+        ============================================================== -->
+ 
       </ul>
-
-      <!-- If the archive is empty, replace the <ul> above with:
-      <div class="empty-archive">
-        No archived issues yet. The first issue will appear here once a new one is published.
-      </div>
-      -->
-
     </div>
   </main>
-
+ 
   <!-- ============ FOOTER ============ -->
   <footer>
     <div class="container footer-inner">
@@ -331,10 +486,55 @@
         <div class="brand-mark"></div>
         AI Pulse
       </div>
-      <div class="footer-label">Archive</div>
+      <div class="footer-label">Archive · All issues</div>
     </div>
   </footer>
-
+ 
+  <script>
+    // === CUSTOM CURSOR ===
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+ 
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+ 
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+ 
+      document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorDot.classList.add('expanded');
+          cursorTrail.classList.add('expanded');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorDot.classList.remove('expanded');
+          cursorTrail.classList.remove('expanded');
+        });
+      });
+    }
+ 
+    // === READING PROGRESS BAR ===
+    const progressBar = document.getElementById('progressBar');
+    function updateProgress() {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+  </script>
+ 
 </body>
 </html>
-
