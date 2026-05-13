@@ -6,648 +6,760 @@
   <title>AI Pulse – 07 May 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #FFFFFF;
-      --bg-soft: #FAF8F5;
-      --bg-section: #F5F2EE;
-      --text: #14110F;
-      --text-secondary: #4A4742;
-      --text-muted: #8A857F;
-      --text-dim: #B8B3AC;
-      --accent: #D6006E;
-      --accent-hover: #B8005E;
-      --accent-soft: rgba(214, 0, 110, 0.08);
-      --border: #E8E4DE;
-      --border-strong: #D4CFC7;
-      --footer-bg: #14110F;
-      --footer-text: #C9C4BD;
-
-      --sec-pharma: #2D7A5F;
-      --sec-finance: #8B6B1F;
-      --sec-hardware: #8B5A3C;
-      --sec-research: #6B4A8F;
-      --sec-policy: #A33838;
-      --sec-operations: #3D5A8F;
-      --sec-general: #4A4742;
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Manrope', -apple-system, sans-serif;
-      font-weight: 400;
-      line-height: 1.55;
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
       -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+    /* === CUSTOM CURSOR === */
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded {
+      width: 40px; height: 40px;
+      background: rgba(94, 234, 212, 0.2);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+    .cursor-trail {
+      width: 36px; height: 36px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) {
+      .cursor-dot, .cursor-trail { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-dot, .cursor-trail { display: none; }
+      body { cursor: auto; }
     }
 
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 40px;
+    /* === PROGRESS BAR === */
+    .progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: var(--accent); z-index: 1000;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
     /* === NAV === */
     nav {
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      padding: 18px 0; position: sticky; top: 0;
+      background: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       z-index: 100;
     }
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: -0.015em;
-      color: var(--text);
-      text-decoration: none;
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px;
+      color: var(--text); text-decoration: none;
+      transition: color 0.3s ease;
     }
+    .brand:hover { color: var(--accent); }
     .brand-mark {
-      width: 28px;
-      height: 28px;
+      width: 28px; height: 28px;
       background: var(--accent);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      position: relative; flex-shrink: 0;
+      transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+    }
+    .brand:hover .brand-mark {
+      transform: rotate(45deg);
+      box-shadow: 0 0 24px var(--accent-glow);
     }
     .brand-mark::after {
-      content: '';
-      width: 10px;
-      height: 10px;
-      background: var(--bg);
-      border-radius: 50%;
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 10px; height: 10px;
+      background: var(--bg); border-radius: 50%;
     }
-    .brand-name { font-weight: 700; }
-    .nav-meta {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-    .nav-meta a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-meta a:hover { color: var(--accent); }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
     .nav-date {
-      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
       font-weight: 500;
     }
-    .archive-link {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 500;
-      font-size: 13px;
-      letter-spacing: -0.005em;
-      padding: 8px 16px;
-      border: 1px solid var(--border-strong);
-      border-radius: 2px;
-      text-transform: none;
-      color: var(--text) !important;
-      transition: all 0.2s;
-    }
-    .archive-link:hover {
-      border-color: var(--accent);
-      color: var(--accent) !important;
-    }
+   .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
 
     /* === HERO === */
     .hero {
-      padding: 80px 0 64px;
+      padding: 100px 0 80px;
       border-bottom: 1px solid var(--border);
-      background: var(--bg-soft);
+      background: var(--bg);
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(94, 234, 212, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94, 234, 212, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute; width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(94, 234, 212, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo);
+      left: 30%; top: 50%;
+      filter: blur(20px);
     }
     .hero-inner {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 80px;
-      align-items: end;
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 80px; align-items: end;
+      position: relative; z-index: 2;
     }
     .hero-eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 14px;
+      animation: slideInLeft 0.8s var(--ease-out-expo) both;
     }
     .hero-eyebrow::before {
-      content: '';
-      width: 28px;
-      height: 1px;
+      content: ''; width: 32px; height: 1px;
       background: var(--accent);
+      animation: lineGrow 1s var(--ease-out-expo) 0.2s both;
+      transform-origin: left;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .live-dot {
+      width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+      animation: pulse 2s ease-in-out infinite;
     }
     .hero h1 {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Carlito', sans-serif;
       font-weight: 700;
-      font-size: clamp(36px, 4.6vw, 60px);
-      line-height: 1.05;
-      letter-spacing: -0.025em;
-      color: var(--text);
-      margin-bottom: 28px;
-      max-width: 960px;
+      font-size: clamp(40px, 5.4vw, 72px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 32px; max-width: 960px;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--accent);
+      text-shadow: 0 0 30px var(--accent-glow);
     }
     .hero-sub {
-      font-size: 17px;
-      color: var(--text-secondary);
-      max-width: 720px;
-      line-height: 1.6;
-      font-weight: 400;
+      font-size: 17px; color: var(--text-secondary);
+      max-width: 720px; line-height: 1.65;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both;
     }
     .hero-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-      padding: 24px 28px;
-      background: var(--bg);
+      display: flex; flex-direction: column;
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-left: 3px solid var(--accent);
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both;
+      box-shadow: 0 0 40px rgba(94, 234, 212, 0.05);
     }
+    .hero-stat {
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s var(--ease-out-quart);
+    }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
     .hero-stat-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 6px;
     }
     .hero-stat-value {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 600;
-      font-size: 22px;
-      color: var(--text);
-      letter-spacing: -0.015em;
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 26px; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1.1;
     }
 
-    /* === SECTOR FILTER === */
+    /* === FILTER === */
     .filter-band {
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 69px;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      padding: 22px 0; border-bottom: 1px solid var(--border);
+      position: sticky; top: 65px;
+      background: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       z-index: 90;
     }
     .filter-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 20px; flex-wrap: wrap;
     }
     .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
     .filter-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-muted);
     }
-    .filter-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
     .chip {
-      font-family: 'Manrope', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 8px 16px;
-      border-radius: 2px;
+      font-family: 'Carlito', sans-serif;
+      font-size: 14px; font-weight: 700;
+      padding: 9px 20px; border-radius: 100px;
       border: 1px solid var(--border-strong);
-      background: var(--bg);
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.18s ease;
-      letter-spacing: -0.005em;
+      background: transparent; color: var(--text-secondary);
+      cursor: none;
+      transition: all 0.3s var(--ease-out-quart);
     }
     .chip:hover {
-      color: var(--text);
-      border-color: var(--text-secondary);
+      color: var(--accent); border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
     .chip.active {
-      background: var(--accent);
-      color: var(--bg);
+      background: var(--accent); color: var(--bg);
       border-color: var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
     }
     .filter-count {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.04em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-muted);
     }
     .filter-count strong {
-      color: var(--accent);
-      font-weight: 600;
+      color: var(--accent); font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* === STORY NAV (right side dots) === */
+    .story-nav {
+      position: fixed; right: 28px; top: 50%;
+      transform: translateY(-50%); z-index: 80;
+      display: flex; flex-direction: column; gap: 14px;
+      padding: 14px 8px;
+    }
+    .story-nav-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      cursor: none; border: none; padding: 0;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+    }
+    .story-nav-dot::before {
+      content: attr(data-label); position: absolute;
+      right: 16px; top: 50%;
+      transform: translateY(-50%) translateX(8px);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text);
+      background: var(--bg-card);
+      padding: 6px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      white-space: nowrap; opacity: 0; pointer-events: none;
+      transition: all 0.3s var(--ease-out-quart);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active {
+      background: var(--accent); width: 24px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow);
     }
 
     /* === STORIES === */
-    .stories { padding: 64px 0 32px; }
-
+    .stories { padding: 80px 0 32px; }
     .story {
-      padding: 56px 0;
-      border-bottom: 1px solid var(--border);
-      animation: fadeUp 0.5s ease forwards;
-      opacity: 0;
+      padding: 64px 0; border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
     }
-    .story:nth-child(1) { animation-delay: 0.05s; }
-    .story:nth-child(2) { animation-delay: 0.1s; }
-    .story:nth-child(3) { animation-delay: 0.15s; }
-    .story:nth-child(4) { animation-delay: 0.2s; }
-    .story:nth-child(5) { animation-delay: 0.25s; }
-    .story:nth-child(6) { animation-delay: 0.3s; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden {
+      opacity: 0; transform: scale(0.96) translateY(20px);
+      pointer-events: none; max-height: 0;
+      overflow: hidden; padding: 0; border: none;
+      transition: all 0.5s var(--ease-out-expo);
     }
-
     .story-header {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 40px;
-      margin-bottom: 28px;
-      align-items: start;
+      display: grid; grid-template-columns: 100px 1fr;
+      gap: 40px; margin-bottom: 32px; align-items: start;
     }
     .story-num {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.12em;
-      padding-top: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-muted);
+      letter-spacing: 0.12em; padding-top: 12px;
       font-weight: 500;
+      position: sticky; top: 140px;
     }
-
-    .story-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 22px;
-    }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
     .tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 5px 11px;
-      border-radius: 2px;
-      border: 1px solid currentColor;
-      font-weight: 500;
+      padding: 5px 12px; border-radius: 2px;
+      border: 1px solid currentColor; font-weight: 500;
+      transition: all 0.3s ease;
+      color: var(--text-muted);
     }
-    .tag-sec[data-sector="pharma"] { color: var(--sec-pharma); background: rgba(45, 122, 95, 0.06); }
-    .tag-sec[data-sector="finance"] { color: var(--sec-finance); background: rgba(139, 107, 31, 0.06); }
-    .tag-sec[data-sector="hardware"] { color: var(--sec-hardware); background: rgba(139, 90, 60, 0.06); }
-    .tag-sec[data-sector="research"] { color: var(--sec-research); background: rgba(107, 74, 143, 0.06); }
-    .tag-sec[data-sector="policy"] { color: var(--sec-policy); background: rgba(163, 56, 56, 0.06); }
-    .tag-sec[data-sector="operations"] { color: var(--sec-operations); background: rgba(61, 90, 143, 0.06); }
-    .tag-sec[data-sector="general"] { color: var(--sec-general); background: rgba(74, 71, 66, 0.06); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
 
     .story h2 {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: clamp(22px, 2.6vw, 32px);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 24px;
-      max-width: 940px;
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.18; letter-spacing: -0.015em;
+      color: var(--text); margin-bottom: 28px; max-width: 940px;
+      transition: color 0.3s ease;
     }
+    .story:hover h2 { color: var(--accent-bright); }
 
-    .plain-text {
-      max-width: 880px;
-      margin-bottom: 24px;
-    }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
     .plain-text p {
-      font-size: 16px;
-      line-height: 1.7;
-      color: var(--text);
-      margin-bottom: 14px;
+      font-size: 17px; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 14px;
     }
     .plain-text p:last-child { margin-bottom: 0; }
 
     .why-matters {
-      max-width: 880px;
-      padding: 18px 22px;
-      background: var(--bg-soft);
+      max-width: 880px; padding: 24px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-left: 3px solid var(--accent);
-      margin-bottom: 36px;
-      font-size: 15px;
-      line-height: 1.65;
+      margin-bottom: 44px;
+      font-size: 15px; line-height: 1.7;
       color: var(--text);
+      transition: all 0.4s var(--ease-out-quart);
+      position: relative; overflow: hidden;
     }
+    .why-matters::after {
+      content: ''; position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.8s var(--ease-out-quart);
+      pointer-events: none;
+    }
+    .why-matters:hover {
+      transform: translateX(2px);
+      border-color: var(--accent);
+      box-shadow: 0 0 24px rgba(94, 234, 212, 0.08);
+    }
+    .why-matters:hover::after { transform: translateX(100%); }
     .why-matters strong {
-      color: var(--accent);
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      display: inline-block;
-      margin-right: 4px;
+      color: var(--accent); font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.14em;
+      display: inline-block; margin-right: 10px;
+      vertical-align: 2px;
     }
 
-    /* Section labels */
     .section-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text);
       font-weight: 600;
-      margin-bottom: 18px;
-      padding-bottom: 12px;
+      margin-bottom: 22px; padding-bottom: 14px;
       border-bottom: 1px solid var(--border);
       max-width: 920px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 12px;
     }
     .section-label::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-glow);
     }
 
-    /* Indicators */
-    .indicators-block { margin-bottom: 36px; }
+    /* === KEY METRIC CARDS - 3D PARALLAX === */
+    .indicators-block { margin-bottom: 44px; }
     .indicators {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 14px;
       max-width: 920px;
+      perspective: 1200px;
     }
     .indicator {
-      background: var(--bg);
-      padding: 20px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      background: var(--bg-card);
+      padding: 24px 26px;
+      display: flex; flex-direction: column; gap: 10px;
+      border: 1px solid var(--border);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative; overflow: hidden;
+      cursor: none;
     }
+    .indicator::before {
+      content: ''; position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .indicator::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.6s var(--ease-out-expo);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .indicator:hover {
+      border-color: var(--accent);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(94, 234, 212, 0.1);
+    }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
     .indicator-value {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 22px;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 30px; color: var(--text);
+      letter-spacing: -0.025em; line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      transform: translateZ(20px);
+      transition: color 0.3s ease;
+    }
+    .indicator:hover .indicator-value {
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
     }
     .indicator-value.mono {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 17px;
-      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px; font-weight: 600;
     }
     .indicator-desc {
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--text-secondary);
+      font-size: 13px; line-height: 1.55;
+      color: var(--text-muted);
+      transform: translateZ(10px);
     }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
 
-    /* Sector Impact */
-    .impact-block { margin-bottom: 36px; }
+    /* === IMPACT CARDS === */
+    .impact-block { margin-bottom: 44px; }
     .impact-card {
-      max-width: 920px;
-      padding: 22px 26px;
-      background: var(--bg);
+      max-width: 920px; padding: 26px 30px;
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-left: 3px solid var(--text-dim);
       margin-bottom: 12px;
+      transition: all 0.4s var(--ease-out-quart);
     }
-    .impact-card[data-impact-sector="pharma"] { border-left-color: var(--sec-pharma); }
-    .impact-card[data-impact-sector="finance"] { border-left-color: var(--sec-finance); }
-    .impact-card[data-impact-sector="hardware"] { border-left-color: var(--sec-hardware); }
-    .impact-card[data-impact-sector="research"] { border-left-color: var(--sec-research); }
-    .impact-card[data-impact-sector="policy"] { border-left-color: var(--sec-policy); }
-    .impact-card[data-impact-sector="operations"] { border-left-color: var(--sec-operations); }
-    .impact-card[data-impact-sector="general"] { border-left-color: var(--sec-general); }
+    .impact-card:hover {
+      transform: translateX(6px);
+      border-color: var(--border-strong);
+      border-left-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
     .impact-audience {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 600;
+      margin-bottom: 14px; color: var(--accent);
+      display: flex; align-items: center; gap: 10px;
     }
-    .impact-card[data-impact-sector="pharma"] .impact-audience { color: var(--sec-pharma); }
-    .impact-card[data-impact-sector="finance"] .impact-audience { color: var(--sec-finance); }
-    .impact-card[data-impact-sector="hardware"] .impact-audience { color: var(--sec-hardware); }
-    .impact-card[data-impact-sector="research"] .impact-audience { color: var(--sec-research); }
-    .impact-card[data-impact-sector="policy"] .impact-audience { color: var(--sec-policy); }
-    .impact-card[data-impact-sector="operations"] .impact-audience { color: var(--sec-operations); }
-    .impact-card[data-impact-sector="general"] .impact-audience { color: var(--sec-general); }
+    .impact-audience::before {
+      content: '→'; font-size: 13px;
+      transition: transform 0.3s var(--ease-out-quart);
+      color: var(--accent);
+    }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
     .impact-card p {
-      font-size: 15px;
-      line-height: 1.65;
-      color: var(--text);
-      margin-bottom: 10px;
+      font-size: 15px; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 10px;
     }
     .impact-card p:last-child { margin-bottom: 0; }
 
-    /* Source */
+    /* === SOURCE === */
     .source-block {
-      max-width: 920px;
-      padding-top: 20px;
+      max-width: 920px; padding-top: 24px;
       border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
     .source-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text-muted);
       font-weight: 500;
     }
     .source-block a {
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-      border-bottom: 1px solid var(--accent);
-      padding-bottom: 1px;
-      transition: color 0.2s;
+      color: var(--text); text-decoration: none;
+      font-size: 14px; position: relative; padding-bottom: 2px;
+      transition: color 0.3s ease;
+    }
+    .source-block a::after {
+      content: ''; position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 1px;
+      background: var(--accent);
+      transform-origin: right; transform: scaleX(0.3);
+      transition: transform 0.4s var(--ease-out-quart);
+      box-shadow: 0 0 6px var(--accent-glow);
     }
     .source-block a:hover { color: var(--accent); }
-    .source-meta {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
 
-    /* Editorial */
+    /* === EDITORIAL === */
     .editorial {
-      padding: 96px 0;
-      background: var(--bg-section);
+      padding: 120px 0;
+      background: var(--bg-soft);
       border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
     }
-    .editorial-inner { max-width: 920px; margin: 0 auto; }
-    .editorial-eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+    .editorial::before {
+      content: '"'; position: absolute;
+      top: 30px; left: 5%;
+      font-family: 'Carlito', serif; font-style: italic;
+      font-size: 360px; line-height: 1; font-weight: 700;
       color: var(--accent);
-      margin-bottom: 32px;
-      font-weight: 600;
+      opacity: 0.06; pointer-events: none;
+    }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 40px; font-weight: 600;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .editorial-eyebrow::before {
+      content: ''; width: 32px; height: 1px;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
     }
     .editorial blockquote {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 600;
-      font-size: clamp(22px, 2.6vw, 30px);
-      line-height: 1.3;
-      color: var(--text);
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height: 1.3; color: var(--text);
       letter-spacing: -0.018em;
-      margin-bottom: 28px;
-      max-width: 880px;
+      margin-bottom: 32px; max-width: 880px;
+      font-style: italic;
     }
+    .editorial blockquote em { color: var(--accent); }
     .editorial p {
-      font-size: 16px;
-      line-height: 1.7;
+      font-size: 16px; line-height: 1.8;
       color: var(--text-secondary);
-      max-width: 760px;
-      margin-bottom: 16px;
+      max-width: 760px; margin-bottom: 18px;
     }
     .editorial-date {
-      display: block;
-      margin-top: 28px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
+      display: inline-block; margin-top: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
       font-weight: 500;
+      padding: 6px 14px;
+      border: 1px solid var(--accent);
+      border-radius: 100px;
     }
 
     /* === FOOTER === */
     footer {
-      background: var(--footer-bg);
-      color: var(--footer-text);
-      padding: 56px 0 40px;
+      background: var(--bg);
+      color: var(--text-muted);
+      padding: 64px 0 48px;
+      position: relative; overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    footer::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
     .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 24px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
     }
     .footer-brand-block {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: -0.015em;
-      color: #FFFFFF;
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px;
+      color: var(--text);
     }
-    .footer-brand-block .brand-mark { background: var(--accent); }
-    .footer-brand-block .brand-mark::after { background: var(--footer-bg); }
     .footer-date {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(201, 196, 189, 0.6);
+      color: var(--text-muted);
     }
 
     .empty-state {
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--text-muted);
-      display: none;
+      text-align: center; padding: 100px 20px;
+      color: var(--text-muted); display: none;
     }
     .empty-state h3 {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 600;
-      font-size: 24px;
-      color: var(--text);
-      margin-bottom: 10px;
-      letter-spacing: -0.015em;
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 28px; color: var(--text);
+      margin-bottom: 12px; font-style: italic;
     }
 
-    @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    /* Make all interactive elements use no native cursor */
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) {
+      a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; }
     }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+      50% { box-shadow: 0 0 0 10px transparent; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes lineGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
     @media (max-width: 720px) {
       .container { padding: 0 22px; }
-      .nav-meta { gap: 14px; font-size: 10px; }
-      .nav-meta .hide-mobile { display: none; }
-      .hero { padding: 56px 0 40px; }
-      .filter-band { top: 65px; }
+      .hero { padding: 64px 0 48px; }
+      .filter-band { top: 61px; }
       .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
-      .story { padding: 40px 0; }
+      .story { padding: 44px 0; }
       .story-header { grid-template-columns: 1fr; gap: 16px; }
-      .story-num { padding-top: 0; }
-      .impact-card { padding: 18px 20px; }
+      .story-num { padding-top: 0; position: static; }
+      .impact-card { padding: 20px 22px; }
+      .editorial { padding: 80px 0; }
+      .editorial::before { font-size: 200px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ============ NAV ============ -->
-  <nav>
-    <div class="container nav-inner">
-      <a href="index.html" class="brand">
-        <div class="brand-mark"></div>
-        <div class="brand-name">AI Pulse</div>
-      </a>
-      <div class="nav-meta">
-        <span class="nav-date hide-mobile">07 May 2026</span>
-        <a href="archive/index.html" class="archive-link">View archive</a>
-      </div>
-    </div>
-  </nav>
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
 
-  <!-- ============ HERO ============ -->
+<nav>
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-name">AI Pulse</div>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-date">07 May 2026</span>
+      <a href="index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+        <span>Back to archive</span>
+      </a>
+    </div>
+  </div>
+</nav>
+  
   <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
     <div class="container hero-inner">
       <div>
-        <div class="hero-eyebrow">Today's brief · 07 May 2026</div>
-        <h1>Six developments worth knowing about across AI agents, distributed compute, content trust, robotics, and policy.</h1>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 07 May 2026
+        </div>
+        <h1>Six developments in AI <em>agents</em>, distributed compute, content trust, robotics, and policy.</h1>
         <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
       </div>
       <div class="hero-stats">
-        <div>
+        <div class="hero-stat">
           <div class="hero-stat-label">Stories in this brief</div>
-          <div class="hero-stat-value">6 developments</div>
+          <div class="hero-stat-value" data-count-to="6" data-count-suffix=" developments">0 developments</div>
         </div>
-        <div>
+        <div class="hero-stat">
           <div class="hero-stat-label">Sectors covered</div>
-          <div class="hero-stat-value">4 verticals</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" verticals">0 verticals</div>
         </div>
-        <div>
+        <div class="hero-stat">
           <div class="hero-stat-label">Read time</div>
-          <div class="hero-stat-value">8 minutes</div>
+          <div class="hero-stat-value" data-count-to="8" data-count-suffix=" minutes">0 minutes</div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- ============ SECTOR FILTER ============ -->
   <div class="filter-band">
     <div class="container filter-inner">
       <div class="filter-group">
@@ -664,117 +776,112 @@
     </div>
   </div>
 
-  <!-- ============ STORIES ============ -->
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Anthropic Dreaming"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Residential AI compute"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · Paperclip $20/month"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · Image protection"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · Genesis AI robotics"></button>
+    <button class="story-nav-dot" data-story-target="5" data-label="06 · EU AI rules"></button>
+  </div>
+
   <main class="stories">
     <div class="container">
 
-      <!-- ===== STORY 01 ===== -->
-      <article class="story" data-sectors="operations,research">
+      <article class="story" data-sectors="operations,research" data-story-index="0">
         <div class="story-header">
-          <div class="story-num">01 / 06</div>
+          <div class="story-num"><span class="num-current">01</span> / 06</div>
           <div>
             <div class="story-meta">
-              <span class="tag tag-sec" data-sector="operations">Operations &amp; Enterprise</span>
-              <span class="tag tag-sec" data-sector="research">Research</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Research &amp; Content</span>
             </div>
             <h2>Anthropic adds overnight memory review to its AI agents, with one legal technology firm reporting a sixfold improvement in task completion rates</h2>
-
             <div class="plain-text">
               <p>Anthropic, the company that makes the Claude AI assistant, announced a feature called Dreaming at its Code with Claude conference on Wednesday. Dreaming is a scheduled background process that runs between work sessions for Claude Managed Agents - AI programs designed to complete multi-step tasks on their own. After each session ends, the agent reviews its past transcripts, finds recurring patterns, removes outdated notes, and updates its long-term memory. When the next session begins, the agent carries that refined knowledge forward without needing to be retrained from scratch. Harvey, a legal technology company that uses Claude for long-form document drafting, reported that turning Dreaming on raised its task completion rates roughly sixfold.</p>
               <p>Anthropic also shipped two related features in public beta alongside Dreaming: Outcomes, which lets a separate Claude instance grade an agent's output against a defined rubric and adds 10 percentage points to task success compared to standard prompting, and multi-agent orchestration, which runs up to 20 specialist agents in parallel under a lead agent. Pro and Max users received doubled five-hour session limits on the same day.</p>
             </div>
-
             <div class="why-matters">
-              <strong>Why it matters:</strong> AI agents have historically lost all context between work sessions, meaning every new task started from scratch. Dreaming closes that gap without retraining the underlying model, making sustained, institution-scale automation meaningfully more viable for the first time.
+              <strong>Why it matters</strong>AI agents have historically lost all context between work sessions, meaning every new task started from scratch. Dreaming closes that gap without retraining the underlying model, making sustained, institution-scale automation meaningfully more viable for the first time.
             </div>
-
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value">6×</div>
+                  <div class="indicator-value" data-count-to="6" data-count-suffix="×">0×</div>
                   <div class="indicator-desc">Improvement in task completion rates reported by Harvey after enabling Dreaming</div>
                 </div>
                 <div class="indicator">
                   <div class="indicator-value mono">+10 pts</div>
-                  <div class="indicator-desc">Task success improvement from the Outcomes grading feature vs. standard prompting</div>
+                  <div class="indicator-desc">Task success improvement from the Outcomes grading feature vs standard prompting</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">20</div>
+                  <div class="indicator-value" data-count-to="20">0</div>
                   <div class="indicator-desc">Maximum parallel specialist agents under the new orchestration feature</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">2×</div>
+                  <div class="indicator-value" data-count-to="2" data-count-suffix="×">0×</div>
                   <div class="indicator-desc">Increase in session time limits for Pro and Max users</div>
                 </div>
               </div>
             </div>
-
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
-
-              <div class="impact-card" data-impact-sector="general">
+              <div class="impact-card">
                 <div class="impact-audience">For legal and professional services firms</div>
                 <p>Harvey's result is the clearest signal in this story. If your firm uses Claude or any managed AI agent for document drafting, contract review, or research, the Head of Legal Technology or Chief Knowledge Officer should contact Anthropic's enterprise team this week to request access to the Dreaming research preview. The specific question to put to them: does memory consolidation carry client matter context across sessions without exposing one client's information to another's? That answer determines whether the use case is viable at scale.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="operations">
+              <div class="impact-card">
                 <div class="impact-audience">For enterprise technology and automation teams (any industry)</div>
-                <p>Multi-agent orchestration running 20 parallel specialists changes the math on what can be automated without adding headcount. The Chief Digital Officer or Head of Automation should assign one engineer this month to build a small 3-to-5-agent workflow on a real, repetitive internal process - quarterly reporting prep, RFP drafting, or supplier due diligence - and measure whether session continuity reduces rework. The public beta is open now; there is no reason to wait for a polished vendor presentation.</p>
+                <p>Multi-agent orchestration running 20 parallel specialists changes the maths on what can be automated without adding headcount. The Chief Digital Officer or Head of Automation should assign one engineer this month to build a small 3-to-5-agent workflow on a real, repetitive internal process - quarterly reporting prep, RFP drafting, or supplier due diligence - and measure whether session continuity reduces rework. The public beta is open now; there is no reason to wait for a polished vendor presentation.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="research">
+              <div class="impact-card">
                 <div class="impact-audience">For AI vendors and platform teams building on Claude</div>
                 <p>Outcomes-based evaluation is now a native feature, not something you need to build yourself. If your product currently runs its own rubric-grading layer, the Head of Engineering should audit whether Anthropic's native implementation is now good enough to replace it. Removing a custom layer cuts maintenance overhead and may improve consistency.</p>
               </div>
             </div>
-
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="#">Anthropic Code with Claude conference</a>
+              <a href="#" target="_blank" rel="noopener">Anthropic Code with Claude conference</a>
               <span class="source-meta">· 7 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- ===== STORY 02 ===== -->
-      <article class="story" data-sectors="hardware,operations">
+      <article class="story" data-sectors="hardware,operations" data-story-index="1">
         <div class="story-header">
-          <div class="story-num">02 / 06</div>
+          <div class="story-num"><span class="num-current">02</span> / 06</div>
           <div>
             <div class="story-meta">
-              <span class="tag tag-sec" data-sector="hardware">Hardware &amp; Devices</span>
-              <span class="tag tag-sec" data-sector="operations">Operations &amp; Enterprise</span>
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Operations &amp; Enterprise</span>
             </div>
-            <h2>Nvidia's, smart-home startup 'Span', and one of the largest US homebuilders 'PulteGroup' are testing wall-mounted residential computing units as a faster and cheaper alternative to traditional AI data centers</h2>
-
+            <h2>Nvidia, smart-home startup Span, and one of the largest US homebuilders PulteGroup are testing wall-mounted residential computing units as a faster and cheaper alternative to traditional AI data centres</h2>
             <div class="plain-text">
               <p>Nvidia, the company that designs the chips that power most AI systems, has joined with Span, a startup that makes smart electrical panels for homes, and PulteGroup, one of the largest residential homebuilders in the United States, to pilot a product called XFRA. XFRA is a wall-mounted, liquid-cooled, silent computing unit that attaches to the side of new homes. Each unit contains 16 Nvidia Blackwell GPUs - the processing chips AI systems use to run calculations - along with 4 AMD processors and 3 terabytes of RAM, all packaged in a Dell server frame. Homeowners who host a unit receive discounted power and internet access in return.</p>
-              <p>Span claims that 8,000 of these residential units can be deployed six times faster and five times more cheaply than building a comparable traditional 100-megawatt data center. PulteGroup is already running pilots in multiple communities, with a 100-node proof of concept planned for the third quarter of 2026 and a target of 1 gigawatt of annual capacity by 2027. PulteGroup's share price rose roughly 3% on the news; Nvidia's slipped 0.6%.</p>
+              <p>Span claims that 8,000 of these residential units can be deployed six times faster and five times more cheaply than building a comparable traditional 100-megawatt data centre. PulteGroup is already running pilots in multiple communities, with a 100-node proof of concept planned for the third quarter of 2026 and a target of 1 gigawatt of annual capacity by 2027. PulteGroup's share price rose roughly 3% on the news; Nvidia's slipped 0.6%.</p>
             </div>
-
             <div class="why-matters">
-              <strong>Why it matters:</strong> Building a new AI data center at scale typically takes three to five years and runs into constraints on power grid capacity. Distributing compute across residential properties uses electrical infrastructure that already exists and is often underused, which could let AI capacity grow far faster than traditional construction allows.
+              <strong>Why it matters</strong>Building a new AI data centre at scale typically takes three to five years and runs into constraints on power grid capacity. Distributing compute across residential properties uses electrical infrastructure that already exists and is often underused, which could let AI capacity grow far faster than traditional construction allows.
             </div>
-
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value">16</div>
+                  <div class="indicator-value" data-count-to="16">0</div>
                   <div class="indicator-desc">Nvidia Blackwell GPUs per XFRA residential unit</div>
                 </div>
                 <div class="indicator">
                   <div class="indicator-value mono">6× faster</div>
-                  <div class="indicator-desc">Span's claimed deployment speed advantage over a traditional 100MW data center</div>
+                  <div class="indicator-desc">Span's claimed deployment speed advantage over a traditional 100MW data centre</div>
                 </div>
                 <div class="indicator">
                   <div class="indicator-value mono">5× cheaper</div>
                   <div class="indicator-desc">Span's claimed cost advantage for equivalent capacity</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">1 GW</div>
+                  <div class="indicator-value mono">1 GW</div>
                   <div class="indicator-desc">Annual compute capacity targeted by 2027</div>
                 </div>
                 <div class="indicator">
@@ -783,59 +890,50 @@
                 </div>
               </div>
             </div>
-
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
-
-              <div class="impact-card" data-impact-sector="hardware">
+              <div class="impact-card">
                 <div class="impact-audience">For real estate developers and homebuilders</div>
                 <p>PulteGroup moved first. If your firm builds in suburban markets and hasn't assessed whether attaching compute infrastructure to new builds changes your product offer to buyers, the Head of Product Development should put this on the agenda for the next land acquisition review. The question is not whether to install XFRA today; it's whether compute hosting becomes a standard home amenity the way EV charging has. The Q3 2026 pilot results will be the first concrete data point. Assign someone to track them.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="operations">
-                <div class="impact-audience">For data center operators and co-location providers</div>
-                <p>If distributed residential inference scales, it puts downward pressure on centralized co-location pricing. The Chief Strategy Officer at any mid-sized data center operator should commission a scenario analysis this quarter: what does the business model look like if 10% of AI inference shifts to distributed residential nodes by 2028? That is a planning range to stress-test, not a forecast.</p>
+              <div class="impact-card">
+                <div class="impact-audience">For data centre operators and co-location providers</div>
+                <p>If distributed residential inference scales, it puts downward pressure on centralised co-location pricing. The Chief Strategy Officer at any mid-sized data centre operator should commission a scenario analysis this quarter: what does the business model look like if 10% of AI inference shifts to distributed residential nodes by 2028? That is a planning range to stress-test, not a forecast.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="general">
+              <div class="impact-card">
                 <div class="impact-audience">For enterprise IT procurement teams</div>
                 <p>This story does not require action this quarter. XFRA is in early pilot and the economics have not been independently validated. Add it to the next annual infrastructure strategy review as a watch item.</p>
               </div>
             </div>
-
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="#">Span / Nvidia / PulteGroup announcement</a>
+              <a href="#" target="_blank" rel="noopener">Span / Nvidia / PulteGroup announcement</a>
               <span class="source-meta">· 7 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- ===== STORY 03 ===== -->
-      <article class="story" data-sectors="operations">
+      <article class="story" data-sectors="operations" data-story-index="2">
         <div class="story-header">
-          <div class="story-num">03 / 06</div>
+          <div class="story-num"><span class="num-current">03</span> / 06</div>
           <div>
             <div class="story-meta">
-              <span class="tag tag-sec" data-sector="operations">Operations &amp; Enterprise</span>
+              <span class="tag">Operations &amp; Enterprise</span>
             </div>
             <h2>A free, self-hosted tool for running coordinated teams of AI agents gains 30,000 supporters on GitHub within days, with full deployments costing under $20 a month</h2>
-
             <div class="plain-text">
-              <p>A software project called Paperclip has appeared on GitHub - the platform where developers share and collaborate on code - and accumulated 30,000 supporters in a matter of days. Paperclip is a self-hosted platform, meaning anyone can install and run it on their own server, that lets a single operator assign high-level business goals and then coordinates a team of AI agents - software programs that carry out tasks on their own - to pursue those goals as if they were a small company. The operator sets objectives through a dashboard; Paperclip routes work across agents, tracks each agent's spending, and shows everything in one unified view. It works with any AI model provider and any tool stack, and is released under the MIT license, meaning anyone can use, modify, and distribute it freely with no vendor fees.</p>
+              <p>A software project called Paperclip has appeared on GitHub - the platform where developers share and collaborate on code - and accumulated 30,000 supporters in a matter of days. Paperclip is a self-hosted platform, meaning anyone can install and run it on their own server, that lets a single operator assign high-level business goals and then coordinates a team of AI agents - software programs that carry out tasks on their own - to pursue those goals as if they were a small company. The operator sets objectives through a dashboard; Paperclip routes work across agents, tracks each agent's spending, and shows everything in one unified view. It works with any AI model provider and any tool stack, and is released under the MIT licence, meaning anyone can use, modify, and distribute it freely with no vendor fees.</p>
               <p>Active users report running full deployments for under $20 a month by combining a basic server from German hosting provider Hetzner with a model-routing service called OpenRouter, which lets users access multiple AI models through a single connection.</p>
             </div>
-
             <div class="why-matters">
-              <strong>Why it matters:</strong> Running a coordinated team of AI agents required significant technical infrastructure and high API costs until recently. The cost floor has dropped far enough that a single founder or operator can now run what functions like a small autonomous company for less than the price of a streaming subscription.
+              <strong>Why it matters</strong>Running a coordinated team of AI agents required significant technical infrastructure and high API costs until recently. The cost floor has dropped far enough that a single founder or operator can now run what functions like a small autonomous company for less than the price of a streaming subscription.
             </div>
-
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value">30,000</div>
+                  <div class="indicator-value" data-count-to="30000">0</div>
                   <div class="indicator-desc">GitHub supporters accumulated within days of launch</div>
                 </div>
                 <div class="indicator">
@@ -844,68 +942,59 @@
                 </div>
                 <div class="indicator">
                   <div class="indicator-value mono">MIT</div>
-                  <div class="indicator-desc">License - no vendor fees or usage restrictions</div>
+                  <div class="indicator-desc">Licence - no vendor fees or usage restrictions</div>
                 </div>
               </div>
             </div>
-
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
-
-              <div class="impact-card" data-impact-sector="operations">
+              <div class="impact-card">
                 <div class="impact-audience">For founders and operators of small companies (under 20 people)</div>
                 <p>This is worth a hands-on test this week. Identify one repetitive workflow that currently takes two to four hours of your time - content production, competitive research, lead qualification, invoice processing - and spend an evening deploying Paperclip on the cheapest available server plan. Wire it to one AI model via OpenRouter. Give it that workflow as a goal. The purpose is not to replace your team; it is to develop a calibrated sense of what autonomous agent orchestration can and cannot do at this cost level, before your competitors do.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="policy">
+              <div class="impact-card">
                 <div class="impact-audience">For corporate legal and compliance teams (any industry)</div>
-                <p>The speed at which Paperclip gained adoption is itself a signal. Tools that let very small operators run complex, multi-agent workflows change the competitive dynamics between large and small organizations. The General Counsel should flag for the next compliance review that AI-orchestrated operations are no longer the exclusive domain of well-resourced firms. Regulatory frameworks written around organizational scale may need revisiting sooner than planned.</p>
+                <p>The speed at which Paperclip gained adoption is itself a signal. Tools that let very small operators run complex, multi-agent workflows change the competitive dynamics between large and small organisations. The General Counsel should flag for the next compliance review that AI-orchestrated operations are no longer the exclusive domain of well-resourced firms. Regulatory frameworks written around organisational scale may need revisiting sooner than planned.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="general">
+              <div class="impact-card">
                 <div class="impact-audience">For large enterprises</div>
-                <p>This story does not require action this quarter. Paperclip at this stage is a developer and founder tool, not an enterprise-grade platform with the security controls, audit trails, or support structures that large organizations require. Add it to the next strategy review as a signal that the agent orchestration market is commoditizing faster than expected.</p>
+                <p>This story does not require action this quarter. Paperclip at this stage is a developer and founder tool, not an enterprise-grade platform with the security controls, audit trails, or support structures that large organisations require. Add it to the next strategy review as a signal that the agent orchestration market is commoditising faster than expected.</p>
               </div>
             </div>
-
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="#">GitHub / Paperclip</a>
+              <a href="#" target="_blank" rel="noopener">GitHub / Paperclip</a>
               <span class="source-meta">· 7 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- ===== STORY 04 ===== -->
-      <article class="story" data-sectors="research,policy">
+      <article class="story" data-sectors="research,policy" data-story-index="3">
         <div class="story-header">
-          <div class="story-num">04 / 06</div>
+          <div class="story-num"><span class="num-current">04</span> / 06</div>
           <div>
             <div class="story-meta">
-              <span class="tag tag-sec" data-sector="research">Research &amp; Content</span>
-              <span class="tag tag-sec" data-sector="policy">Policy &amp; Regulation</span>
+              <span class="tag">Research &amp; Content</span>
+              <span class="tag">Policy &amp; Regulation</span>
             </div>
-            <h2>Researchers show that freely available AI image tools can defeat every major digital image protection method, including watermarks, with no specialized knowledge or custom training required</h2>
-
+            <h2>Researchers show that freely available AI image tools can defeat every major digital image protection method, including watermarks, with no specialised knowledge or custom training required</h2>
             <div class="plain-text">
-              <p>A team led by researchers at Virginia Tech published findings on arXiv - a widely used academic server where researchers share work before formal publication - showing that any standard image-to-image AI tool, such as Stable Diffusion or Flux (both freely available online), can strip or defeat essentially every image protection method currently in widespread use. The attack requires no custom software, no specialized knowledge, and no modification of the AI tool being used. A person feeds a protected image into the tool with a generic text description, and the protection signal - whether a watermark, a noise-based layer designed to prevent AI training, or other content-authentication markers - degrades or disappears entirely.</p>
-              <p>The team tested all major categories of image protection that platforms, content creators, and media organizations currently rely on, and all of them failed against the same basic workflow. The paper argues that the only reliable path forward is capture-time provenance: cryptographic records created at the moment an image is taken, not pixel-level modifications applied afterward.</p>
+              <p>A team led by researchers at Virginia Tech published findings on arXiv - a widely used academic server where researchers share work before formal publication - showing that any standard image-to-image AI tool, such as Stable Diffusion or Flux (both freely available online), can strip or defeat essentially every image protection method currently in widespread use. The attack requires no custom software, no specialised knowledge, and no modification of the AI tool being used. A person feeds a protected image into the tool with a generic text description, and the protection signal - whether a watermark, a noise-based layer designed to prevent AI training, or other content-authentication markers - degrades or disappears entirely.</p>
+              <p>The team tested all major categories of image protection that platforms, content creators, and media organisations currently rely on, and all of them failed against the same basic workflow. The paper argues that the only reliable path forward is capture-time provenance: cryptographic records created at the moment an image is taken, not pixel-level modifications applied afterward.</p>
             </div>
-
             <div class="why-matters">
-              <strong>Why it matters:</strong> Many businesses, publishers, and legal teams currently rely on image watermarks as evidence of ownership, authenticity, or licensing compliance. That layer of protection is no longer technically reliable, and a better watermark is not the fix.
+              <strong>Why it matters</strong>Many businesses, publishers, and legal teams currently rely on image watermarks as evidence of ownership, authenticity, or licensing compliance. That layer of protection is no longer technically reliable, and a better watermark is not the fix.
             </div>
-
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value">0</div>
+                  <div class="indicator-value" data-count-to="0">0</div>
                   <div class="indicator-desc">Image protection schemes tested that survived the attack</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">3</div>
+                  <div class="indicator-value" data-count-to="3">0</div>
                   <div class="indicator-desc">Categories of protection defeated: watermarks, noise-based perturbations, and content-authentication overlays</div>
                 </div>
                 <div class="indicator">
@@ -914,55 +1003,46 @@
                 </div>
               </div>
             </div>
-
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
-
-              <div class="impact-card" data-impact-sector="research">
-                <div class="impact-audience">For media companies, news organizations, and stock image platforms</div>
-                <p>The Head of Rights and Licensing should convene a review within the next 30 days of every workflow that relies on watermarks as a primary authentication or licensing enforcement mechanism. The technical conclusion is clear: watermarks are no longer a reliable first line of defense. The replacement approach the paper points to - capture-time attestation using standards like C2PA, the Coalition for Content Provenance and Authenticity - requires cameras, publishing platforms, and distribution systems to record provenance at the point of creation. Identify which of your current camera, content management, and distribution vendors already support C2PA and which do not, and make that a vendor selection criterion for any contract renewals in the next 12 months.</p>
+              <div class="impact-card">
+                <div class="impact-audience">For media companies, news organisations, and stock image platforms</div>
+                <p>The Head of Rights and Licensing should convene a review within the next 30 days of every workflow that relies on watermarks as a primary authentication or licensing enforcement mechanism. The technical conclusion is clear: watermarks are no longer a reliable first line of defence. The replacement approach the paper points to - capture-time attestation using standards like C2PA, the Coalition for Content Provenance and Authenticity - requires cameras, publishing platforms, and distribution systems to record provenance at the point of creation. Identify which of your current camera, content management, and distribution vendors already support C2PA and which do not, and make that a vendor selection criterion for any contract renewals in the next 12 months.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="policy">
+              <div class="impact-card">
                 <div class="impact-audience">For corporate legal and compliance teams managing intellectual property</div>
-                <p>If your organization uses image watermarks to establish ownership or track licensing in legal disputes, flag this paper for outside counsel immediately. Watermark evidence may now face new challenges to its evidentiary weight. The General Counsel should ask the IP litigation team to assess any active cases and standing agreements before the next quarterly review.</p>
+                <p>If your organisation uses image watermarks to establish ownership or track licensing in legal disputes, flag this paper for outside counsel immediately. Watermark evidence may now face new challenges to its evidentiary weight. The General Counsel should ask the IP litigation team to assess any active cases and standing agreements before the next quarterly review.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="general">
+              <div class="impact-card">
                 <div class="impact-audience">For advertising and marketing teams</div>
                 <p>If your agency or internal team uses watermarks to prove the provenance of creative assets, ask your creative technology lead this week what capture-time alternatives your current tools already support. This is a one-meeting conversation, not a project.</p>
               </div>
             </div>
-
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="#">arXiv / Virginia Tech</a>
+              <a href="#" target="_blank" rel="noopener">arXiv / Virginia Tech</a>
               <span class="source-meta">· 7 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- ===== STORY 05 ===== -->
-      <article class="story" data-sectors="hardware,research">
+      <article class="story" data-sectors="hardware,research" data-story-index="4">
         <div class="story-header">
-          <div class="story-num">05 / 06</div>
+          <div class="story-num"><span class="num-current">05</span> / 06</div>
           <div>
             <div class="story-meta">
-              <span class="tag tag-sec" data-sector="hardware">Hardware &amp; Devices</span>
-              <span class="tag tag-sec" data-sector="research">Research</span>
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Research &amp; Content</span>
             </div>
             <h2>A robotics AI company claims its new model gives general-purpose robots human-level physical dexterity, a capability the field has failed to crack for years - but independent verification has not yet arrived</h2>
-
             <div class="plain-text">
               <p>Genesis AI, a company developing AI for robotics, announced on Wednesday a product called GENE-26.5, which it describes as a foundation model - a large AI system trained to handle a wide range of tasks - designed to give general-purpose robots the ability to handle objects with human-level physical dexterity. Physical dexterity covers fine motor tasks - picking up objects of varying shape and weight, tying knots, folding material - where humanoid robots have consistently fallen short of what real-world commercial use requires. The announcement includes a proprietary robotic hand built for direct human-to-robot skill transfer: an operator wears the hardware, demonstrates a physical task, and the model learns from that demonstration. Genesis also announced a new data pipeline it says solves the scarcity of training data for physical manipulation, which has historically been the largest single bottleneck in the field.</p>
               <p>The claim is significant and unverified. Genesis's named competitors include Tesla, Figure, 1X, and Meta, which recently acquired a robotics AI firm called Assured Robot Intelligence. The next 90 days will determine whether independent demonstrations confirm the announcement or walk it back.</p>
             </div>
-
             <div class="why-matters">
-              <strong>Why it matters:</strong> If the claim holds up under independent testing, the commercial timeline for humanoid robots in manufacturing, logistics, and care settings could compress by years. If it does not, it joins a long list of dexterity claims that have not survived third-party scrutiny.
+              <strong>Why it matters</strong>If the claim holds up under independent testing, the commercial timeline for humanoid robots in manufacturing, logistics, and care settings could compress by years. If it does not, it joins a long list of dexterity claims that have not survived third-party scrutiny.
             </div>
-
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
@@ -975,60 +1055,51 @@
                   <div class="indicator-desc">Window identified for independent verification to emerge</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">5</div>
+                  <div class="indicator-value" data-count-to="5">0</div>
                   <div class="indicator-desc">Named competitors in the humanoid robotics race: Tesla Optimus, Figure, 1X, Meta / Assured Robot Intelligence, Genesis</div>
                 </div>
               </div>
             </div>
-
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
-
-              <div class="impact-card" data-impact-sector="operations">
+              <div class="impact-card">
                 <div class="impact-audience">For manufacturing and logistics companies</div>
-                <p>This story does not require action this quarter. The claim is unverified, the product is not commercially available, and the field has a consistent pattern of announced breakthroughs that do not translate to reliable deployment. The Head of Operations or Chief Supply Chain Officer should add Genesis AI to the technology watch list and assign someone to track independent demonstration evidence over the next 90 days. If credible third-party validation appears, revisit the timeline for your humanoid robotics pilot program at that point.</p>
+                <p>This story does not require action this quarter. The claim is unverified, the product is not commercially available, and the field has a consistent pattern of announced breakthroughs that do not translate to reliable deployment. The Head of Operations or Chief Supply Chain Officer should add Genesis AI to the technology watch list and assign someone to track independent demonstration evidence over the next 90 days. If credible third-party validation appears, revisit the timeline for your humanoid robotics pilot programme at that point.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="finance">
+              <div class="impact-card">
                 <div class="impact-audience">For investors and corporate development teams tracking robotics</div>
                 <p>The next 90 days are the evaluation window. Request a technical briefing and an independent demonstration from Genesis AI directly. Compare what you see against publicly available benchmark claims from Tesla Optimus, Figure, and 1X. Do not commit capital based on the announcement alone.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="pharma">
-                <div class="impact-audience">For healthcare and elder care organizations</div>
+              <div class="impact-card">
+                <div class="impact-audience">For healthcare and elder care organisations</div>
                 <p>Physical dexterity at human level is the specific missing capability that has blocked humanoid deployment in care settings. This is a watch item, not a project. If Genesis produces verified results in the next 90 days, it becomes a project. Assign one person in your technology or operations function to track it and report back at the next quarterly review.</p>
               </div>
             </div>
-
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="#">Genesis AI announcement</a>
+              <a href="#" target="_blank" rel="noopener">Genesis AI announcement</a>
               <span class="source-meta">· 7 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- ===== STORY 06 ===== -->
-      <article class="story" data-sectors="policy,operations">
+      <article class="story" data-sectors="policy,operations" data-story-index="5">
         <div class="story-header">
-          <div class="story-num">06 / 06</div>
+          <div class="story-num"><span class="num-current">06</span> / 06</div>
           <div>
             <div class="story-meta">
-              <span class="tag tag-sec" data-sector="policy">Policy &amp; Regulation</span>
-              <span class="tag tag-sec" data-sector="operations">Operations &amp; Enterprise</span>
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Operations &amp; Enterprise</span>
             </div>
-            <h2>The European Union finalizes updated AI rules with simplified requirements and extended deadlines, while the United States and China are reportedly weighing formal AI safety talks at next week's presidential summit</h2>
-
+            <h2>The European Union finalises updated AI rules with simplified requirements and extended deadlines, whilst the United States and China are reportedly weighing formal AI safety talks at next week's presidential summit</h2>
             <div class="plain-text">
-              <p>Two separate policy developments landed within 24 hours of each other. In Europe, the EU AI Omnibus - the revised version of the European Union's AI Act, the world's most comprehensive binding AI regulation - reached final text agreement on 7 May 2026. The revision simplifies parts of the original framework and pushes back certain compliance deadlines, a practical acknowledgment that many organizations were struggling to meet obligations on the original timeline. Separately, officials in Washington and Beijing are reportedly considering adding formal AI discussions to the agenda for the Trump-Xi summit scheduled for next week in Beijing. The reported focus areas are safety frameworks, governance principles, and reducing escalation risks around military and dual-use AI applications - AI systems capable of being used for both civilian and military purposes.</p>
-              <p>Alongside the summit preparations, the White House is also exploring an executive order that would formalize pre-release evaluations for frontier AI models - the most capable AI systems currently being developed - and establish a government-industry working group, building on voluntary testing arrangements already in place with all five major US AI companies.</p>
+              <p>Two separate policy developments landed within 24 hours of each other. In Europe, the EU AI Omnibus - the revised version of the European Union's AI Act, the world's most comprehensive binding AI regulation - reached final text agreement on 7 May 2026. The revision simplifies parts of the original framework and pushes back certain compliance deadlines, a practical acknowledgement that many organisations were struggling to meet obligations on the original timeline. Separately, officials in Washington and Beijing are reportedly considering adding formal AI discussions to the agenda for the Trump-Xi summit scheduled for next week in Beijing. The reported focus areas are safety frameworks, governance principles, and reducing escalation risks around military and dual-use AI applications - AI systems capable of being used for both civilian and military purposes.</p>
+              <p>Alongside the summit preparations, the White House is also exploring an executive order that would formalise pre-release evaluations for frontier AI models - the most capable AI systems currently being developed - and establish a government-industry working group, building on voluntary testing arrangements already in place with all five major US AI companies.</p>
             </div>
-
             <div class="why-matters">
-              <strong>Why it matters:</strong> For several years, AI development moved faster than any government could legislate. Three of the world's major AI jurisdictions - the EU, the US, and China - are now making simultaneous moves toward harder regulatory structures. Organizations that sell AI products or deploy AI at scale in any of these markets now need to plan for compliance, not just monitor it.
+              <strong>Why it matters</strong>For several years, AI development moved faster than any government could legislate. Three of the world's major AI jurisdictions - the EU, the US, and China - are now making simultaneous moves towards harder regulatory structures. Organisations that sell AI products or deploy AI at scale in any of these markets now need to plan for compliance, not just monitor it.
             </div>
-
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
@@ -1037,38 +1108,33 @@
                   <div class="indicator-desc">Date EU AI Omnibus final text was agreed</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">3</div>
-                  <div class="indicator-desc">Major AI jurisdictions moving toward harder regulatory structures simultaneously: EU, US, China</div>
+                  <div class="indicator-value" data-count-to="3">0</div>
+                  <div class="indicator-desc">Major AI jurisdictions moving towards harder regulatory structures simultaneously: EU, US, China</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">2</div>
+                  <div class="indicator-value" data-count-to="2">0</div>
                   <div class="indicator-desc">Reported focus areas for US-China summit AI talks: safety frameworks and governance principles</div>
                 </div>
               </div>
             </div>
-
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
-
-              <div class="impact-card" data-impact-sector="policy">
+              <div class="impact-card">
                 <div class="impact-audience">For any company selling AI products or services into the EU</div>
-                <p>The compliance deadlines have shifted, but the obligations have not gone away. The Chief Compliance Officer or General Counsel should obtain the final Omnibus text this week and map it against the current compliance roadmap. The specific question to answer: which deadlines changed, by how much, and does that create room to reprioritize any current workstreams? Do not assume the simplifications remove material obligations. Read the actual text before drawing that conclusion.</p>
+                <p>The compliance deadlines have shifted, but the obligations have not gone away. The Chief Compliance Officer or General Counsel should obtain the final Omnibus text this week and map it against the current compliance roadmap. The specific question to answer: which deadlines changed, by how much, and does that create room to reprioritise any current workstreams? Do not assume the simplifications remove material obligations. Read the actual text before drawing that conclusion.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="research">
+              <div class="impact-card">
                 <div class="impact-audience">For frontier AI developers and research labs</div>
-                <p>The US executive order being explored would formalize pre-release evaluations, meaning model release timelines would need to account for a government review window. If a model release is planned in the next 12 months, the Head of Policy or General Counsel should begin engaging now with the White House Office of Science and Technology Policy and relevant agency contacts to understand what a formal evaluation process would require. Waiting until the order is signed puts your release schedule in a reactive position.</p>
+                <p>The US executive order being explored would formalise pre-release evaluations, meaning model release timelines would need to account for a government review window. If a model release is planned in the next 12 months, the Head of Policy or General Counsel should begin engaging now with the White House Office of Science and Technology Policy and relevant agency contacts to understand what a formal evaluation process would require. Waiting until the order is signed puts your release schedule in a reactive position.</p>
               </div>
-
-              <div class="impact-card" data-impact-sector="operations">
+              <div class="impact-card">
                 <div class="impact-audience">For multinational companies with AI deployments across the US, EU, and China</div>
                 <p>Three jurisdictions moving simultaneously creates a compliance coordination problem that doesn't exist when only one jurisdiction has rules. The Chief Risk Officer should commission a cross-jurisdictional mapping exercise this quarter: where do the EU Omnibus, the potential US executive order, and Chinese AI governance rules align, and where do they conflict? Conflicts are where liability concentrates.</p>
               </div>
             </div>
-
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="#">EU AI Omnibus / Reuters / White House reporting</a>
+              <a href="#" target="_blank" rel="noopener">EU AI Omnibus / Reuters / White House reporting</a>
               <span class="source-meta">· 7 May 2026</span>
             </div>
           </div>
@@ -1083,50 +1149,182 @@
     </div>
   </main>
 
-  <!-- ============ EDITORIAL ============ -->
   <section class="editorial">
     <div class="container editorial-inner">
       <div class="editorial-eyebrow">Editor's note</div>
-      <blockquote>Today's six stories look unrelated. They are not. Each one marks the moment a capability that was still being debated moves into the layer of infrastructure — the part of technology that people stop thinking about because it simply works.</blockquote>
-      <p>Anthropic's Dreaming turns agent memory from a research problem into a scheduled overnight process. Span and Nvidia turn data center capacity from a real estate and grid problem into a homebuilder line item. Paperclip turns multi-agent orchestration from an enterprise project into a $20-a-month utility. The Virginia Tech paper turns image watermarks from a legal standard into an obsolete one. Genesis claims - with independent receipts still pending - to turn humanoid dexterity from a research ceiling into a product. And the EU, White House, and Beijing are, for the first time, treating AI governance as something to coordinate simultaneously rather than defer.</p>
-      <p>The organizations most at risk are not the ones that ignored AI. The risk concentrates in organizations that ran a successful pilot in 2024, declared the technology deployed, and stopped watching. The infrastructure under their feet is being replaced. Memory systems, orchestration tooling, content provenance, distributed compute, and compliance architecture are all moving from optional to structural this year. The valuable bets in 2026 are not on the next model. They are on the layer above and the layer below.</p>
+      <blockquote>Today's six stories look unrelated. They are not. Each one marks the moment a capability that was still being debated moves into the layer of <em>infrastructure</em> — the part of technology that people stop thinking about because it simply works.</blockquote>
+      <p>Anthropic's Dreaming turns agent memory from a research problem into a scheduled overnight process. Span and Nvidia turn data centre capacity from a real estate and grid problem into a homebuilder line item. Paperclip turns multi-agent orchestration from an enterprise project into a $20-a-month utility. The Virginia Tech paper turns image watermarks from a legal standard into an obsolete one. Genesis claims - with independent receipts still pending - to turn humanoid dexterity from a research ceiling into a product. And the EU, White House, and Beijing are, for the first time, treating AI governance as something to coordinate simultaneously rather than defer.</p>
+      <p>The organisations most at risk are not the ones that ignored AI. The risk concentrates in organisations that ran a successful pilot in 2024, declared the technology deployed, and stopped watching. The infrastructure under their feet is being replaced. Memory systems, orchestration tooling, content provenance, distributed compute, and compliance architecture are all moving from optional to structural this year. The valuable bets in 2026 are not on the next model. They are on the layer above and the layer below.</p>
       <span class="editorial-date">07 May 2026</span>
     </div>
   </section>
 
-  <!-- ============ FOOTER ============ -->
   <footer>
     <div class="container footer-inner">
       <div class="footer-brand-block">
         <div class="brand-mark"></div>
         AI Pulse
       </div>
-      <div class="footer-date">07 May 2026</div>
+      <div class="footer-date">07 May 2026 · Issue archived nightly</div>
     </div>
   </footer>
 
   <script>
-    const chips = document.querySelectorAll('[data-sector-filter]');
+    // === CUSTOM CURSOR ===
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+
+      // Cursor expansion on interactive elements
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorDot.classList.add('expanded');
+          cursorTrail.classList.add('expanded');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorDot.classList.remove('expanded');
+          cursorTrail.classList.remove('expanded');
+        });
+      });
+    }
+
+    // === READING PROGRESS BAR ===
+    const progressBar = document.getElementById('progressBar');
+    function updateProgress() {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
+    // === HERO GLOW FOLLOWS MOUSE ===
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        heroGlow.style.left = x + '%';
+        heroGlow.style.top = y + '%';
+      });
+    }
+
+    // === 3D PARALLAX TILT ON METRIC CARDS ===
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x / rect.width * 100) + '%');
+        card.style.setProperty('--mouse-y', (y / rect.height * 100) + '%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    // === SCROLL REVEALS ===
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    // === COUNT-UP NUMBERS ===
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            const value = Math.floor(eased * target);
+            el.textContent = prefix + value.toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    // === STORY NAV ACTIVE DOT ===
+    const navDots = document.querySelectorAll('.story-nav-dot');
     const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const matchingDot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (matchingDot) matchingDot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    // === SECTOR FILTER ===
+    const chips = document.querySelectorAll('[data-sector-filter]');
     const emptyState = document.getElementById('emptyState');
     const visibleCount = document.getElementById('visibleCount');
-
     function applyFilter(sector) {
       let visible = 0;
       stories.forEach(story => {
         const sectors = (story.dataset.sectors || '').split(',');
         const matches = sector === 'all' || sectors.includes(sector);
         if (matches) {
-          story.style.display = '';
+          story.classList.remove('filter-hidden');
           visible++;
         } else {
-          story.style.display = 'none';
+          story.classList.add('filter-hidden');
         }
       });
       visibleCount.textContent = visible;
       emptyState.style.display = visible === 0 ? 'block' : 'none';
     }
-
     chips.forEach(chip => {
       chip.addEventListener('click', () => {
         chips.forEach(c => c.classList.remove('active'));
@@ -1135,6 +1333,5 @@
       });
     });
   </script>
-
 </body>
 </html>
