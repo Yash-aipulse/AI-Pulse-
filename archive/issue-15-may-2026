@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 15 May 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+    /* === CUSTOM CURSOR === */
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded {
+      width: 40px; height: 40px;
+      background: rgba(94, 234, 212, 0.2);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+    .cursor-trail {
+      width: 36px; height: 36px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) {
+      .cursor-dot, .cursor-trail { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-dot, .cursor-trail { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* === PROGRESS BAR === */
+    .progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: var(--accent); z-index: 1000;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* === NAV === */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0; position: sticky; top: 0;
+      background: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 100;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px;
+      color: var(--text); text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .brand:hover { color: var(--accent); }
+    .brand-mark {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      position: relative; flex-shrink: 0;
+      transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+    }
+    .brand:hover .brand-mark {
+      transform: rotate(45deg);
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    .brand-mark::after {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 10px; height: 10px;
+      background: var(--bg); border-radius: 50%;
+    }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      font-weight: 500;
+    }
+    .archive-link {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 13px;
+      padding: 9px 20px;
+      border: 1px solid var(--border-strong);
+      border-radius: 100px;
+      color: var(--text); text-decoration: none;
+      transition: all 0.3s var(--ease-out-quart);
+      display: inline-flex; align-items: center; gap: 8px;
+      position: relative; overflow: hidden;
+      background: transparent;
+    }
+    .archive-link::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--accent);
+      transform: translateY(101%);
+      transition: transform 0.4s var(--ease-out-quart);
+    }
+    .archive-link span, .archive-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+    .archive-link:hover {
+      border-color: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    .archive-link:hover::before { transform: translateY(0); }
+    .archive-link svg {
+      width: 12px; height: 12px;
+      transition: transform 0.3s var(--ease-out-quart);
+    }
+    .archive-link:hover svg { transform: translateX(3px); }
+
+    /* === HERO === */
+    .hero {
+      padding: 100px 0 80px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(94, 234, 212, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94, 234, 212, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute; width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(94, 234, 212, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo);
+      left: 30%; top: 50%;
+      filter: blur(20px);
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 80px; align-items: end;
+      position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 14px;
+      animation: slideInLeft 0.8s var(--ease-out-expo) both;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 32px; height: 1px;
+      background: var(--accent);
+      animation: lineGrow 1s var(--ease-out-expo) 0.2s both;
+      transform-origin: left;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .live-dot {
+      width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .hero h1 {
+      font-family: 'Carlito', sans-serif;
+      font-weight: 700;
+      font-size: clamp(40px, 5.4vw, 72px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 32px; max-width: 960px;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--accent);
+      text-shadow: 0 0 30px var(--accent-glow);
+    }
+    .hero-sub {
+      font-size: 17px; color: var(--text-secondary);
+      max-width: 720px; line-height: 1.65;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both;
+    }
+    .hero-stats {
+      display: flex; flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both;
+      box-shadow: 0 0 40px rgba(94, 234, 212, 0.05);
+    }
+    .hero-stat {
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s var(--ease-out-quart);
+    }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .hero-stat-value {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 26px; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1.1;
+    }
+
+    /* === FILTER === */
+    .filter-band {
+      padding: 22px 0; border-bottom: 1px solid var(--border);
+      position: sticky; top: 65px;
+      background: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 90;
+    }
+    .filter-inner {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip {
+      font-family: 'Carlito', sans-serif;
+      font-size: 14px; font-weight: 700;
+      padding: 9px 20px; border-radius: 100px;
+      border: 1px solid var(--border-strong);
+      background: transparent; color: var(--text-secondary);
+      cursor: none;
+      transition: all 0.3s var(--ease-out-quart);
+    }
+    .chip:hover {
+      color: var(--accent); border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .chip.active {
+      background: var(--accent); color: var(--bg);
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+    .filter-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-muted);
+    }
+    .filter-count strong {
+      color: var(--accent); font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* === STORY NAV (right side dots) === */
+    .story-nav {
+      position: fixed; right: 28px; top: 50%;
+      transform: translateY(-50%); z-index: 80;
+      display: flex; flex-direction: column; gap: 14px;
+      padding: 14px 8px;
+    }
+    .story-nav-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      cursor: none; border: none; padding: 0;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+    }
+    .story-nav-dot::before {
+      content: attr(data-label); position: absolute;
+      right: 16px; top: 50%;
+      transform: translateY(-50%) translateX(8px);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text);
+      background: var(--bg-card);
+      padding: 6px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      white-space: nowrap; opacity: 0; pointer-events: none;
+      transition: all 0.3s var(--ease-out-quart);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active {
+      background: var(--accent); width: 24px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow);
+    }
+
+    /* === STORIES === */
+    .stories { padding: 80px 0 32px; }
+    .story {
+      padding: 64px 0; border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+    }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden {
+      opacity: 0; transform: scale(0.96) translateY(20px);
+      pointer-events: none; max-height: 0;
+      overflow: hidden; padding: 0; border: none;
+      transition: all 0.5s var(--ease-out-expo);
+    }
+    .story-header {
+      display: grid; grid-template-columns: 100px 1fr;
+      gap: 40px; margin-bottom: 32px; align-items: start;
+    }
+    .story-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-muted);
+      letter-spacing: 0.12em; padding-top: 12px;
+      font-weight: 500;
+      position: sticky; top: 140px;
+    }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px; border-radius: 2px;
+      border: 1px solid currentColor; font-weight: 500;
+      transition: all 0.3s ease;
+      color: var(--text-muted);
+    }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+
+    .story h2 {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.18; letter-spacing: -0.015em;
+      color: var(--text); margin-bottom: 28px; max-width: 940px;
+      transition: color 0.3s ease;
+    }
+    .story:hover h2 { color: var(--accent-bright); }
+
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p {
+      font-size: 17px; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 14px;
+    }
+    .plain-text p:last-child { margin-bottom: 0; }
+
+    .why-matters {
+      max-width: 880px; padding: 24px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      margin-bottom: 44px;
+      font-size: 15px; line-height: 1.7;
+      color: var(--text);
+      transition: all 0.4s var(--ease-out-quart);
+      position: relative; overflow: hidden;
+    }
+    .why-matters::after {
+      content: ''; position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.8s var(--ease-out-quart);
+      pointer-events: none;
+    }
+    .why-matters:hover {
+      transform: translateX(2px);
+      border-color: var(--accent);
+      box-shadow: 0 0 24px rgba(94, 234, 212, 0.08);
+    }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong {
+      color: var(--accent); font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.14em;
+      display: inline-block; margin-right: 10px;
+      vertical-align: 2px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text);
+      font-weight: 600;
+      margin-bottom: 22px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      max-width: 920px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* === KEY METRIC CARDS - 3D PARALLAX === */
+    .indicators-block { margin-bottom: 44px; }
+    .indicators {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      max-width: 920px;
+      perspective: 1200px;
+    }
+    .indicator {
+      background: var(--bg-card);
+      padding: 24px 26px;
+      display: flex; flex-direction: column; gap: 10px;
+      border: 1px solid var(--border);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative; overflow: hidden;
+      cursor: none;
+    }
+    .indicator::before {
+      content: ''; position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .indicator::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.6s var(--ease-out-expo);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .indicator:hover {
+      border-color: var(--accent);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(94, 234, 212, 0.1);
+    }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 30px; color: var(--text);
+      letter-spacing: -0.025em; line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      transform: translateZ(20px);
+      transition: color 0.3s ease;
+    }
+    .indicator:hover .indicator-value {
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+    .indicator-value.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px; font-weight: 600;
+    }
+    .indicator-desc {
+      font-size: 13px; line-height: 1.55;
+      color: var(--text-muted);
+      transform: translateZ(10px);
+    }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+
+    /* === IMPACT CARDS === */
+    .impact-block { margin-bottom: 44px; }
+    .impact-card {
+      max-width: 920px; padding: 26px 30px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--text-dim);
+      margin-bottom: 12px;
+      transition: all 0.4s var(--ease-out-quart);
+    }
+    .impact-card:hover {
+      transform: translateX(6px);
+      border-color: var(--border-strong);
+      border-left-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+    .impact-audience {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 600;
+      margin-bottom: 14px; color: var(--accent);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .impact-audience::before {
+      content: '→'; font-size: 13px;
+      transition: transform 0.3s var(--ease-out-quart);
+      color: var(--accent);
+    }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p {
+      font-size: 15px; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 10px;
+    }
+    .impact-card p:last-child { margin-bottom: 0; }
+
+    /* === SOURCE === */
+    .source-block {
+      max-width: 920px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .source-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text-muted);
+      font-weight: 500;
+    }
+    .source-block a {
+      color: var(--text); text-decoration: none;
+      font-size: 14px; position: relative; padding-bottom: 2px;
+      transition: color 0.3s ease;
+    }
+    .source-block a::after {
+      content: ''; position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 1px;
+      background: var(--accent);
+      transform-origin: right; transform: scaleX(0.3);
+      transition: transform 0.4s var(--ease-out-quart);
+      box-shadow: 0 0 6px var(--accent-glow);
+    }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+
+    /* === EDITORIAL === */
+    .editorial {
+      padding: 120px 0;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .editorial::before {
+      content: '"'; position: absolute;
+      top: 30px; left: 5%;
+      font-family: 'Carlito', serif; font-style: italic;
+      font-size: 360px; line-height: 1; font-weight: 700;
+      color: var(--accent);
+      opacity: 0.06; pointer-events: none;
+    }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 40px; font-weight: 600;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .editorial-eyebrow::before {
+      content: ''; width: 32px; height: 1px;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .editorial blockquote {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height: 1.3; color: var(--text);
+      letter-spacing: -0.018em;
+      margin-bottom: 32px; max-width: 880px;
+      font-style: italic;
+    }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p {
+      font-size: 16px; line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 760px; margin-bottom: 18px;
+    }
+    .editorial-date {
+      display: inline-block; margin-top: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg);
+      color: var(--text-muted);
+      padding: 64px 0 48px;
+      position: relative; overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    footer::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand-block {
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px;
+      color: var(--text);
+    }
+    .footer-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .empty-state {
+      text-align: center; padding: 100px 20px;
+      color: var(--text-muted); display: none;
+    }
+    .empty-state h3 {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 28px; color: var(--text);
+      margin-bottom: 12px; font-style: italic;
+    }
+
+    /* Make all interactive elements use no native cursor */
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) {
+      a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+      50% { box-shadow: 0 0 0 10px transparent; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes lineGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) {
+      .container { padding: 0 22px; }
+      .hero { padding: 64px 0 48px; }
+      .filter-band { top: 61px; }
+      .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .story { padding: 44px 0; }
+      .story-header { grid-template-columns: 1fr; gap: 16px; }
+      .story-num { padding-top: 0; position: static; }
+      .impact-card { padding: 20px 22px; }
+      .editorial { padding: 80px 0; }
+      .editorial::before { font-size: 200px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+      <div class="nav-meta">
+        <span class="nav-date">15 May 2026</span>
+        <a href="archive/index.html" class="archive-link">
+          <span>View archive</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 15 May 2026
+        </div>
+        <h1>Five developments in AI <em>public market valuation</em>, legal liability, enterprise deployment, infrastructure opposition, and semiconductor supply risk.</h1>
+        <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" developments">0 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" verticals">0 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">0 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="energy">Energy &amp; Utilities</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">5</strong> of 5 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Cerebras IPO $5.55B"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Musk v. Altman jury"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · OpenAI DeployCo $4B"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · Gallup 71% oppose"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · Samsung strike looms"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <!-- STORY 1 -->
+      <article class="story" data-sectors="finance,hardware" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>Cerebras Systems raised $5.55 billion in the largest US technology IPO since Uber's 2019 debut, opening at $350 against a $185 offer price before pulling back 10% on its second trading day</h2>
+            <div class="plain-text">
+              <p>Cerebras Systems (ticker: CBRS) is an AI chip company whose core product, the Wafer Scale Engine 3, is built by treating an entire silicon wafer as a single processor rather than cutting it into individual chips – an approach the company says runs AI inference, the process of generating outputs from an already-trained model, up to 15 times faster than competing products. The company priced 30 million Class A shares at $185 on May 13, 2026, and began trading on the Nasdaq Global Select Market on May 14. The stock opened at $350 – nearly double the offer price – reached an intraday high of $385, and closed at $311.07, a 68% first-day gain. The offering raised $5.55 billion. On May 15, shares fell a further 10.08%, closing at $279.72.</p>
+              <p>Cerebras had originally marketed shares at $150–$160, raising both the size and the price range in response to demand that exceeded available shares by more than 20 times. Revenue at the company grew 76% in 2025 to $510 million, and the company generated net income of $88 million, compared with a net loss of $481.6 million the prior year. One material risk disclosed in regulatory filings: more than 85% of Cerebras' 2024 revenue came from G42, a UAE-based AI company, a concentration that previously drew US regulatory scrutiny before being cleared. Cerebras has also established partnerships with Amazon and OpenAI, with OpenAI launching its first AI model running on Cerebras chips earlier in 2026. The valuation at Day 1 close was ~$70 billion based on outstanding shares per regulatory filings, or ~$86 billion on a fully diluted basis per Bloomberg data; Reuters placed the fully diluted figure at $56.43 billion at the IPO price – a range reflecting genuinely different methodologies for counting diluted shares.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The Cerebras IPO is the first major test of whether public markets will price Nvidia challengers at venture-scale multiples. If the stock stabilizes above $250, it validates a large addressable market for purpose-built inference hardware and will accelerate IPO timelines for Tenstorrent and other private AI chip companies. A continued decline signals that execution risk – particularly revenue concentration – is not yet priced in by the market.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="185" data-count-prefix="$">$0</div>
+                  <div class="indicator-desc">IPO price per share, priced May 13, 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$311.07</div>
+                  <div class="indicator-desc">Day 1 closing price – a 68% first-day gain</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$279.72</div>
+                  <div class="indicator-desc">Day 2 closing price (May 15), down 10.08%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="5" data-count-prefix="$" data-count-suffix=".55B">$0.55B</div>
+                  <div class="indicator-desc">Capital raised in the offering (30 million shares)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$86B</div>
+                  <div class="indicator-desc">Fully diluted market cap at Day 1 close, per Bloomberg data</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">20×</div>
+                  <div class="indicator-desc">Oversubscription level, per Bloomberg</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="76" data-count-suffix="%">0%</div>
+                  <div class="indicator-desc">Cerebras revenue growth in 2025, reaching $510 million</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;85%</div>
+                  <div class="indicator-desc">Share of 2024 revenue from single customer G42 (UAE)</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For institutional investors and fund managers holding CBRS</div>
+                <p>The valuation range conflict between Bloomberg (~$86B fully diluted) and Reuters ($56.43B at IPO price) is not a rounding error – it reflects genuinely different assumptions about option and warrant dilution. Portfolio managers should obtain and model the full diluted share count from the S-1 before setting position size limits; the Day 2 drop suggests the market is still discovering the correct denominator. Do this before the next trading session, not after a further decline forces the decision.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise procurement heads and CTO offices evaluating AI infrastructure</div>
+                <p>The customer concentration risk – 85%+ of 2024 revenue from G42 – is a meaningful vendor viability signal. CTOs considering Cerebras chips for 2027 infrastructure plans should request written confirmation of supply volume commitments and customer diversification milestones before committing to integration work. Ask for those milestones in writing at your next vendor meeting.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs at private AI chip companies (Tenstorrent, SambaNova, Etched)</div>
+                <p>The 20× oversubscription and 68% Day 1 gain sets a public market reference point for inference-chip valuations. Begin preparing S-1-ready financials now, and expect investor diligence to focus heavily on customer concentration ratios and gross margin trajectory – those were the two issues most prominently raised in analyst commentary on Cerebras. A clean story on both is a prerequisite for a successful filing.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/14/cerebras-cbrs-stock-trade-nasdaq-ipo.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">· 14–15 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 2 -->
+      <article class="story" data-sectors="policy,finance" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>Closing arguments in Musk v. Altman concluded on May 14, with a nine-person jury beginning deliberations on May 18 over claims that could require OpenAI to unwind its 2025 for-profit restructuring and disgorge up to $134 billion</h2>
+            <div class="plain-text">
+              <p>Closing arguments in Musk v. Altman concluded on May 14, 2026, at the US District Court in Oakland, California, before Judge Yvonne Gonzalez Rogers. The nine-person jury – comprising six women and three men – will begin deliberations on Monday, May 18. Their verdict is advisory only: the judge retains final authority on both liability and remedies. Simultaneously, a separate remedies phase begins on May 18, in which Judge Gonzalez Rogers alone will hear arguments on potential damages and structural relief. Elon Musk was absent from closing arguments; his attorney cited his presence on President Trump's Beijing delegation alongside Tim Cook, Jensen Huang, and Larry Fink.</p>
+              <p>The case turns on two claims: that OpenAI's 2025 recapitalisation – which converted its original nonprofit structure into a capped-profit company – breached the charitable trust under which Musk made ~$38 million in donations between 2015 and 2017; and that OpenAI CEO Sam Altman, co-founder Greg Brockman, and Microsoft were unjustly enriched in the process. Microsoft, named as a co-defendant on an aiding-and-abetting theory, has invested a cumulative $13 billion directly in OpenAI; CEO Satya Nadella testified that Microsoft's total spend including infrastructure exceeded $100 billion. Musk's legal team has asked the court to unwind the 2025 restructuring, remove Altman and Brockman from their roles, and disgorge up to $134 billion – none of which would go to Musk personally. A threshold question on the statute of limitations is determinative: Judge Gonzalez Rogers wrote last month that a finding against Musk on that question would "highly likely" lead her to direct a verdict for the defendants. The most pointed piece of evidence on Musk's side: co-founder Greg Brockman's 2017 personal journal, introduced at trial, described OpenAI's nonprofit framing as "a lie."</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>If the jury finds for Musk and the judge accepts that finding, OpenAI's planned IPO – targeted at a valuation approaching $1 trillion – could be materially disrupted. An unwinding of the 2025 recapitalisation would also fundamentally alter OpenAI's relationships with SoftBank (whose $40 billion round closed earlier in 2026), Amazon, and Microsoft. Structurally, this is the first major federal judicial test of whether nonprofit AI organizations can convert to for-profit structures without satisfying charitable trust law obligations.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$134B</div>
+                  <div class="indicator-desc">Maximum disgorgement Musk's team has claimed (to fund OpenAI's nonprofit mission)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="38" data-count-prefix="$" data-count-suffix="M">$0M</div>
+                  <div class="indicator-desc">Musk's total donations to OpenAI, 2015–2017</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$13B</div>
+                  <div class="indicator-desc">Microsoft's cumulative direct investment in OpenAI, per Nadella's trial testimony</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;$100B</div>
+                  <div class="indicator-desc">Microsoft's total spend including infrastructure, per Nadella testimony</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$1T</div>
+                  <div class="indicator-desc">OpenAI's approximate IPO valuation target, per MIT Technology Review</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="9">0</div>
+                  <div class="indicator-desc">Jurors; verdict is advisory only – judge retains final authority</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For general counsels at companies with long-term OpenAI API contracts</div>
+                <p>The remedies phase beginning May 18 is the higher-stakes proceeding – the judge, not the jury, decides whether structural relief follows any liability finding. General Counsels should instruct outside counsel to model the contract implications of an OpenAI restructuring or leadership change, even as a low-probability scenario, before the verdict is returned. This is a one-time analysis that can be completed within a week and is far less costly than scrambling after a ruling.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For business development leads at Anthropic, Google DeepMind, and xAI</div>
+                <p>A Musk victory – particularly any order to unwind OpenAI's recapitalisation – would create significant enterprise customer uncertainty and accelerate switching conversations to alternative providers. Prepare competitive response materials that can be activated within 48 hours of a verdict. Those materials should address contract continuity, API compatibility, and migration support timelines specifically.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For general counsels at venture-backed tech nonprofits considering for-profit conversion</div>
+                <p>This trial is the first federal judicial examination of whether charitable trust doctrine constrains AI nonprofit governance. Regardless of the outcome, the Brockman journal evidence and the statute of limitations focus establish that boards should require written legal opinions on charitable trust obligations before any structural conversion, and should document those opinions contemporaneously. Obtain that opinion before the conversion, not after.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/14/closing-arguments-jury-openai-musk-altman.html" target="_blank" rel="noopener">CNBC / MIT Technology Review</a>
+              <span class="source-meta">· 14–15 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 3 -->
+      <article class="story" data-sectors="operations,finance" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>OpenAI launched a $4 billion deployment venture backed by 19 global partners – including Goldman Sachs, SoftBank, and McKinsey – to embed engineers directly inside enterprise clients, placing it in direct competition with the major consulting firms</h2>
+            <div class="plain-text">
+              <p>OpenAI announced the launch of the OpenAI Deployment Company, referred to internally as DeployCo, on May 11, 2026. The venture is backed by more than $4 billion in initial investment from 19 global partners and is majority-owned and controlled by OpenAI. Lead investors are TPG, Advent, Bain Capital, and Brookfield; other named partners include Goldman Sachs, SoftBank Corp., Warburg Pincus, McKinsey &amp; Company, Bain &amp; Company, and Capgemini. The venture is valued at $10 billion. OpenAI has guaranteed its private equity backers a minimum annual return of 17.5% over five years. Simultaneously, OpenAI announced plans to acquire Tomoro, an applied AI consulting firm whose clients include Mattel, Red Bull, Tesco, and Virgin Atlantic; the Tomoro acquisition is expected to add ~150 Forward Deployed Engineers – specialists who work directly at client sites – subject to regulatory approval.</p>
+              <p>DeployCo's model is explicitly patterned on Palantir's embedded-engineering approach: its engineers will work inside client organizations to identify high-impact use cases, connect OpenAI models to internal data and business processes, and build production-ready AI systems. The partners' portfolio companies – collectively spanning more than 2,000 businesses – form DeployCo's initial customer base. Anthropic announced a $1.5 billion parallel enterprise joint venture backed by Blackstone, Hellman &amp; Friedman, and Goldman Sachs in the days before the DeployCo launch, also focused on embedding AI into enterprise workflows. OpenAI's Chief of Applications Fidji Simo told staff in a company-wide meeting that Anthropic's enterprise gains should serve as a "wake-up call." Shares of Infosys, Tata Consultancy Services, and HCLTech fell sharply on news of the DeployCo launch, as investors assessed the risk that embedded AI engineering from model providers could displace demand for conventional implementation services.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>DeployCo represents the clearest signal yet that the AI industry's competitive frontier is shifting from model capability to deployment execution. Both OpenAI and Anthropic are now in the AI services business, placing them in direct competition with Accenture, Deloitte, and the Indian IT majors for a market estimated at hundreds of billions of dollars in enterprise transformation spend. Companies that have not yet selected a primary AI deployment partner may find their leverage diminishing as the two leading labs build proprietary integration depth with competitors.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;$4B</div>
+                  <div class="indicator-desc">Initial investment in DeployCo at launch, confirmed by OpenAI</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="10" data-count-prefix="$" data-count-suffix="B">$0B</div>
+                  <div class="indicator-desc">DeployCo valuation, per Bloomberg</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="19">0</div>
+                  <div class="indicator-desc">Global investment and consulting partners at launch</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">17.5%</div>
+                  <div class="indicator-desc">Guaranteed minimum annual return offered to private equity backers over 5 years, per Axios</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~150</div>
+                  <div class="indicator-desc">Forward Deployed Engineers to be added via Tomoro acquisition</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$1.5B</div>
+                  <div class="indicator-desc">Size of Anthropic's parallel enterprise joint venture (Blackstone, Hellman &amp; Friedman, Goldman Sachs)</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For Chief Procurement Officers and CIOs at large enterprises</div>
+                <p>DeployCo's launch means the market now has two competing embedded AI engineering offerings – OpenAI and Anthropic – with major PE backing. CPOs negotiating enterprise AI contracts in the next 90 days should request Forward Deployed Engineer allocation guarantees in writing. The 19-partner structure means portfolio companies of DeployCo's investors may receive priority access over non-partner enterprises; confirm whether your organization sits inside or outside that priority tier before signing.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For heads of strategy at IT services firms competing with DeployCo</div>
+                <p>Note that Capgemini and McKinsey are DeployCo founding partners, meaning they are simultaneously collaborators with and clients of OpenAI's deployment arm. Strategy directors at competing consultancies should immediately assess which of their enterprise clients have PE relationships with DeployCo's investor group – TPG, Advent, Bain Capital, Brookfield, Warburg Pincus – as those clients may shift AI implementation spend within 12–18 months. Map that exposure before your next client review cycle.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://openai.com/index/openai-launches-the-deployment-company/" target="_blank" rel="noopener">OpenAI / eWeek</a>
+              <span class="source-meta">· 11–12 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 4 -->
+      <article class="story" data-sectors="policy,energy" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Energy &amp; Utilities</span>
+            </div>
+            <h2>A Gallup survey found 71% of Americans oppose AI data centers in their local area – a higher opposition rate than nuclear power plants – even as US data center construction is running at a pace of ~$121 billion annualized in 2026</h2>
+            <div class="plain-text">
+              <p>A Gallup survey of 1,000 US adults conducted March 2–18, 2026 – the first time Gallup has tracked this question – found that 71% of Americans oppose building an AI data center in their local area, including 48% who are strongly opposed. Only 27% support local data center development, with just 7% strongly in favor. Environmental concerns dominate: 46% of respondents said they worry "a great deal" about the environmental impact of AI data centers, and another 24% worry "a fair amount." Opposition to AI data centers now exceeds local opposition to nuclear power plants (53% opposed in the same March survey), even though nuclear opposition has not exceeded 63% since Gallup first tracked that question in 2001.</p>
+              <p>The Gallup findings land against a backdrop of massive ongoing construction. ConstructConnect's May 2026 Data Center Report shows $46.5 billion in data center starts through March 2026, against a comparable 2025 year-to-date total of just $7.3 billion – a more than sixfold pace increase. ConstructConnect also identified a $63.2 billion late-stage pipeline for the remainder of 2026, with ~$28 billion in late-stage projects in Texas, Oklahoma, and Arkansas and another ~$22 billion along the Eastern Seaboard. The 12-month moving average puts 2026 spending on pace for ~$121 billion. In a follow-up April web survey, half of data center opponents cited excessive resource consumption, with water usage and power grid pressure topping the list. Gallup noted that the intensity of opposition "means that proposed data centers are likely to spur grassroots activism from local residents as well as legal challenges."</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The gap between construction momentum (~$121 billion annualized pace) and public acceptance (29% support) is structural, not transient. Local permitting, grid interconnection, and water agreements are now the binding constraint on AI infrastructure expansion – not capital availability or demand. Companies with multi-year infrastructure build-out plans anchored to specific geographies face material schedule risk if they have not modeled community opposition and regulatory friction into project timelines.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="71" data-count-suffix="%">0%</div>
+                  <div class="indicator-desc">Americans opposed to local AI data center construction (Gallup, March 2–18, 2026)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="48" data-count-suffix="%">0%</div>
+                  <div class="indicator-desc">Proportion "strongly opposed" to a local AI data center</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">53%</div>
+                  <div class="indicator-desc">Americans opposed to a local nuclear plant (same Gallup survey) – lower than data center opposition</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$46.5B</div>
+                  <div class="indicator-desc">US data center construction starts through March 2026 (ConstructConnect)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$7.3B</div>
+                  <div class="indicator-desc">Comparable 2025 year-to-date figure – a more than sixfold pace increase</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$63.2B</div>
+                  <div class="indicator-desc">Late-stage data center pipeline for remainder of 2026 (ConstructConnect)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$121B</div>
+                  <div class="indicator-desc">Estimated full-year 2026 data center construction pace (ConstructConnect 12-month moving average)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="1000">0</div>
+                  <div class="indicator-desc">Survey respondents; margin of error ±4 percentage points at 95% confidence</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For VP-level infrastructure and real estate leads at hyperscalers (Microsoft, Google, Amazon, Meta)</div>
+                <p>The Gallup data shows that opposition is not a coastal progressive phenomenon: 39% of Republicans are strongly opposed, and another 24% are somewhat opposed. Infrastructure leads should immediately audit the permitting status of every project in the $63.2 billion pipeline and categorize sites by their exposure to local ballot initiatives or municipal council elections before Q3 2026. Any site where a vote is scheduled within 18 months should be treated as a schedule-risk item in capital expenditure planning.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For state and local economic development officials</div>
+                <p>Communities that can offer credible, verifiable data on local economic benefit – jobs created, tax revenue generated, broadband spillovers – are structurally better positioned to overcome the opposition Gallup documents. Economic development directors should commission independent impact assessments before project groundbreaking, not after, to pre-empt the grassroots activation Gallup explicitly forecasts. A pre-published assessment is far more credible than a reactive response to organized opposition.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://news.gallup.com/poll/709772/americans-oppose-data-centers-area.aspx" target="_blank" rel="noopener">Gallup / ConstructConnect</a>
+              <span class="source-meta">· 13 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 5 -->
+      <article class="story" data-sectors="hardware,operations" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Samsung's largest union authorized an 18-day strike beginning May 21 after bonus negotiations collapsed, threatening to disrupt memory chip shipments across a supply chain where Samsung's entire 2026 DRAM output is already fully pre-sold</h2>
+            <div class="plain-text">
+              <p>Government-mediated wage negotiations between Samsung Electronics and the National Samsung Electronics Union (NSEU) – Samsung's largest union, representing over 45,000 workers – collapsed after two days of marathon talks. The NSEU has authorized an 18-day general strike beginning May 21, 2026, at Samsung's Pyeongtaek semiconductor campus in South Korea. The dispute centers on bonus structures tied to AI-driven semiconductor profits: the union is demanding that Samsung scrap its existing bonus cap, allocate 15% of operating profit to worker bonuses, and formalize those terms in contracts. Samsung's shares fell as much as 6.1% in Seoul following the breakdown in talks. Analysts estimate an 18-day action could cost Samsung between $6.9 billion and $11.7 billion in direct losses, with larger indirect costs. A single one-day action in April produced a 58% production drop for one shift, providing a reference point for the potential scale of disruption.</p>
+              <p>The bonus dispute reflects a structural divide within Samsung's operations. Memory chip operations – particularly production of HBM, or High-Bandwidth Memory, a specialized chip type required by AI servers – have driven strong profits as DRAM contract prices surged 90–95% quarter-over-quarter in Q1 2026, with TrendForce forecasting a further 58–63% increase in Q2. Meanwhile, Samsung's logic and foundry operations have been loss-making. Workers in the profitable memory division cite SK Hynix's reported bonus of ~$900,000 per employee compared with Samsung's $340,000 offer as their benchmark. Samsung's entire 2026 DRAM production is pre-contracted and sold out, meaning any production shortfall translates directly into delayed shipments to hyperscalers and server manufacturers rather than spot-market shortfall. Samsung has filed an injunction with the Suwon District Court seeking to restrict strike activities that could damage equipment or in-process materials; a ruling is expected before May 21. A smaller union representing workers in Samsung's smartphone, TV, and home appliances divisions has reportedly pulled out of the joint strike, reducing its breadth but not its semiconductor-specific impact.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Samsung is the world's largest memory chipmaker, and its 2026 DRAM output is already fully pre-sold. Even a partial 18-day disruption at Pyeongtaek does not produce a spot-market shortage – it produces a queue of delayed shipments to hyperscalers, server manufacturers, and OEMs whose infrastructure build-out timelines depend on memory delivery. Combined with the 90–95% Q1 DRAM price surge and the forecast 58–63% further Q2 increase, the strike threatens to amplify hardware inflation across PCs, smartphones, and AI servers throughout H2 2026.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="45000">0</div>
+                  <div class="indicator-desc">Workers represented by the NSEU authorizing strike action</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">18 days</div>
+                  <div class="indicator-desc">Planned strike duration – May 21 to June 7, 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$6.9–$11.7B</div>
+                  <div class="indicator-desc">Estimated direct losses from an 18-day strike (Prof. Kwon Seok-joon, Sungkyunkwan University)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">6.1%</div>
+                  <div class="indicator-desc">Intraday drop in Samsung's Seoul-listed shares after talks collapsed</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="58" data-count-suffix="%">0%</div>
+                  <div class="indicator-desc">Production drop during a single shift from the April one-day action</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">90–95%</div>
+                  <div class="indicator-desc">DRAM contract price surge Q-o-Q in Q1 2026 (TrendForce)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">58–63%</div>
+                  <div class="indicator-desc">Further DRAM price increase forecast for Q2 2026 (TrendForce)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$900K</div>
+                  <div class="indicator-desc">SK Hynix's reported bonus per employee – the benchmark workers cited</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For cloud infrastructure procurement leads at hyperscalers (Google, Amazon, Microsoft)</div>
+                <p>Samsung's pre-sold status means delayed shipments, not renegotiated contracts. Procurement directors should confirm in writing with Samsung and alternative memory suppliers – SK Hynix and Micron – the specific delivery windows for HBM4 orders and identify which infrastructure projects can be sequenced around a 3–6 week memory delivery delay without cascading the build schedule. Do this before the Suwon court ruling on May 21, while optionality on alternative sourcing still exists.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For OEM product managers at PC and smartphone manufacturers (Lenovo, Dell, HP, Asus)</div>
+                <p>TrendForce's Q2 price forecast and the Suwon court ruling are the two events to monitor before May 21. Product managers should authorize procurement teams to lock in Q3 DRAM supply from non-Samsung sources at current contract prices within the next 72 hours – before the court ruling creates certainty about whether the strike will proceed as announced and before sellers adjust their pricing accordingly.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.bloomberg.com/news/articles/2026-05-12/samsung-fails-to-reach-labor-deal-yonhap-says-as-strike-looms" target="_blank" rel="noopener">Bloomberg / Tom's Hardware</a>
+              <span class="source-meta">· 12–15 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>Five stories, one structural condition: the <em>physical and human infrastructure</em> required to sustain the AI boom is reaching its limits simultaneously, and the capital markets are still pricing as though it isn't.</blockquote>
+      <p>Cerebras' IPO tests whether public markets will price Nvidia challengers at venture-scale multiples when the underlying revenue is concentrated in a single customer – a bet that requires both technical execution and customer diversification the company does not yet have. The Musk v. Altman trial directly threatens the governance structure of the most capitalized AI company in history; the remedies phase beginning May 18 is the higher-stakes proceeding, and any order to unwind OpenAI's recapitalisation would cascade through SoftBank, Amazon, and Microsoft simultaneously. DeployCo's launch signals that frontier labs have concluded the deployment layer – not the model layer – is now the primary competitive lever, placing OpenAI and Anthropic in direct competition with Accenture, Deloitte, and the Indian IT majors for enterprise transformation spend.</p>
+      <p>The Gallup poll and the Samsung strike are expressions of the same underlying dynamic from different angles: communities and workers who produce and host AI infrastructure are demanding a redistribution of the value that infrastructure generates, and they are willing to use legal, political, and industrial action to secure it. The organization most exposed by this issue's stories combined is any hyperscaler that has committed to a specific 2026 data center and memory delivery schedule – because the Gallup-driven permitting risk, the Samsung strike threat, and the DeployCo-driven procurement shift are all converging on the same infrastructure calendar at the same time.</p>
+      <span class="editorial-date">15 May 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">15 May 2026 · Issue archived nightly</div>
+    </div>
+  </footer>
+
+  <script>
+    // === CUSTOM CURSOR ===
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+
+      // Cursor expansion on interactive elements
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorDot.classList.add('expanded');
+          cursorTrail.classList.add('expanded');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorDot.classList.remove('expanded');
+          cursorTrail.classList.remove('expanded');
+        });
+      });
+    }
+
+    // === READING PROGRESS BAR ===
+    const progressBar = document.getElementById('progressBar');
+    function updateProgress() {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
+    // === HERO GLOW FOLLOWS MOUSE ===
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        heroGlow.style.left = x + '%';
+        heroGlow.style.top = y + '%';
+      });
+    }
+
+    // === 3D PARALLAX TILT ON METRIC CARDS ===
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x / rect.width * 100) + '%');
+        card.style.setProperty('--mouse-y', (y / rect.height * 100) + '%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    // === SCROLL REVEALS ===
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    // === COUNT-UP NUMBERS ===
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            const value = Math.floor(eased * target);
+            el.textContent = prefix + value.toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    // === STORY NAV ACTIVE DOT ===
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const matchingDot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (matchingDot) matchingDot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    // === SECTOR FILTER ===
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        if (matches) {
+          story.classList.remove('filter-hidden');
+          visible++;
+        } else {
+          story.classList.add('filter-hidden');
+        }
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+  </script>
+</body>
+</html>
