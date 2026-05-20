@@ -135,6 +135,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       position: relative; overflow: hidden;
       background: transparent;
+      cursor: pointer;
     }
     .archive-link::before {
       content: ''; position: absolute; inset: 0;
@@ -154,6 +155,24 @@
       transition: transform 0.3s var(--ease-out-quart);
     }
     .archive-link:hover svg { transform: translateX(3px); }
+
+    /* === SUBSCRIBE BUTTON === */
+    .subscribe-btn {
+      border-color: var(--accent) !important;
+      color: var(--accent) !important;
+    }
+    .subscribe-btn::before {
+      background: rgba(94, 234, 212, 0.15) !important;
+    }
+    .subscribe-btn:hover {
+      border-color: var(--accent) !important;
+      color: var(--text) !important;
+      background: var(--accent) !important;
+      box-shadow: 0 0 24px var(--accent-glow) !important;
+    }
+    .subscribe-btn:hover::before {
+      background: var(--accent) !important;
+    }
 
     /* === HERO === */
     .hero {
@@ -249,6 +268,141 @@
       font-family: 'Carlito', sans-serif; font-weight: 700;
       font-size: 26px; color: var(--text);
       letter-spacing: -0.02em; line-height: 1.1;
+    }
+
+    /* === SIGNUP MODAL === */
+    .signup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      align-items: flex-end;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .signup-overlay.active {
+      display: flex;
+    }
+
+    .signup-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      padding: 40px 32px;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      animation: slideUp 0.4s var(--ease-out-expo);
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    @media (max-width: 720px) {
+      .signup-modal {
+        padding: 32px 20px;
+        border-radius: 12px 12px 0 0;
+      }
+    }
+
+    .signup-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      font-weight: 300;
+    }
+
+    .signup-close:hover {
+      color: var(--accent);
+    }
+
+    .signup-header {
+      margin-bottom: 28px;
+    }
+
+    .signup-header h2 {
+      font-family: 'Carlito', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: -0.015em;
+    }
+
+    .signup-header p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .signup-form input {
+      padding: 12px 16px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'Carlito', sans-serif;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .signup-form input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 16px rgba(94, 234, 212, 0.2);
+      background: var(--bg);
+    }
+
+    .signup-form input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .signup-submit {
+      padding: 12px 16px;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      color: var(--bg);
+      font-family: 'Carlito', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .signup-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(94, 234, 212, 0.3);
+    }
+
+    .signup-submit:active {
+      transform: translateY(0);
+    }
+
+    .signup-legal {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.6;
     }
 
     /* === FILTER === */
@@ -686,6 +840,24 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
 
     @media (max-width: 1100px) { .story-nav { display: none; } }
     @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
@@ -727,9 +899,37 @@
           <span>View archive</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
+        <button id="signupBtn" class="archive-link subscribe-btn">
+          <span>Subscribe</span>
+        </button>
       </div>
     </div>
   </nav>
+
+  <!-- SIGNUP MODAL -->
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">×</button>
+      
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get five key AI stories each morning, delivered to your inbox.</p>
+      </div>
+
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input 
+          type="email" 
+          name="email" 
+          id="signupEmail" 
+          placeholder="your@email.com" 
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
 
   <header class="hero">
     <div class="hero-grid"></div>
@@ -746,15 +946,15 @@
       <div class="hero-stats">
         <div class="hero-stat">
           <div class="hero-stat-label">Stories in this brief</div>
-          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" developments">0 developments</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" developments">5 developments</div>
         </div>
         <div class="hero-stat">
           <div class="hero-stat-label">Sectors covered</div>
-          <div class="hero-stat-value" data-count-to="3" data-count-suffix=" verticals">0 verticals</div>
+          <div class="hero-stat-value" data-count-to="3" data-count-suffix=" verticals">3 verticals</div>
         </div>
         <div class="hero-stat">
           <div class="hero-stat-label">Read time</div>
-          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">0 minutes</div>
+          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">14 minutes</div>
         </div>
       </div>
     </div>
@@ -822,11 +1022,11 @@
                   <div class="indicator-desc">Confirmed cached input token price per million tokens</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value" data-count-to="76" data-count-suffix="%">0%</div>
+                  <div class="indicator-value">76.2%</div>
                   <div class="indicator-desc">Terminal-Bench 2.1 score (coding performance benchmark)</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value" data-count-to="84" data-count-suffix="%">0%</div>
+                  <div class="indicator-value">84.2%</div>
                   <div class="indicator-desc">CharXiv Reasoning score (multimodal understanding benchmark)</div>
                 </div>
                 <div class="indicator">
@@ -899,7 +1099,7 @@
                   <div class="indicator-desc">Cloud storage included with the new $100 AI Ultra tier</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value" data-count-to="900" data-count-suffix="M">0M</div>
+                  <div class="indicator-value">900M</div>
                   <div class="indicator-desc">Gemini app monthly active users (up from 400M at I/O 2025)</div>
                 </div>
                 <div class="indicator">
@@ -912,7 +1112,7 @@
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
                 <div class="impact-audience">For IT procurement and SaaS finance teams at mid-size enterprises</div>
-                <p>The new compute-based usage model – replacing flat daily caps – requires procurement teams to rethink how they budget AI subscriptions. CFOs and IT Directors should request usage telemetry from Google by end of June 2026 to understand actual token burn rates before committing to tier selection, as the switch to compute credits may expose organizations to cost unpredictability at scale. Do not renew or commit to a tier before this data is in hand.</p>
+                <p>The new compute-based usage model – replacing flat daily caps – requires procurement teams to rethink how they budget AI subscriptions. CFOs and IT Directors should request usage telemetry from Google by end of June 2026 to understand actual token burn rates before committing to tier selection, as the switch to compute credits may expose organisations to cost unpredictability at scale. Do not renew or commit to a tier before this data is in hand.</p>
               </div>
               <div class="impact-card">
                 <div class="impact-audience">For developers and technical leads currently on AI Pro ($20/month)</div>
@@ -938,11 +1138,11 @@
             </div>
             <h2>Google launched Gemini Spark – a persistent personal AI agent running 24 hours a day on dedicated cloud servers, available to Ultra subscribers from the week of 19 May 2026 – with continuous access to users' Gmail, Calendar, and documents</h2>
             <div class="plain-text">
-              <p>At Google I/O 2026, Google unveiled Gemini Spark, a persistent personal AI agent it describes as a "24/7 partner that does real work on your behalf." Unlike conventional AI assistants that respond to individual queries, Spark runs continuously on dedicated Google Cloud virtual machines – cloud-based computers maintained by Google – and can be accessed from any device via the Gemini app, email, text message, and Chrome. It is powered by Gemini 3.5 Flash with the full Antigravity 2.0 agent harness, enabling what Google calls "long horizon tasks" – multi-step workflows that involve writing code, parsing documents, and synthesizing data across time. In its launch form, Spark integrates with Gmail, Docs, and other Google Workspace apps, with planned expansion to third-party tools via the Model Context Protocol (MCP) – a standard for connecting AI models to external software – over the summer.</p>
-              <p>Google disclosed specific initial use cases: automatically parsing monthly credit card statements to flag hidden subscription fees; synthesizing raw meeting notes from across emails and chats into polished Google Docs; and extracting deadline information from school communications to deliver consolidated daily digests. High-stakes actions such as sending emails or spending money require explicit user confirmation. A companion feature, "Daily Brief," pulls from Gmail, Calendar, and Tasks to present a prioritized morning digest of the day's obligations and suggested next steps. Gemini Spark will be available to Google AI Ultra subscribers in the US starting the week of 19 May 2026, before expanding more broadly. A documented privacy tradeoff applies: Spark's functionality depends on persistent access to Gmail, Calendar, Docs, and Chrome browsing context. Google has not yet disclosed retention policies for the cloud VM sessions, nor specific data residency terms – a gap that enterprise legal and compliance teams will need to evaluate before broad deployment.</p>
+              <p>At Google I/O 2026, Google unveiled Gemini Spark, a persistent personal AI agent it describes as a "24/7 partner that does real work on your behalf." Unlike conventional AI assistants that respond to individual queries, Spark runs continuously on dedicated Google Cloud virtual machines – cloud-based computers maintained by Google – and can be accessed from any device via the Gemini app, email, text message, and Chrome. It is powered by Gemini 3.5 Flash with the full Antigravity 2.0 agent harness, enabling what Google calls "long horizon tasks" – multi-step workflows that involve writing code, parsing documents, and synthesising data across time. In its launch form, Spark integrates with Gmail, Docs, and other Google Workspace apps, with planned expansion to third-party tools via the Model Context Protocol (MCP) – a standard for connecting AI models to external software – over the summer.</p>
+              <p>Google disclosed specific initial use cases: automatically parsing monthly credit card statements to flag hidden subscription fees; synthesising raw meeting notes from across emails and chats into polished Google Docs; and extracting deadline information from school communications to deliver consolidated daily digests. High-stakes actions such as sending emails or spending money require explicit user confirmation. Gemini Spark will be available to Google AI Ultra subscribers in the US starting the week of 19 May 2026, before expanding more broadly. A companion feature, "Daily Brief," pulls from Gmail, Calendar, and Tasks to present a prioritised morning digest of the day's obligations and suggested next steps. Gemini Spark's functionality depends on persistent access to Gmail, Calendar, Docs, and Chrome browsing context. Google has not yet disclosed retention policies for the cloud VM sessions, nor specific data residency terms – a gap that enterprise legal and compliance teams will need to evaluate before broad deployment.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>Gemini Spark is the first persistent, always-on AI agent from a major platform to be rolled out to consumer subscribers at scale. Its arrival places immediate pressure on Microsoft Copilot, OpenAI Operator, and Anthropic's Cowork product to accelerate their own persistent agent launches. The Workspace-first integration strategy also reinforces Google's competitive advantage against non-Google productivity suites in organizations where employees are already working inside Gmail and Docs.
+              <strong>Why it matters</strong>Gemini Spark is the first persistent, always-on AI agent from a major platform to be rolled out to consumer subscribers at scale. Its arrival places immediate pressure on Microsoft Copilot, OpenAI Operator, and Anthropic's Cowork product to accelerate their own persistent agent launches. The Workspace-first integration strategy also reinforces Google's competitive advantage against non-Google productivity suites in organisations where employees are already working inside Gmail and Docs.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
@@ -973,14 +1173,14 @@
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
                 <div class="impact-audience">For Chief Information Security Officers at enterprises using Google Workspace</div>
-                <p>Spark's launch introduces a persistent AI agent with continuous access to corporate email, calendar, and documents. CISOs should initiate a data access review within 30 days to determine whether current Google Workspace data governance policies cover persistent agent access – they almost certainly do not, as these policies were written before always-on agents existed. Engage Google Workspace Enterprise Support to understand session logging and data retention before authorizing employee use of Spark in any work context.</p>
+                <p>Spark's launch introduces a persistent AI agent with continuous access to corporate email, calendar, and documents. CISOs should initiate a data access review within 30 days to determine whether current Google Workspace data governance policies cover persistent agent access – they almost certainly do not, as these policies were written before always-on agents existed. Engage Google Workspace Enterprise Support to understand session logging and data retention before authorising employee use of Spark in any work context.</p>
               </div>
               <div class="impact-card">
                 <div class="impact-audience">For Microsoft and Salesforce enterprise account teams</div>
-                <p>Spark's deep Workspace integration represents a concrete competitive threat to Microsoft 365 Copilot adoption in Google-native organizations. Enterprise account managers should prepare a direct feature comparison of Copilot's agent capabilities against Spark's functionality – with particular focus on MCP integration availability, cross-platform reach, and data governance transparency – for customer conversations within the next 60 days. Customers will be asking this question; be the one who raises it first.</p>
+                <p>Spark's deep Workspace integration represents a concrete competitive threat to Microsoft 365 Copilot adoption in Google-native organisations. Enterprise account managers should prepare a direct feature comparison of Copilot's agent capabilities against Spark's functionality – with particular focus on MCP integration availability, cross-platform reach, and data governance transparency – for customer conversations within the next 60 days. Customers will be asking this question; be the one who raises it first.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For legal and compliance teams at organizations with data residency obligations</div>
+                <div class="impact-audience">For legal and compliance teams at organisations with data residency obligations</div>
                 <p>Spark's cloud VM architecture processes sensitive personal and corporate data without a published data residency commitment. The General Counsel should issue internal guidance within the next two weeks advising employees not to connect Spark to any systems containing regulated data – including contracts, HR communications, or financial records – until Google publishes its data residency terms and those terms are reviewed by outside counsel.</p>
               </div>
             </div>
@@ -1004,7 +1204,7 @@
             <h2>The White House is preparing an imminent AI executive order that would create a voluntary framework requiring frontier AI labs to share their most powerful models with the federal government at least 90 days before public release</h2>
             <div class="plain-text">
               <p>Axios reported on 20 May 2026, citing two sources familiar with the plans, that a Trump administration AI executive order is imminent. In its current draft form, the order creates a voluntary framework under which AI labs would share their frontier models – their most capable and powerful AI systems – with the federal government at least 90 days before public release, and would also provide access to certain critical infrastructure providers. The order's primary stated purpose is to bolster cybersecurity around advanced AI models. Both national security and civilian agencies appear to have enforcement roles under the draft. Some details were previously reported by Bloomberg.</p>
-              <p>The draft represents a notable shift for the Trump administration, which repealed the Biden-era AI executive order on Inauguration Day and had characterized heavy AI regulation as a barrier to American competitiveness. Axios reported that the shift was accelerated by concerns about Anthropic's Claude Mythos Preview model – the first model verified by the UK AI Security Institute (AISI) to autonomously complete a 32-step corporate-network penetration simulation, achieving success in 3 of 10 runs. Mythos also achieved a 73% expert-level task success rate on AISI's broader benchmarks. Sources at top AI companies confirmed to Axios that they are cooperating with the White House. The Department of Commerce had already announced separate agreements with Google DeepMind, Microsoft, and xAI to test powerful models ahead of the expected order. The draft's "voluntary" characterization is significant and its scope contains key unresolved questions: which agencies would participate in the 90-day review, what capability or compute threshold triggers the framework, and whether open-weight model releases – such as Meta's Llama series, which are freely downloadable – fall under its scope.</p>
+              <p>The draft represents a notable shift for the Trump administration, which repealed the Biden-era AI executive order on Inauguration Day and had characterised heavy AI regulation as a barrier to American competitiveness. Axios reported that the shift was accelerated by concerns about Anthropic's Claude Mythos Preview model – the first model verified by the UK AI Security Institute (AISI) to autonomously complete a 32-step corporate-network penetration simulation, achieving success in 3 of 10 runs. Mythos also achieved a 73% expert-level task success rate on AISI's broader benchmarks. Sources at top AI companies confirmed to Axios that they are cooperating with the White House. The Department of Commerce had already announced separate agreements with Google DeepMind, Microsoft, and xAI to test powerful models ahead of the expected order. The draft's "voluntary" characterisation is significant and its scope contains key unresolved questions: which agencies would participate in the 90-day review, what capability or compute threshold triggers the framework, and whether open-weight model releases – such as Meta's Llama series, which are freely downloadable – fall under its scope.</p>
             </div>
             <div class="why-matters">
               <strong>Why it matters</strong>Even a voluntary 90-day pre-release framework, if adopted, would be the first formal mechanism by which the US government gains structured early access to frontier AI models before public deployment. For AI labs preparing initial public offerings – OpenAI and Anthropic are both in that category – this creates a new category of regulatory disclosure risk and could affect product launch timelines. For open-source AI, the unresolved scope question around open-weight models could determine whether the framework creates a structural competitive advantage for closed API providers.
@@ -1021,7 +1221,7 @@
                   <div class="indicator-desc">Mythos's success rate on the UK AISI's 32-step full corporate-network takeover simulation</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value" data-count-to="73" data-count-suffix="%">0%</div>
+                  <div class="indicator-value">73%</div>
                   <div class="indicator-desc">Mythos's expert-level task success rate on AISI's broader benchmarks (per Air Street Press citing AISI)</div>
                 </div>
                 <div class="indicator">
@@ -1034,11 +1234,11 @@
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
                 <div class="impact-audience">For General Counsels and Chief Compliance Officers at frontier AI labs</div>
-                <p>The voluntary nature of the framework does not eliminate legal and reputational risk. General Counsels should immediately engage federal policy counsel to assess whether "voluntary" participation affects liability exposure in the event of a post-deployment incident involving a model shared under the framework, and begin drafting internal model disclosure protocols that could be adapted to comply with a formalized 90-day window – even before the order is signed. Preparation now avoids a compressed drafting exercise under public scrutiny later.</p>
+                <p>The voluntary nature of the framework does not eliminate legal and reputational risk. General Counsels should immediately engage federal policy counsel to assess whether "voluntary" participation affects liability exposure in the event of a post-deployment incident involving a model shared under the framework, and begin drafting internal model disclosure protocols that could be adapted to comply with a formalised 90-day window – even before the order is signed. Preparation now avoids a compressed drafting exercise under public scrutiny later.</p>
               </div>
               <div class="impact-card">
                 <div class="impact-audience">For enterprise CISOs and critical infrastructure operators in banking, energy, and healthcare</div>
-                <p>The draft order explicitly includes critical infrastructure providers as recipients of early model access. CISOs at regulated entities should engage their government affairs teams within the next 30 days to determine whether their organization qualifies for early access under the framework, and begin assessing what internal security review capability they would need to meaningfully evaluate a frontier model 90 days before its public release. Receiving early access without the capacity to review it provides no security benefit.</p>
+                <p>The draft order explicitly includes critical infrastructure providers as recipients of early model access. CISOs at regulated entities should engage their government affairs teams within the next 30 days to determine whether their organisation qualifies for early access under the framework, and begin assessing what internal security review capability they would need to meaningfully evaluate a frontier model 90 days before its public release. Receiving early access without the capacity to review it provides no security benefit.</p>
               </div>
               <div class="impact-card">
                 <div class="impact-audience">For Meta's open-source AI strategy team</div>
@@ -1064,11 +1264,11 @@
             </div>
             <h2>Alphabet confirmed $180–190 billion in AI capital expenditure for 2026 at the I/O keynote – six times its 2022 infrastructure spend – as part of a combined $680–720 billion committed by the four largest US cloud platforms in a single year</h2>
             <div class="plain-text">
-              <p>At the Google I/O 2026 keynote, Alphabet CEO Sundar Pichai publicly confirmed that Alphabet – the parent company of Google – expects to spend $180–190 billion in capital expenditure (capex) in 2026, describing this as roughly six times its $31 billion annual capex in 2022. Capital expenditure refers to spending on physical infrastructure such as data centers, computing hardware, and power systems. The figure had been previously guided during Alphabet's Q1 2026 earnings call, where CFO Anat Ashkenazi raised guidance from $175–185 billion to $180–190 billion following a single quarter in which Google Cloud revenue grew 63% year-over-year to $20 billion. Pichai confirmed at I/O that the majority of 2026 capex is directed at custom silicon – specifically eighth-generation Tensor Processing Units (TPUs), Google's proprietary AI chips: the TPU 8t for large-scale AI training and the TPU 8i for inference workloads.</p>
-              <p>To contextualize the scale: Alphabet's $180–190 billion is one component of a broader hyperscaler infrastructure commitment. Amazon projects $200 billion in 2026 capex, Microsoft is tracking toward $190 billion, and Meta has guided $115–135 billion. Combined, the four largest US cloud platforms have committed to between $680–720 billion in 2026 infrastructure spend – nearly double 2025 levels, per analysis from Fortune citing company earnings reports. Pichai also disclosed that Google Cloud ended 2025 at an annual run rate of over $70 billion. The aggregate commitment is occurring against documented supply constraints: Pichai acknowledged in the Q4 2025 earnings call that Alphabet expects to "go through the year in a supply constrained way," citing power, land, and chip manufacturing bottlenecks. At I/O, he specifically noted custom silicon as the primary near-term scaling lever, signaling that TPU investment is intended to reduce dependency on external GPU supply chains.</p>
+              <p>At the Google I/O 2026 keynote, Alphabet CEO Sundar Pichai publicly confirmed that Alphabet – the parent company of Google – expects to spend $180–190 billion in capital expenditure (capex) in 2026, describing this as roughly six times its $31 billion annual capex in 2022. Capital expenditure refers to spending on physical infrastructure such as data centres, computing hardware, and power systems. The figure had been previously guided during Alphabet's Q1 2026 earnings call, where CFO Anat Ashkenazi raised guidance from $175–185 billion to $180–190 billion following a single quarter in which Google Cloud revenue grew 63% year-over-year to $20 billion. Pichai confirmed at I/O that the majority of 2026 capex is directed at custom silicon – specifically eighth-generation Tensor Processing Units (TPUs), Google's proprietary AI chips: the TPU 8t for large-scale AI training and the TPU 8i for inference workloads.</p>
+              <p>To contextualise the scale: Alphabet's $180–190 billion is one component of a broader hyperscaler infrastructure commitment. Amazon projects $200 billion in 2026 capex, Microsoft is tracking toward $190 billion, and Meta has guided $115–135 billion. Combined, the four largest US cloud platforms have committed to between $680–720 billion in 2026 infrastructure spend – nearly double 2025 levels, per analysis from Fortune citing company earnings reports. Pichai also disclosed that Google Cloud ended 2025 at an annual run rate of over $70 billion. The aggregate commitment is occurring against documented supply constraints: Pichai acknowledged in the Q4 2025 earnings call that Alphabet expects to "go through the year in a supply constrained way," citing power, land, and chip manufacturing bottlenecks. At I/O, he specifically noted custom silicon as the primary near-term scaling lever, signalling that TPU investment is intended to reduce dependency on external GPU supply chains.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>Alphabet's public confirmation of $180–190 billion in 2026 capex – at the developer conference where its AI products were simultaneously launched – signals that the infrastructure buildout and product roadmap are now explicitly linked. For the broader market, the combined $680–720 billion in hyperscaler AI infrastructure spending in a single year represents the largest coordinated private capital deployment in technology infrastructure history, with structural consequences for power grids, semiconductor supply chains, and data center real estate that will extend well past 2026.
+              <strong>Why it matters</strong>Alphabet's public confirmation of $180–190 billion in 2026 capex – at the developer conference where its AI products were simultaneously launched – signals that the infrastructure buildout and product roadmap are now explicitly linked. For the broader market, the combined $680–720 billion in hyperscaler AI infrastructure spending in a single year represents the largest coordinated private capital deployment in technology infrastructure history, with structural consequences for power grids, semiconductor supply chains, and data centre real estate that will extend well past 2026.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
@@ -1086,7 +1286,7 @@
                   <div class="indicator-desc">Growth in Alphabet capex from 2022 to 2026</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value" data-count-to="20" data-count-prefix="$" data-count-suffix="B">$0B</div>
+                  <div class="indicator-value">$20B</div>
                   <div class="indicator-desc">Google Cloud Q1 2026 revenue (63% year-over-year growth)</div>
                 </div>
                 <div class="indicator">
@@ -1111,7 +1311,7 @@
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
                 <div class="impact-audience">For institutional investors and infrastructure asset managers</div>
-                <p>The $680–720 billion hyperscaler capex commitment in a single year creates structural, multi-year demand for power infrastructure, data center construction, advanced cooling systems, and custom silicon. Portfolio managers with exposure to utilities, real estate investment trusts (REITs), and semiconductor equipment should treat this as a decade-scale demand signal rather than a cyclical investment thesis – Alphabet's CFO has already signaled that 2027 capex will "significantly increase" from 2026 levels.</p>
+                <p>The $680–720 billion hyperscaler capex commitment in a single year creates structural, multi-year demand for power infrastructure, data centre construction, advanced cooling systems, and custom silicon. Portfolio managers with exposure to utilities, real estate investment trusts (REITs), and semiconductor equipment should treat this as a decade-scale demand signal rather than a cyclical investment thesis – Alphabet's CFO has already signalled that 2027 capex will "significantly increase" from 2026 levels.</p>
               </div>
               <div class="impact-card">
                 <div class="impact-audience">For enterprise technology buyers currently in multi-year cloud contracts</div>
@@ -1119,7 +1319,7 @@
               </div>
               <div class="impact-card">
                 <div class="impact-audience">For semiconductor and power infrastructure companies</div>
-                <p>Pichai's confirmation that a major portion of $180–190 billion is directed at custom silicon – specifically eighth-generation TPUs – validates continued investment in specialized AI chip supply chains. CFOs at semiconductor equipment and advanced packaging companies should incorporate this demand signal into 2027 capacity planning within the next 90 days, as demand visibility at this scale is rarely confirmed this far in advance.</p>
+                <p>Pichai's confirmation that a major portion of $180–190 billion is directed at custom silicon – specifically eighth-generation TPUs – validates continued investment in specialised AI chip supply chains. CFOs at semiconductor equipment and advanced packaging companies should incorporate this demand signal into 2027 capacity planning within the next 90 days, as demand visibility at this scale is rarely confirmed this far in advance.</p>
               </div>
             </div>
             <div class="source-block">
@@ -1144,7 +1344,7 @@
       <div class="editorial-eyebrow">Editor's note</div>
       <blockquote>Five stories, one structural pattern: AI has moved from a product feature into <em>critical infrastructure</em>, and the regulatory, economic, and security consequences of that transition are now arriving simultaneously.</blockquote>
       <p>Google's I/O announcements are coherent only when read together. Gemini 3.5 Flash is a pricing attack on OpenAI and Anthropic's enterprise accounts. The subscription restructuring brackets the professional AI market at price points that force direct comparison. Gemini Spark is a consumer-facing declaration that persistent agents – AI systems running continuously in the background with access to your email and calendar – are no longer a research concept but a live product. And the $180–190 billion capex confirmation is Google publicly linking its infrastructure bet to its product roadmap in the same keynote. These are not individual product announcements; they are components of a coordinated platform strategy.</p>
-      <p>The White House executive order sits alongside this differently. The Trump administration, which dismantled the Biden-era AI order on day one, has been moved toward a pre-release review framework by a single demonstration: an Anthropic model autonomously completing a 32-step corporate-network takeover simulation. That one benchmark result – 3 successful runs out of 10 – appears to have done more to accelerate US AI governance than years of policy advocacy. The organizations most exposed by today's issue combined are mid-size enterprises still procuring AI as a subscription SaaS product: they face converging pressure from repriced tiers, mandatory governance requirements, persistent-agent data access decisions, and infrastructure cost signals that will flow through to API pricing across all providers over the next 12 to 18 months – all arriving faster than most enterprise change management cycles can absorb.</p>
+      <p>The White House executive order sits alongside this differently. The Trump administration, which dismantled the Biden-era AI order on day one, has been moved toward a pre-release review framework by a single demonstration: an Anthropic model autonomously completing a 32-step corporate-network takeover simulation. That one benchmark result – 3 successful runs out of 10 – appears to have done more to accelerate US AI governance than years of policy advocacy. The organisations most exposed by today's issue combined are mid-size enterprises still procuring AI as a subscription SaaS product: they face converging pressure from repriced tiers, mandatory governance requirements, persistent-agent data access decisions, and infrastructure cost signals that will flow through to API pricing across all providers over the next 12 to 18 months – all arriving faster than most enterprise change management cycles can absorb.</p>
       <span class="editorial-date">20 May 2026</span>
     </div>
   </section>
@@ -1155,6 +1355,9 @@
         <div class="brand-mark"></div>
         AI Pulse
       </div>
+      <button id="footerSignupBtn" class="archive-link subscribe-btn">
+        <span>Subscribe</span>
+      </button>
       <div class="footer-date">20 May 2026 · Issue archived nightly</div>
     </div>
   </footer>
@@ -1321,6 +1524,37 @@
         chip.classList.add('active');
         applyFilter(chip.dataset.sectorFilter);
       });
+    });
+
+    // === SIGNUP MODAL ===
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+
+    signupBtn.addEventListener('click', () => {
+      signupOverlay.classList.add('active');
+    });
+
+    footerSignupBtn.addEventListener('click', () => {
+      signupOverlay.classList.add('active');
+    });
+
+    closeSignup.addEventListener('click', () => {
+      signupOverlay.classList.remove('active');
+    });
+
+    signupOverlay.addEventListener('click', (e) => {
+      if (e.target === signupOverlay) {
+        signupOverlay.classList.remove('active');
+      }
+    });
+
+    // Close modal on successful submission
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => {
+        signupOverlay.classList.remove('active');
+      }, 1000);
     });
   </script>
 </body>
