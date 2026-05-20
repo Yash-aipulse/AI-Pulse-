@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 19 May 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+    /* === CUSTOM CURSOR === */
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded {
+      width: 40px; height: 40px;
+      background: rgba(94, 234, 212, 0.2);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+    .cursor-trail {
+      width: 36px; height: 36px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) {
+      .cursor-dot, .cursor-trail { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-dot, .cursor-trail { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* === PROGRESS BAR === */
+    .progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: var(--accent); z-index: 1000;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* === NAV === */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0; position: sticky; top: 0;
+      background: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 100;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px;
+      color: var(--text); text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .brand:hover { color: var(--accent); }
+    .brand-mark {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      position: relative; flex-shrink: 0;
+      transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+    }
+    .brand:hover .brand-mark {
+      transform: rotate(45deg);
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    .brand-mark::after {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 10px; height: 10px;
+      background: var(--bg); border-radius: 50%;
+    }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      font-weight: 500;
+    }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+
+    /* === HERO === */
+    .hero {
+      padding: 100px 0 80px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(94, 234, 212, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94, 234, 212, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute; width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(94, 234, 212, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo);
+      left: 30%; top: 50%;
+      filter: blur(20px);
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 80px; align-items: end;
+      position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 14px;
+      animation: slideInLeft 0.8s var(--ease-out-expo) both;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 32px; height: 1px;
+      background: var(--accent);
+      animation: lineGrow 1s var(--ease-out-expo) 0.2s both;
+      transform-origin: left;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .live-dot {
+      width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .hero h1 {
+      font-family: 'Carlito', sans-serif;
+      font-weight: 700;
+      font-size: clamp(40px, 5.4vw, 72px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 32px; max-width: 960px;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--accent);
+      text-shadow: 0 0 30px var(--accent-glow);
+    }
+    .hero-sub {
+      font-size: 17px; color: var(--text-secondary);
+      max-width: 720px; line-height: 1.65;
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both;
+    }
+    .hero-stats {
+      display: flex; flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both;
+      box-shadow: 0 0 40px rgba(94, 234, 212, 0.05);
+    }
+    .hero-stat {
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s var(--ease-out-quart);
+    }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .hero-stat-value {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 26px; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1.1;
+    }
+
+    /* === FILTER === */
+    .filter-band {
+      padding: 22px 0; border-bottom: 1px solid var(--border);
+      position: sticky; top: 65px;
+      background: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 90;
+    }
+    .filter-inner {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip {
+      font-family: 'Carlito', sans-serif;
+      font-size: 14px; font-weight: 700;
+      padding: 9px 20px; border-radius: 100px;
+      border: 1px solid var(--border-strong);
+      background: transparent; color: var(--text-secondary);
+      cursor: none;
+      transition: all 0.3s var(--ease-out-quart);
+    }
+    .chip:hover {
+      color: var(--accent); border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .chip.active {
+      background: var(--accent); color: var(--bg);
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+    .filter-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-muted);
+    }
+    .filter-count strong {
+      color: var(--accent); font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* === STORY NAV (right side dots) === */
+    .story-nav {
+      position: fixed; right: 28px; top: 50%;
+      transform: translateY(-50%); z-index: 80;
+      display: flex; flex-direction: column; gap: 14px;
+      padding: 14px 8px;
+    }
+    .story-nav-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      cursor: none; border: none; padding: 0;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+    }
+    .story-nav-dot::before {
+      content: attr(data-label); position: absolute;
+      right: 16px; top: 50%;
+      transform: translateY(-50%) translateX(8px);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text);
+      background: var(--bg-card);
+      padding: 6px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      white-space: nowrap; opacity: 0; pointer-events: none;
+      transition: all 0.3s var(--ease-out-quart);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active {
+      background: var(--accent); width: 24px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow);
+    }
+
+    /* === STORIES === */
+    .stories { padding: 80px 0 32px; }
+    .story {
+      padding: 64px 0; border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+    }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden {
+      opacity: 0; transform: scale(0.96) translateY(20px);
+      pointer-events: none; max-height: 0;
+      overflow: hidden; padding: 0; border: none;
+      transition: all 0.5s var(--ease-out-expo);
+    }
+    .story-header {
+      display: grid; grid-template-columns: 100px 1fr;
+      gap: 40px; margin-bottom: 32px; align-items: start;
+    }
+    .story-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-muted);
+      letter-spacing: 0.12em; padding-top: 12px;
+      font-weight: 500;
+      position: sticky; top: 140px;
+    }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px; border-radius: 2px;
+      border: 1px solid currentColor; font-weight: 500;
+      transition: all 0.3s ease;
+      color: var(--text-muted);
+    }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+
+    .story h2 {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.18; letter-spacing: -0.015em;
+      color: var(--text); margin-bottom: 28px; max-width: 940px;
+      transition: color 0.3s ease;
+    }
+    .story:hover h2 { color: var(--accent-bright); }
+
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p {
+      font-size: 17px; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 14px;
+    }
+    .plain-text p:last-child { margin-bottom: 0; }
+
+    .why-matters {
+      max-width: 880px; padding: 24px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      margin-bottom: 44px;
+      font-size: 15px; line-height: 1.7;
+      color: var(--text);
+      transition: all 0.4s var(--ease-out-quart);
+      position: relative; overflow: hidden;
+    }
+    .why-matters::after {
+      content: ''; position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.8s var(--ease-out-quart);
+      pointer-events: none;
+    }
+    .why-matters:hover {
+      transform: translateX(2px);
+      border-color: var(--accent);
+      box-shadow: 0 0 24px rgba(94, 234, 212, 0.08);
+    }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong {
+      color: var(--accent); font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.14em;
+      display: inline-block; margin-right: 10px;
+      vertical-align: 2px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text);
+      font-weight: 600;
+      margin-bottom: 22px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      max-width: 920px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* === KEY METRIC CARDS - 3D PARALLAX === */
+    .indicators-block { margin-bottom: 44px; }
+    .indicators {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      max-width: 920px;
+      perspective: 1200px;
+    }
+    .indicator {
+      background: var(--bg-card);
+      padding: 24px 26px;
+      display: flex; flex-direction: column; gap: 10px;
+      border: 1px solid var(--border);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative; overflow: hidden;
+      cursor: none;
+    }
+    .indicator::before {
+      content: ''; position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .indicator::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.6s var(--ease-out-expo);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .indicator:hover {
+      border-color: var(--accent);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(94, 234, 212, 0.1);
+    }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 30px; color: var(--text);
+      letter-spacing: -0.025em; line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      transform: translateZ(20px);
+      transition: color 0.3s ease;
+    }
+    .indicator:hover .indicator-value {
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+    .indicator-value.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px; font-weight: 600;
+    }
+    .indicator-desc {
+      font-size: 13px; line-height: 1.55;
+      color: var(--text-muted);
+      transform: translateZ(10px);
+    }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+
+    /* === IMPACT CARDS === */
+    .impact-block { margin-bottom: 44px; }
+    .impact-card {
+      max-width: 920px; padding: 26px 30px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--text-dim);
+      margin-bottom: 12px;
+      transition: all 0.4s var(--ease-out-quart);
+    }
+    .impact-card:hover {
+      transform: translateX(6px);
+      border-color: var(--border-strong);
+      border-left-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+    .impact-audience {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 600;
+      margin-bottom: 14px; color: var(--accent);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .impact-audience::before {
+      content: '→'; font-size: 13px;
+      transition: transform 0.3s var(--ease-out-quart);
+      color: var(--accent);
+    }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p {
+      font-size: 15px; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 10px;
+    }
+    .impact-card p:last-child { margin-bottom: 0; }
+
+    /* === SOURCE === */
+    .source-block {
+      max-width: 920px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .source-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text-muted);
+      font-weight: 500;
+    }
+    .source-block a {
+      color: var(--text); text-decoration: none;
+      font-size: 14px; position: relative; padding-bottom: 2px;
+      transition: color 0.3s ease;
+    }
+    .source-block a::after {
+      content: ''; position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 1px;
+      background: var(--accent);
+      transform-origin: right; transform: scaleX(0.3);
+      transition: transform 0.4s var(--ease-out-quart);
+      box-shadow: 0 0 6px var(--accent-glow);
+    }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+
+    /* === EDITORIAL === */
+    .editorial {
+      padding: 120px 0;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .editorial::before {
+      content: '"'; position: absolute;
+      top: 30px; left: 5%;
+      font-family: 'Carlito', serif; font-style: italic;
+      font-size: 360px; line-height: 1; font-weight: 700;
+      color: var(--accent);
+      opacity: 0.06; pointer-events: none;
+    }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 40px; font-weight: 600;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .editorial-eyebrow::before {
+      content: ''; width: 32px; height: 1px;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .editorial blockquote {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height: 1.3; color: var(--text);
+      letter-spacing: -0.018em;
+      margin-bottom: 32px; max-width: 880px;
+      font-style: italic;
+    }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p {
+      font-size: 16px; line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 760px; margin-bottom: 18px;
+    }
+    .editorial-date {
+      display: inline-block; margin-top: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      font-weight: 500;
+      padding: 6px 14px;
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg);
+      color: var(--text-muted);
+      padding: 64px 0 48px;
+      position: relative; overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    footer::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand-block {
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 18px;
+      color: var(--text);
+    }
+    .footer-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .empty-state {
+      text-align: center; padding: 100px 20px;
+      color: var(--text-muted); display: none;
+    }
+    .empty-state h3 {
+      font-family: 'Carlito', sans-serif; font-weight: 700;
+      font-size: 28px; color: var(--text);
+      margin-bottom: 12px; font-style: italic;
+    }
+
+    /* Make all interactive elements use no native cursor */
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) {
+      a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+      50% { box-shadow: 0 0 0 10px transparent; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes lineGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) {
+      .container { padding: 0 22px; }
+      .hero { padding: 64px 0 48px; }
+      .filter-band { top: 61px; }
+      .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .story { padding: 44px 0; }
+      .story-header { grid-template-columns: 1fr; gap: 16px; }
+      .story-num { padding-top: 0; position: static; }
+      .impact-card { padding: 20px 22px; }
+      .editorial { padding: 80px 0; }
+      .editorial::before { font-size: 200px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+     <div class="nav-meta">
+      <span class="nav-date">19 May 2026</span>
+      <a href="index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+        <span>Back to archive</span>
+      </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 19 May 2026
+        </div>
+        <h1>Six developments in AI <em>infrastructure constraints</em>, private-market concentration, regulatory reset, and geopolitical competition.</h1>
+        <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="6" data-count-suffix=" developments">0 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" verticals">0 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">0 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="energy">Energy &amp; Utilities</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">6</strong> of 6 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Anthropic $30B round"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Data center cancellations"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · OpenAI personal finance"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · EU AI Act deferred"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · DeepSeek state funding"></button>
+    <button class="story-nav-dot" data-story-target="5" data-label="06 · Europe power cost gap"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" data-sectors="finance,operations" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Anthropic has agreed terms on a $30 billion funding round at a pre-money valuation of ~$900 billion, which would make it the most valuable private AI company in the world, as revenue forecasts from multiple sources range from $14 billion to $50 billion annualized</h2>
+            <div class="plain-text">
+              <p>Anthropic, the company that makes the Claude AI assistant, has agreed terms on a $30 billion fundraising round that would value it at roughly $900 billion before the new capital, according to the Financial Times, with the deal confirmed independently by The Information, the Wall Street Journal and Reuters. The round is co-led by four investment firms – Dragoneer, Greenoaks Capital, Sequoia Capital and Altimeter Capital – each committing $2 billion or more. As of the May 16–18 reporting window the deal had not been publicly announced by Anthropic, and Bloomberg's earlier May 12 reporting had stated no term sheet was yet signed; the FT's later reporting described terms as agreed.</p>
+              <p>The revenue figures attached to the round vary meaningfully by source and accounting method. Anthropic's last officially disclosed figure, from its February 2026 Series G, was a $14 billion annualized run-rate. The Wall Street Journal reported Anthropic is forecasting a $50 billion run-rate by mid-2026, up from ~$9 billion at the end of 2025; the FT reported annualized revenue is on track to top $45 billion "soon." Run-rate revenue annualizes current sales and is not the same as audited annual revenue, and Anthropic reports cloud-reseller revenue on a gross basis, which inflates the top line relative to net-reporting peers. Claude Code, Anthropic's coding tool, is separately reported to generate more than $2.5 billion in annualized run-rate revenue. Three of the four co-leads – Dragoneer, Sequoia and Altimeter – also hold significant stakes in OpenAI, which was valued at $852 billion in its March 2026 round. An IPO as early as October 2026 has been reported as under consideration.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>If the round closes at agreed terms, Anthropic surpasses OpenAI as the world's most valuable private AI company and approaches a $1 trillion private valuation – a level no venture-backed company has reached. The fact that the same top-tier firms are funding both Anthropic and OpenAI signals a strategy shift: rather than picking one frontier-lab winner, investors are buying the whole category and waiting for public markets to sort it out. That concentration raises systemic exposure – a repricing of either lab now moves a large share of private-market AI value at once.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="30" data-count-prefix="$" data-count-suffix="B">$0B</div>
+                  <div class="indicator-desc">Size of the agreed funding round</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$900B</div>
+                  <div class="indicator-desc">Pre-money valuation under agreed terms</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$2B+</div>
+                  <div class="indicator-desc">Minimum commitment from each of the four co-leads</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$380B</div>
+                  <div class="indicator-desc">Anthropic's post-money valuation at its February 2026 Series G (last confirmed figure)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$14B</div>
+                  <div class="indicator-desc">Last officially disclosed annualized run-rate revenue (February 2026)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$50B</div>
+                  <div class="indicator-desc">Run-rate revenue Anthropic is forecasting by mid-2026, per WSJ</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$2.5B+</div>
+                  <div class="indicator-desc">Annualized run-rate revenue from Claude Code alone</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$852B</div>
+                  <div class="indicator-desc">OpenAI's March 2026 valuation – the figure Anthropic would surpass</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For venture and growth-equity investors</div>
+                <p>Partners holding positions in both Anthropic and OpenAI should run a combined-exposure stress test this quarter – model what a public-market down-round in either lab does to the blended AI position, since the same four firms anchor both. Treat the $45–50 billion revenue figures as run-rate forecasts, not audited results, when marking positions.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs and procurement leads at enterprises standardizing on Claude</div>
+                <p>Anthropic is raising primarily to prepay compute, not because the business is capital-constrained on operations – but a pre-IPO vendor whose valuation tripled in three months warrants a contractual continuity review. Ask your General Counsel to confirm pricing-protection and service-continuity clauses in any multi-year Claude agreement before the IPO window opens in autumn.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For competing AI labs and their backers</div>
+                <p>The signal is that enterprise revenue, not consumer reach, is what private markets reward at the top of the valuation curve. Heads of Strategy at sub-scale labs should expect fundraising terms to tighten further over the next two quarters as capital concentrates into the leading labs.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.ft.com/" target="_blank" rel="noopener">Financial Times / The Information / Bloomberg</a>
+              <span class="source-meta">· 12–15 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="energy,operations" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Energy &amp; Utilities</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>A record number of US data centers were canceled in Q1 2026, with only ~5GW of a 16GW pipeline actually under construction, as community resistance and grid bottlenecks emerge as binding constraints on AI buildout</h2>
+            <div class="plain-text">
+              <p>Axios reported on May 18, citing Heatmap Pro data, that a record number of US data centers were canceled in the first quarter of 2026, as community and political resistance to AI infrastructure buildout intensifies ahead of the US midterm elections. Morgan Stanley analysts warned in coverage cited by Axios that public pushback could become a binding constraint on sector growth – not a passing communications problem. The cancellation wave sits against a wider supply picture: Sightline Climate data, cited by Bloomberg and summarized by TechRadar, puts the full announced US data center pipeline for 2026 at ~16 gigawatts, with only ~5GW actually under construction. That implies 30% to 50% of the 2026 pipeline is on track to be delayed or canceled.</p>
+              <p>Bloomberg reporting identified the binding constraints as transformers, switchgear, batteries and grid interconnection capacity – not funding and not semiconductors. A modern AI data center can be built in under 18 months, but the power infrastructure to feed it can take up to five years. The Federal Energy Regulatory Commission (FERC), the US government body overseeing electricity markets, is expected to act by the end of June on rules governing large data center grid connections, including how costs are assigned to developers. The International Data Center Authority found data centers now consume 2% of global electricity, up from 1.7% in 2024, and that political pushback typically intensifies once data centers exceed 5% of national electricity consumption – a threshold the US is near.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Compute capacity, not model capability, is becoming the rate limiter on AI sector growth. If 30% to 50% of planned 2026 capacity slips, every revenue projection that assumes uninterrupted compute scaling – including the run-rate forecasts underpinning frontier-lab valuations in Story 1 – carries execution risk that is physical and political, not financial. The bottleneck has moved upstream to electrical equipment and utility interconnection: supply chains that cannot be fixed with capital alone.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">~16GW</div>
+                  <div class="indicator-desc">Full announced US data center pipeline for 2026 (Sightline Climate)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~5GW</div>
+                  <div class="indicator-desc">Capacity actually under construction</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="50" data-count-suffix="%">0%</div>
+                  <div class="indicator-desc">Upper bound of 2026 pipeline share on track to be delayed or canceled</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Up to 5 years</div>
+                  <div class="indicator-desc">Time to build the power infrastructure feeding a data center, versus under 18 months for the center itself</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2%</div>
+                  <div class="indicator-desc">Share of global electricity consumed by data centers, up from 1.7% in 2024</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">End Jun 2026</div>
+                  <div class="indicator-desc">When FERC plans to act on rules governing large data center grid connections</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and Heads of Infrastructure at AI-dependent companies</div>
+                <p>Do not assume contracted cloud capacity equals delivered capacity. Within this quarter, ask your cloud providers for written confirmation of which committed regions have energized power and which remain "announced," and build a contingency plan for workloads tied to at-risk 2026 regions.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For utilities and grid operators</div>
+                <p>FERC is expected to act by end of June on Energy Secretary Chris Wright's proposed rules for large-load interconnection, including cost assignment to developers and priority for projects that can flexibly curtail demand. Regulatory affairs leads should prepare comment positions now, before the rule is finalized.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For data center developers and their lenders</div>
+                <p>The differentiator in 2026 is whoever locked in transformers, switchgear and power contracts early. Heads of Development should re-audit project pipelines against equipment-delivery dates, not financing milestones, and disclose realistic energization timelines to lenders rather than announced-capacity figures.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.axios.com/2026/05/18/data-center-report-electricity-costs" target="_blank" rel="noopener">Axios / Bloomberg via TechRadar</a>
+              <span class="source-meta">· 10 April – 18 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="finance,operations" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>OpenAI launched a personal-finance experience in ChatGPT allowing US Pro subscribers to connect 12,000 or more financial institutions via Plaid, with a planned pipeline from financial questions to product applications inside the same chat interface</h2>
+            <div class="plain-text">
+              <p>OpenAI, the company behind the ChatGPT assistant, launched a personal-finance experience in ChatGPT on May 15, available in preview to ChatGPT Pro subscribers in the US on web and iOS. Users can connect financial accounts through Plaid – a service that links to more than 12,000 institutions including Chase, Fidelity, Robinhood, American Express and Capital One – and see a dashboard of portfolio performance, spending, subscriptions and upcoming payments. Connected accounts are read-only: ChatGPT can see balances, transactions, investments and liabilities but cannot see full account numbers or move money. Intuit, the company behind TurboTax and QuickBooks, is the next planned integration. The launch was framed by American Banker as a direct challenge to banks' customer relationships.</p>
+              <p>The product runs on GPT-5.5 Thinking by default. OpenAI says it built an internal personal-finance benchmark with input from more than 50 finance professionals: GPT-5.5 Thinking scored 79 out of 100 and GPT-5.5 Pro scored 82.5 – a disclosure more rigorous than a typical model-launch claim, though not third-party validated. OpenAI reported more than 200 million users already ask financial questions in ChatGPT each month. The strategic core is a planned "answer-to-action" pipeline: through the Intuit partnership, a conversation about tax implications is intended to roll into a tax estimate and a scheduled session with a live local expert, and a credit-card recommendation into an approval-odds estimate and an application – all inside ChatGPT. The preview is US-only on the $100/month Pro tier; the $20/month Plus tier does not yet have access.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>This moves a general-purpose AI assistant into the consumer-finance discovery layer that banks, comparison sites and budgeting apps have owned. If the answer-to-action pipeline works, the point of customer acquisition for credit cards, loans and tax services shifts from a bank's own app to a chat interface the bank does not control. Tying the feature to the highest-priced tier also signals OpenAI is testing finance as a premium monetization lever, not just a free engagement feature.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">12,000+</div>
+                  <div class="indicator-desc">Financial institutions connectable via Plaid at launch</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="200" data-count-suffix="M">0M</div>
+                  <div class="indicator-desc">Monthly users OpenAI says already ask ChatGPT financial questions</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">79 / 100</div>
+                  <div class="indicator-desc">GPT-5.5 Thinking score on OpenAI's internal personal-finance benchmark</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">82.5 / 100</div>
+                  <div class="indicator-desc">GPT-5.5 Pro score on the same benchmark</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$100/month</div>
+                  <div class="indicator-desc">ChatGPT Pro price – the only tier with access at launch</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">30 days</div>
+                  <div class="indicator-desc">Window within which synced data is deleted after a user disconnects an account</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For Heads of Digital Banking and retail-bank product leaders</div>
+                <p>The exposure is the discovery layer, not the data – Plaid connections behave like any other aggregator. Within this quarter, commission an analysis of which acquisition journeys (card, loan, deposit) could be intermediated by an AI assistant, and decide whether to build your own assistant integration or negotiate placement terms before AI assistants set the commercial defaults.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For fintech founders in budgeting, aggregation and personal finance management</div>
+                <p>A free-to-$100/month AI assistant now does dashboard aggregation and natural-language Q&amp;A natively. Founders should reposition toward workflows OpenAI is not doing – regulated advice, execution, niche account types – within the next two quarters rather than competing on the aggregation layer.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For compliance officers at financial institutions and AI deployers</div>
+                <p>Personal-finance guidance from a general-purpose model in the US sits close to regulated financial-advice boundaries, and a UK or EU rollout would face financial-promotion and suitability rules. General Counsel should assess where "informational" guidance ends and regulated advice begins in your jurisdiction before integrating with or building competing assistants.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://techcrunch.com/2026/05/15/openai-launches-chatgpt-for-personal-finance-will-let-you-connect-bank-accounts/" target="_blank" rel="noopener">TechCrunch / American Banker</a>
+              <span class="source-meta">· 15–18 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="policy,operations" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>EU negotiators finalized the Digital Omnibus on AI, deferring high-risk AI Act compliance deadlines by up to 16 months while adding two new prohibitions that take effect in December 2026</h2>
+            <div class="plain-text">
+              <p>EU negotiators from the Council, Parliament and Commission reached a provisional agreement on May 7 on the Digital Omnibus on AI – the first set of amendments to the EU AI Act since its 2024 adoption. Detailed legal analysis continued through the May 16–18 window, including a breakdown published May 18 by Covington's Inside Privacy practice. The package combines timeline relief, targeted simplification and a set of substantive policy changes that are not purely deregulatory.</p>
+              <p>The headline change is a staggered deferral of compliance deadlines. Obligations for use-based high-risk AI systems – listed in Annex III of the AI Act, covering areas such as employment screening, credit scoring and biometric identification – are postponed from 2 August 2026 to 2 December 2027, a 16-month delay. Obligations for product-regulated high-risk systems in Annex I, covering items such as medical devices and machinery, move from 2 August 2027 to 2 August 2028. The deferrals reflect the practical difficulty of operationalizing rules before EU standards bodies finish the underlying technical standards. However, the co-legislators also added two new prohibited practices to Article 5: the use of AI to generate or manipulate non-consensual intimate imagery, and AI-generated child sexual abuse material. Both prohibitions take effect 2 December 2026. The grace period for providers to implement transparency solutions for AI-generated content was cut from six months to three, also landing on 2 December 2026. Formal adoption is expected in June, with publication in July.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The 16-month deferral changes the compliance calendar for thousands of companies that build or deploy high-risk AI systems in the EU, easing near-term cost but extending the period of regulatory uncertainty. The new prohibitions and the shortened content-transparency window move in the opposite direction – meaning organizations cannot simply downgrade EU AI compliance as a 2026 priority; they must re-sequence it. The EU is signaling it will trade implementation speed for standards readiness, while hardening rules where the harm is concrete and politically salient.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="16" data-count-suffix=" months">0 months</div>
+                  <div class="indicator-desc">Deferral for Annex III (use-based) high-risk AI obligations, from 2 Aug 2026 to 2 Dec 2027</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">1 year</div>
+                  <div class="indicator-desc">Deferral for Annex I (product-regulated) high-risk obligations, to 2 Aug 2028</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2 Dec 2026</div>
+                  <div class="indicator-desc">Effective date for the two new Article 5 prohibitions on non-consensual imagery and CSAM</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">3 months</div>
+                  <div class="indicator-desc">Shortened grace period (down from 6 months) for AI-generated content transparency solutions</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Jun / Jul 2026</div>
+                  <div class="indicator-desc">Expected final adoption and publication of the amendments</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For General Counsel and AI compliance leads at companies deploying high-risk AI in the EU</div>
+                <p>Do not stand down 2026 compliance programs because of the deferral. Within this quarter, re-map your obligation calendar against the new staggered dates, and separate work that genuinely moves to 2027 from the two prohibitions and the content-transparency rule that still bite on 2 December 2026.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For trust-and-safety and product teams at generative-AI providers</div>
+                <p>The shortened three-month transparency grace period and the December 2026 prohibitions on non-consensual intimate imagery and CSAM require provenance, labeling and abuse-prevention controls on a tighter schedule than the high-risk timeline. Heads of Trust &amp; Safety should confirm content-provenance tooling is in production well before December.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For medical-device, machinery and industrial-equipment manufacturers</div>
+                <p>The Annex I deferral to 2028 changes how AI-specific safety requirements will reach your products. Regulatory affairs teams should track the delegated acts the Commission must adopt by 2 August 2028 rather than planning against the original AI Act timeline, and begin gap assessments against the new schedule this quarter.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.insideprivacy.com/artificial-intelligence/eu-ai-act-update-timeline-relief-targeted-simplification-and-new-prohibitions/" target="_blank" rel="noopener">Covington / Inside Privacy · Council of the EU</a>
+              <span class="source-meta">· 7–18 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="policy,finance,hardware" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Financial Services</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>DeepSeek is in advanced talks to raise up to $7.35 billion in its first external round, led by Chinese state funds, as its valuation climbed ~fivefold to $45–50 billion in under a month and its latest model was optimized exclusively for Huawei chips</h2>
+            <div class="plain-text">
+              <p>DeepSeek, a Chinese AI lab known for releasing highly efficient open-weight language models at low cost, is in advanced talks to raise up to 50 billion yuan (approximately $7.35 billion) in its first-ever external funding round, according to reporting from Reuters, the Financial Times, The Information and the South China Morning Post. The round would value the previously self-funded lab at roughly $45–50 billion – a figure that escalated from initial discussions of ~$10 billion in under a month, a roughly fivefold jump. Some sources describe the current tranche as $3–4 billion against the higher ceiling; DeepSeek has not publicly confirmed the round. The lead investor is reported to be China's National Artificial Intelligence Industry Investment Fund, an $8.8 billion state-backed vehicle established in early 2025, with the China Integrated Circuit Industry Investment Fund (known as "Big Fund III") also involved.</p>
+              <p>Big Fund III was previously created to advance Chinese semiconductor self-sufficiency and has backed chipmakers SMIC and Yangtze Memory; its involvement with DeepSeek would be its first known investment in a Chinese large language model company. DeepSeek released its V4 model on April 24 – a 1.6-trillion-parameter system engineered to cut the memory and compute costs of long-context AI – and gave Huawei early access to optimize for V4 while reportedly declining that access to Nvidia and AMD. A V4.1 model is expected in June 2026. The stated trigger for opening the round is mundane: founder Liang Wenfeng opened it to grant employees equity after rivals began poaching DeepSeek researchers. The strategic subtext is that Beijing now appears to treat frontier AI software and domestic silicon as a single strategic problem.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>State capital co-leading a pure-play model lab marks a shift in how China competes in AI – from funding chips alone to underwriting a closed loop of domestic models running on domestic silicon. For every company pricing AI infrastructure, a well-capitalized DeepSeek pushing cheap, efficient open-weight models hardens the competitive floor under mid-tier proprietary models. The Huawei optimization choice also means each DeepSeek release now doubles as a demand signal for Chinese chips, with measurable market effects.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">Up to $7.35B</div>
+                  <div class="indicator-desc">Ceiling of DeepSeek's first external round (50 billion yuan)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$45–50B</div>
+                  <div class="indicator-desc">Valuation under discussion, up from ~$10B weeks earlier</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$3–4B</div>
+                  <div class="indicator-desc">Size of the current tranche per some sources, against the higher ceiling</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$8.8B</div>
+                  <div class="indicator-desc">Size of the state-backed National AI Industry Investment Fund leading the round</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">1.6 trillion</div>
+                  <div class="indicator-desc">Parameters in DeepSeek's V4 model, released 24 April 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">June 2026</div>
+                  <div class="indicator-desc">Expected window for DeepSeek's upgraded V4.1 model</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and Heads of AI Platform at enterprises selecting models</div>
+                <p>A state-backed, well-funded DeepSeek will keep releasing competitive open-weight models on an accelerating cadence, with V4.1 expected in June. Within this quarter, run a cost-per-task comparison of mid-tier proprietary models against current open-weight options for your highest-volume workloads – the price floor is moving, and the gap between proprietary and open-weight performance continues to narrow.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For US and allied-market policymakers and government procurement officers</div>
+                <p>DeepSeek's deliberate Huawei optimization and the state-fund involvement raise data-governance and supply-chain questions for any deployment touching regulated or sensitive data. Government and critical-infrastructure procurement officers should set an explicit written policy on Chinese open-weight model use before adoption outpaces guidance – and before the V4.1 release drives a new wave of enterprise evaluation.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For semiconductor analysts and investors</div>
+                <p>Each DeepSeek release now functions as a demand signal for Huawei's Ascend chip line – SMIC shares moved on the V4 launch. Equity analysts covering the Chinese chip supply chain should treat DeepSeek's model roadmap as a leading indicator for Ascend order flow, and model the V4.1 release as a near-term catalyst.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.techtimes.com/articles/316717/20260516/chinas-state-ai-fund-backs-deepseek-4-billion-round-efficiency-challenge-nvidia-dependent.htm" target="_blank" rel="noopener">Reuters / FT / South China Morning Post via TechTimes · Bloomberg</a>
+              <span class="source-meta">· 6–16 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="energy,policy,operations" data-story-index="5">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">06</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Energy &amp; Utilities</span>
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>UK electricity costs roughly four times the US rate and European data center capacity costs are set to rise 12% in 2026, creating a structural AI-infrastructure disadvantage that experts describe as already redirecting investment within the continent</h2>
+            <div class="plain-text">
+              <p>CNBC reported on May 18, citing International Energy Agency data, that surging European energy prices risk undermining the continent's ambition to compete with the US and China in AI. The average price per megawatt of electricity in May was $111.65 in the UK, $88.97 in Germany, $44.19 in France and $28 in the US – meaning UK power costs roughly four times the US level and German costs roughly three times. The IEA separately found that energy-intensive industries in Europe paid on average about double US prices last year, and 50% more than in China and India.</p>
+              <p>The cost gap is already shaping where capacity gets built. CBRE research cited by CNBC found the cost of securing data center capacity in Europe's five largest markets – Frankfurt, London, Amsterdam, Paris and Dublin – is set to rise 12% in 2026. An Nvidia program manager told a Denmark conference that "the middle part of Europe has already lost the game," citing high electricity costs in Germany and the UK. Experts told CNBC that investment is likely to migrate within Europe toward lower-cost power regions, notably France with its nuclear base, creating winners and losers across the continent. The story connects to the same infrastructure constraint documented in Story 2: the International Data Center Authority report cited by CNBC found data centers now consume 2% of global electricity, with the US near the 6% national-consumption mark and political pushback typically intensifying above 5%.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>AI capability follows compute, and compute increasingly follows cheap power – so a structural energy-cost disadvantage translates directly into a structural AI-capacity disadvantage for the UK and central Europe. The effect is also intra-European: capital and capacity will concentrate in lower-cost regions, redistributing AI infrastructure investment within the bloc. The framing of energy as "economic sovereignty" reflects a recognition that the continent cannot lead in AI without first fixing power costs.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$111.65/MW</div>
+                  <div class="indicator-desc">Average UK electricity price in May (IEA), versus $28/MW in the US</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$88.97/MW</div>
+                  <div class="indicator-desc">Average electricity price in Germany in May</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$44.19/MW</div>
+                  <div class="indicator-desc">Average electricity price in France in May – the lowest of the four markets cited</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~4x</div>
+                  <div class="indicator-desc">UK electricity cost relative to the US; ~3x for Germany</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="12" data-count-suffix="%">0%</div>
+                  <div class="indicator-desc">Projected 2026 rise in the cost of securing data center capacity across Europe's five largest markets (CBRE)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~2x</div>
+                  <div class="indicator-desc">Premium European energy-intensive industries paid over US prices last year; 50% more than China and India</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For Heads of Infrastructure and site-selection leads at companies planning EU data center capacity</div>
+                <p>The cost differential between UK and German sites versus French and Nordic sites is now large enough to override other factors in site selection. Re-run site-selection models this quarter with current per-MW power prices and a 12% capacity-cost escalator, and weight lower-cost-power regions accordingly before committing to leases or land purchases.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For European policymakers and energy ministries</div>
+                <p>Experts are explicitly framing power costs as the binding constraint on AI competitiveness. Energy and industrial-strategy officials should treat data center electricity pricing as an AI-policy lever, not only an energy-policy one, when designing 2026 industrial measures. France's nuclear advantage is already attracting capacity that would otherwise have gone to the UK or Germany.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise CIOs in the UK and central Europe</div>
+                <p>If your AI workloads are latency-tolerant, the power-cost gap is now a material reason to place compute in lower-cost EU jurisdictions or negotiate harder on cloud pricing. Review where your AI compute is physically hosted against current regional power costs – and factor the 12% data center cost escalator into any infrastructure contract that runs beyond 2026.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/18/europe-ai-energy-electricity-costs-data-centers-china-us.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">· 18 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>Six stories, one structural divergence: money and model capability are scaling vertically while <em>physical infrastructure, regulatory readiness and geopolitical competition</em> are not keeping pace.</blockquote>
+      <p>The capability story has not slowed. Anthropic is closing a $30 billion round at a near-trillion-dollar valuation, and the same top-tier investors are funding both Anthropic and OpenAI – a bet on the whole category rather than a single winner. OpenAI is pushing into consumer finance, extending the reach of a general-purpose assistant into a discovery layer banks have owned for decades. But every other story in this issue is about a wall the capability story is running into.</p>
+      <p>US data centers are being canceled at a record rate because communities and electrical grids will not absorb them – and the bottleneck is not funding but transformers, switchgear and interconnection timelines that capital cannot compress. European energy costs that run four times the US rate are redirecting AI infrastructure investment within the continent before it even begins. The EU is resetting its compliance calendar because the underlying standards are not ready, while simultaneously hardening rules on the harms that are concrete enough to legislate now. And DeepSeek's state-backed round signals that Beijing treats frontier AI software and domestic silicon as a single strategic asset – closing a loop that US export controls were designed to prevent. The organizations most exposed by this issue's stories combined are capital-intensive AI infrastructure builders and the frontier labs whose valuations are underwritten by compute-scaling assumptions that power availability, grid interconnection and geopolitical supply-chain control are now actively contradicting.</p>
+      <span class="editorial-date">19 May 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">19 May 2026 · Issue archived nightly</div>
+    </div>
+  </footer>
+
+  <script>
+    // === CUSTOM CURSOR ===
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+
+      // Cursor expansion on interactive elements
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorDot.classList.add('expanded');
+          cursorTrail.classList.add('expanded');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorDot.classList.remove('expanded');
+          cursorTrail.classList.remove('expanded');
+        });
+      });
+    }
+
+    // === READING PROGRESS BAR ===
+    const progressBar = document.getElementById('progressBar');
+    function updateProgress() {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
+    // === HERO GLOW FOLLOWS MOUSE ===
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        heroGlow.style.left = x + '%';
+        heroGlow.style.top = y + '%';
+      });
+    }
+
+    // === 3D PARALLAX TILT ON METRIC CARDS ===
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x / rect.width * 100) + '%');
+        card.style.setProperty('--mouse-y', (y / rect.height * 100) + '%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    // === SCROLL REVEALS ===
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    // === COUNT-UP NUMBERS ===
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            const value = Math.floor(eased * target);
+            el.textContent = prefix + value.toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    // === STORY NAV ACTIVE DOT ===
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const matchingDot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (matchingDot) matchingDot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    // === SECTOR FILTER ===
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        if (matches) {
+          story.classList.remove('filter-hidden');
+          visible++;
+        } else {
+          story.classList.add('filter-hidden');
+        }
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+  </script>
+</body>
+</html>
