@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Pulse – 20 May 2026</title>
+  <title>AI Pulse – 21 May 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -37,10 +37,7 @@
       cursor: none;
     }
     @media (max-width: 720px) { body { cursor: auto; } }
-
     .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
-
-    /* === CUSTOM CURSOR === */
     .cursor-dot, .cursor-trail {
       position: fixed; pointer-events: none;
       border-radius: 50%; z-index: 9999;
@@ -49,836 +46,163 @@
       mix-blend-mode: screen;
     }
     .cursor-dot {
-      width: 8px; height: 8px;
-      background: var(--accent);
+      width: 8px; height: 8px; background: var(--accent);
       box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
       transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
     }
-    .cursor-dot.expanded {
-      width: 40px; height: 40px;
-      background: rgba(94, 234, 212, 0.2);
-      box-shadow: 0 0 30px var(--accent-glow);
-    }
-    .cursor-trail {
-      width: 36px; height: 36px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
     .cursor-trail.expanded { opacity: 0; }
-    @media (max-width: 720px) {
-      .cursor-dot, .cursor-trail { display: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .cursor-dot, .cursor-trail { display: none; }
-      body { cursor: auto; }
-    }
-
-    /* === PROGRESS BAR === */
-    .progress-bar {
-      position: fixed; top: 0; left: 0;
-      height: 2px; width: 0%;
-      background: var(--accent); z-index: 1000;
-      transition: width 0.1s linear;
-      box-shadow: 0 0 12px var(--accent-glow);
-    }
-
-    /* === NAV === */
-    nav {
-      border-bottom: 1px solid var(--border);
-      padding: 18px 0; position: sticky; top: 0;
-      background: rgba(8, 9, 10, 0.85);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      z-index: 100;
-    }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
     .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-    .brand {
-      display: flex; align-items: center; gap: 12px;
-      font-weight: 700; font-size: 18px;
-      color: var(--text); text-decoration: none;
-      transition: color 0.3s ease;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
     .brand:hover { color: var(--accent); }
-    .brand-mark {
-      width: 28px; height: 28px;
-      background: var(--accent);
-      position: relative; flex-shrink: 0;
-      transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease;
-      box-shadow: 0 0 0 0 var(--accent-glow);
-    }
-    .brand:hover .brand-mark {
-      transform: rotate(45deg);
-      box-shadow: 0 0 24px var(--accent-glow);
-    }
-    .brand-mark::after {
-      content: ''; position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 10px; height: 10px;
-      background: var(--bg); border-radius: 50%;
-    }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
     .nav-meta { display: flex; align-items: center; gap: 16px; }
-    .nav-date {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--accent);
-      font-weight: 500;
-    }
-    .archive-link {
-      font-family: 'Carlito', sans-serif; font-weight: 700;
-      font-size: 13px;
-      padding: 9px 20px;
-      border: 1px solid var(--border-strong);
-      border-radius: 100px;
-      color: var(--text); text-decoration: none;
-      transition: all 0.3s var(--ease-out-quart);
-      display: inline-flex; align-items: center; gap: 8px;
-      position: relative; overflow: hidden;
-      background: transparent;
-      cursor: pointer;
-    }
-    .archive-link::before {
-      content: ''; position: absolute; inset: 0;
-      background: var(--accent);
-      transform: translateY(101%);
-      transition: transform 0.4s var(--ease-out-quart);
-    }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .archive-link { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 13px; padding: 9px 20px; border: 1px solid var(--border-strong); border-radius: 100px; color: var(--text); text-decoration: none; transition: all 0.3s var(--ease-out-quart); display: inline-flex; align-items: center; gap: 8px; position: relative; overflow: hidden; background: transparent; cursor: pointer; }
+    .archive-link::before { content: ''; position: absolute; inset: 0; background: var(--accent); transform: translateY(101%); transition: transform 0.4s var(--ease-out-quart); }
     .archive-link span, .archive-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
-    .archive-link:hover {
-      border-color: var(--accent);
-      color: var(--bg);
-      box-shadow: 0 0 24px var(--accent-glow);
-    }
+    .archive-link:hover { border-color: var(--accent); color: var(--bg); box-shadow: 0 0 24px var(--accent-glow); }
     .archive-link:hover::before { transform: translateY(0); }
-    .archive-link svg {
-      width: 12px; height: 12px;
-      transition: transform 0.3s var(--ease-out-quart);
-    }
+    .archive-link svg { width: 12px; height: 12px; transition: transform 0.3s var(--ease-out-quart); }
     .archive-link:hover svg { transform: translateX(3px); }
-
-    /* === SUBSCRIBE BUTTON === */
-    .subscribe-btn {
-      border-color: var(--accent) !important;
-      color: var(--accent) !important;
-    }
-    .subscribe-btn::before {
-      background: rgba(94, 234, 212, 0.15) !important;
-    }
-    .subscribe-btn:hover {
-      border-color: var(--accent) !important;
-      color: var(--text) !important;
-      background: var(--accent) !important;
-      box-shadow: 0 0 24px var(--accent-glow) !important;
-    }
-    .subscribe-btn:hover::before {
-      background: var(--accent) !important;
-    }
-
-    /* === HERO === */
-    .hero {
-      padding: 100px 0 80px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-      position: relative; overflow: hidden;
-    }
-    .hero-grid {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(94, 234, 212, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(94, 234, 212, 0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-      pointer-events: none;
-    }
-    .hero-glow {
-      position: absolute; width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(94, 234, 212, 0.15) 0%, transparent 60%);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo);
-      left: 30%; top: 50%;
-      filter: blur(20px);
-    }
-    .hero-inner {
-      display: grid; grid-template-columns: 1fr 340px;
-      gap: 80px; align-items: end;
-      position: relative; z-index: 2;
-    }
-    .hero-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 28px;
-      display: flex; align-items: center; gap: 14px;
-      animation: slideInLeft 0.8s var(--ease-out-expo) both;
-    }
-    .hero-eyebrow::before {
-      content: ''; width: 32px; height: 1px;
-      background: var(--accent);
-      animation: lineGrow 1s var(--ease-out-expo) 0.2s both;
-      transform-origin: left;
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-    .live-dot {
-      width: 6px; height: 6px;
-      background: var(--accent); border-radius: 50%;
-      box-shadow: 0 0 0 0 var(--accent-glow);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .hero h1 {
-      font-family: 'Carlito', sans-serif;
-      font-weight: 700;
-      font-size: clamp(40px, 5.4vw, 72px);
-      line-height: 1.05; letter-spacing: -0.02em;
-      color: var(--text); margin-bottom: 32px; max-width: 960px;
-      animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both;
-    }
-    .hero h1 em {
-      font-style: italic; color: var(--accent);
-      text-shadow: 0 0 30px var(--accent-glow);
-    }
-    .hero-sub {
-      font-size: 17px; color: var(--text-secondary);
-      max-width: 720px; line-height: 1.65;
-      animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both;
-    }
-    .hero-stats {
-      display: flex; flex-direction: column;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both;
-      box-shadow: 0 0 40px rgba(94, 234, 212, 0.05);
-    }
-    .hero-stat {
-      padding: 22px 28px;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s var(--ease-out-quart);
-    }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
     .hero-stat:last-child { border-bottom: none; }
     .hero-stat:hover { background: var(--bg-elev); }
-    .hero-stat-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-    .hero-stat-value {
-      font-family: 'Carlito', sans-serif; font-weight: 700;
-      font-size: 26px; color: var(--text);
-      letter-spacing: -0.02em; line-height: 1.1;
-    }
-
-    /* === SIGNUP MODAL === */
-    .signup-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      align-items: flex-end;
-      justify-content: center;
-      padding: 20px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .signup-overlay.active {
-      display: flex;
-    }
-
-    .signup-modal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-bottom: none;
-      border-radius: 16px 16px 0 0;
-      padding: 40px 32px;
-      max-width: 420px;
-      width: 100%;
-      position: relative;
-      animation: slideUp 0.4s var(--ease-out-expo);
-      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.6);
-    }
-
-    @media (max-width: 720px) {
-      .signup-modal {
-        padding: 32px 20px;
-        border-radius: 12px 12px 0 0;
-      }
-    }
-
-    .signup-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: transparent;
-      color: var(--text);
-      font-size: 24px;
-      cursor: pointer;
-      transition: color 0.3s ease;
-      font-weight: 300;
-    }
-
-    .signup-close:hover {
-      color: var(--accent);
-    }
-
-    .signup-header {
-      margin-bottom: 28px;
-    }
-
-    .signup-header h2 {
-      font-family: 'Carlito', sans-serif;
-      font-weight: 700;
-      font-size: 28px;
-      color: var(--text);
-      margin-bottom: 10px;
-      letter-spacing: -0.015em;
-    }
-
-    .signup-header p {
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .signup-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .signup-form input {
-      padding: 12px 16px;
-      background: var(--bg-elev);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: 'Carlito', sans-serif;
-      font-size: 15px;
-      transition: all 0.3s ease;
-    }
-
-    .signup-form input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 16px rgba(94, 234, 212, 0.2);
-      background: var(--bg);
-    }
-
-    .signup-form input::placeholder {
-      color: var(--text-muted);
-    }
-
-    .signup-submit {
-      padding: 12px 16px;
-      background: var(--accent);
-      border: 1px solid var(--accent);
-      border-radius: 6px;
-      color: var(--bg);
-      font-family: 'Carlito', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .signup-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(94, 234, 212, 0.3);
-    }
-
-    .signup-submit:active {
-      transform: translateY(0);
-    }
-
-    .signup-legal {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 14px;
-      line-height: 1.6;
-    }
-
-    /* === FILTER === */
-    .filter-band {
-      padding: 22px 0; border-bottom: 1px solid var(--border);
-      position: sticky; top: 65px;
-      background: rgba(8, 9, 10, 0.85);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      z-index: 90;
-    }
-    .filter-inner {
-      display: flex; justify-content: space-between;
-      align-items: center; gap: 20px; flex-wrap: wrap;
-    }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
     .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-    .filter-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: 0.16em;
-      text-transform: uppercase; color: var(--text-muted);
-    }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
     .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-    .chip {
-      font-family: 'Carlito', sans-serif;
-      font-size: 14px; font-weight: 700;
-      padding: 9px 20px; border-radius: 100px;
-      border: 1px solid var(--border-strong);
-      background: transparent; color: var(--text-secondary);
-      cursor: none;
-      transition: all 0.3s var(--ease-out-quart);
-    }
-    .chip:hover {
-      color: var(--accent); border-color: var(--accent);
-      transform: translateY(-1px);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-    .chip.active {
-      background: var(--accent); color: var(--bg);
-      border-color: var(--accent);
-      box-shadow: 0 0 30px var(--accent-glow);
-    }
-    .filter-count {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; color: var(--text-muted);
-    }
-    .filter-count strong {
-      color: var(--accent); font-weight: 600;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* === STORY NAV (right side dots) === */
-    .story-nav {
-      position: fixed; right: 28px; top: 50%;
-      transform: translateY(-50%); z-index: 80;
-      display: flex; flex-direction: column; gap: 14px;
-      padding: 14px 8px;
-    }
-    .story-nav-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--border-strong);
-      cursor: none; border: none; padding: 0;
-      transition: all 0.4s var(--ease-out-expo);
-      position: relative;
-    }
-    .story-nav-dot::before {
-      content: attr(data-label); position: absolute;
-      right: 16px; top: 50%;
-      transform: translateY(-50%) translateX(8px);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--text);
-      background: var(--bg-card);
-      padding: 6px 12px;
-      border: 1px solid var(--border-strong);
-      border-radius: 4px;
-      white-space: nowrap; opacity: 0; pointer-events: none;
-      transition: all 0.3s var(--ease-out-quart);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
     .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
     .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
-    .story-nav-dot.active {
-      background: var(--accent); width: 24px;
-      border-radius: 4px;
-      box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow);
-    }
-
-    /* === STORIES === */
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
     .stories { padding: 80px 0 32px; }
-    .story {
-      padding: 64px 0; border-bottom: 1px solid var(--border);
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
-    }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
     .story.in-view { opacity: 1; transform: translateY(0); }
-    .story.filter-hidden {
-      opacity: 0; transform: scale(0.96) translateY(20px);
-      pointer-events: none; max-height: 0;
-      overflow: hidden; padding: 0; border: none;
-      transition: all 0.5s var(--ease-out-expo);
-    }
-    .story-header {
-      display: grid; grid-template-columns: 100px 1fr;
-      gap: 40px; margin-bottom: 32px; align-items: start;
-    }
-    .story-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; color: var(--text-muted);
-      letter-spacing: 0.12em; padding-top: 12px;
-      font-weight: 500;
-      position: sticky; top: 140px;
-    }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
     .story-num .num-current { color: var(--accent); }
     .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
-    .tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 5px 12px; border-radius: 2px;
-      border: 1px solid currentColor; font-weight: 500;
-      transition: all 0.3s ease;
-      color: var(--text-muted);
-    }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
     .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
-
-    .story h2 {
-      font-family: 'Carlito', sans-serif; font-weight: 700;
-      font-size: clamp(26px, 3vw, 38px);
-      line-height: 1.18; letter-spacing: -0.015em;
-      color: var(--text); margin-bottom: 28px; max-width: 940px;
-      transition: color 0.3s ease;
-    }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
     .story:hover h2 { color: var(--accent-bright); }
-
     .plain-text { max-width: 880px; margin-bottom: 28px; }
-    .plain-text p {
-      font-size: 17px; line-height: 1.75;
-      color: var(--text-secondary); margin-bottom: 14px;
-    }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
     .plain-text p:last-child { margin-bottom: 0; }
-
-    .why-matters {
-      max-width: 880px; padding: 24px 28px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      margin-bottom: 44px;
-      font-size: 15px; line-height: 1.7;
-      color: var(--text);
-      transition: all 0.4s var(--ease-out-quart);
-      position: relative; overflow: hidden;
-    }
-    .why-matters::after {
-      content: ''; position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%);
-      transform: translateX(-100%);
-      transition: transform 0.8s var(--ease-out-quart);
-      pointer-events: none;
-    }
-    .why-matters:hover {
-      transform: translateX(2px);
-      border-color: var(--accent);
-      box-shadow: 0 0 24px rgba(94, 234, 212, 0.08);
-    }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
     .why-matters:hover::after { transform: translateX(100%); }
-    .why-matters strong {
-      color: var(--accent); font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.14em;
-      display: inline-block; margin-right: 10px;
-      vertical-align: 2px;
-    }
-
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--text);
-      font-weight: 600;
-      margin-bottom: 22px; padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      max-width: 920px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .section-label::before {
-      content: ''; width: 6px; height: 6px;
-      background: var(--accent); border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-
-    /* === KEY METRIC CARDS - 3D PARALLAX === */
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
     .indicators-block { margin-bottom: 44px; }
-    .indicators {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      max-width: 920px;
-      perspective: 1200px;
-    }
-    .indicator {
-      background: var(--bg-card);
-      padding: 24px 26px;
-      display: flex; flex-direction: column; gap: 10px;
-      border: 1px solid var(--border);
-      transform-style: preserve-3d;
-      transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
-      position: relative; overflow: hidden;
-      cursor: none;
-    }
-    .indicator::before {
-      content: ''; position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-    .indicator::after {
-      content: ''; position: absolute;
-      bottom: 0; left: 0;
-      width: 0; height: 2px;
-      background: var(--accent);
-      transition: width 0.6s var(--ease-out-expo);
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-    .indicator:hover {
-      border-color: var(--accent);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(94, 234, 212, 0.1);
-    }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
     .indicator:hover::before { opacity: 1; }
     .indicator:hover::after { width: 100%; }
-    .indicator-value {
-      font-family: 'Carlito', sans-serif; font-weight: 700;
-      font-size: 30px; color: var(--text);
-      letter-spacing: -0.025em; line-height: 1.1;
-      font-variant-numeric: tabular-nums;
-      transform: translateZ(20px);
-      transition: color 0.3s ease;
-    }
-    .indicator:hover .indicator-value {
-      color: var(--accent);
-      text-shadow: 0 0 20px var(--accent-glow);
-    }
-    .indicator-value.mono {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 20px; font-weight: 600;
-    }
-    .indicator-desc {
-      font-size: 13px; line-height: 1.55;
-      color: var(--text-muted);
-      transform: translateZ(10px);
-    }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
     .indicator:hover .indicator-desc { color: var(--text-secondary); }
-
-    /* === IMPACT CARDS === */
     .impact-block { margin-bottom: 44px; }
-    .impact-card {
-      max-width: 920px; padding: 26px 30px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--text-dim);
-      margin-bottom: 12px;
-      transition: all 0.4s var(--ease-out-quart);
-    }
-    .impact-card:hover {
-      transform: translateX(6px);
-      border-color: var(--border-strong);
-      border-left-color: var(--accent);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    }
-    .impact-audience {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.1em;
-      text-transform: uppercase; font-weight: 600;
-      margin-bottom: 14px; color: var(--accent);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .impact-audience::before {
-      content: '→'; font-size: 13px;
-      transition: transform 0.3s var(--ease-out-quart);
-      color: var(--accent);
-    }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
     .impact-card:hover .impact-audience::before { transform: translateX(4px); }
-    .impact-card p {
-      font-size: 15px; line-height: 1.75;
-      color: var(--text-secondary); margin-bottom: 10px;
-    }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
     .impact-card p:last-child { margin-bottom: 0; }
-
-    /* === SOURCE === */
-    .source-block {
-      max-width: 920px; padding-top: 24px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    }
-    .source-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--text-muted);
-      font-weight: 500;
-    }
-    .source-block a {
-      color: var(--text); text-decoration: none;
-      font-size: 14px; position: relative; padding-bottom: 2px;
-      transition: color 0.3s ease;
-    }
-    .source-block a::after {
-      content: ''; position: absolute;
-      left: 0; bottom: 0;
-      width: 100%; height: 1px;
-      background: var(--accent);
-      transform-origin: right; transform: scaleX(0.3);
-      transition: transform 0.4s var(--ease-out-quart);
-      box-shadow: 0 0 6px var(--accent-glow);
-    }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
     .source-block a:hover { color: var(--accent); }
     .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
     .source-meta { font-size: 13px; color: var(--text-muted); }
-
-    /* === EDITORIAL === */
-    .editorial {
-      padding: 120px 0;
-      background: var(--bg-soft);
-      border-bottom: 1px solid var(--border);
-      position: relative; overflow: hidden;
-    }
-    .editorial::before {
-      content: '"'; position: absolute;
-      top: 30px; left: 5%;
-      font-family: 'Carlito', serif; font-style: italic;
-      font-size: 360px; line-height: 1; font-weight: 700;
-      color: var(--accent);
-      opacity: 0.06; pointer-events: none;
-    }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
     .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
-    .editorial-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 40px; font-weight: 600;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .editorial-eyebrow::before {
-      content: ''; width: 32px; height: 1px;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-    .editorial blockquote {
-      font-family: 'Carlito', sans-serif; font-weight: 700;
-      font-size: clamp(26px, 3.2vw, 40px);
-      line-height: 1.3; color: var(--text);
-      letter-spacing: -0.018em;
-      margin-bottom: 32px; max-width: 880px;
-      font-style: italic;
-    }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
     .editorial blockquote em { color: var(--accent); }
-    .editorial p {
-      font-size: 16px; line-height: 1.8;
-      color: var(--text-secondary);
-      max-width: 760px; margin-bottom: 18px;
-    }
-    .editorial-date {
-      display: inline-block; margin-top: 32px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--accent);
-      font-weight: 500;
-      padding: 6px 14px;
-      border: 1px solid var(--accent);
-      border-radius: 100px;
-    }
-
-    /* === FOOTER === */
-    footer {
-      background: var(--bg);
-      color: var(--text-muted);
-      padding: 64px 0 48px;
-      position: relative; overflow: hidden;
-      border-top: 1px solid var(--border);
-    }
-    footer::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      box-shadow: 0 0 12px var(--accent-glow);
-    }
-    .footer-inner {
-      display: flex; justify-content: space-between;
-      align-items: center; flex-wrap: wrap; gap: 24px;
-    }
-    .footer-brand-block {
-      display: flex; align-items: center; gap: 12px;
-      font-weight: 700; font-size: 18px;
-      color: var(--text);
-    }
-    .footer-date {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-
-    .empty-state {
-      text-align: center; padding: 100px 20px;
-      color: var(--text-muted); display: none;
-    }
-    .empty-state h3 {
-      font-family: 'Carlito', sans-serif; font-weight: 700;
-      font-size: 28px; color: var(--text);
-      margin-bottom: 12px; font-style: italic;
-    }
-
-    /* Make all interactive elements use no native cursor */
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
     a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
-    @media (max-width: 720px) {
-      a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
-      50% { box-shadow: 0 0 0 10px transparent; }
-    }
-    @keyframes slideInLeft {
-      from { opacity: 0; transform: translateX(-12px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes lineGrow {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
-    @keyframes heroReveal {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @media (max-width: 1100px) { .story-nav { display: none; } }
     @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
-    @media (max-width: 720px) {
-      .container { padding: 0 22px; }
-      .hero { padding: 64px 0 48px; }
-      .filter-band { top: 61px; }
-      .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
-      .story { padding: 44px 0; }
-      .story-header { grid-template-columns: 1fr; gap: 16px; }
-      .story-num { padding-top: 0; position: static; }
-      .impact-card { padding: 20px 22px; }
-      .editorial { padding: 80px 0; }
-      .editorial::before { font-size: 200px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
 <body>
@@ -894,7 +218,7 @@
         <div class="brand-name">AI Pulse</div>
       </a>
       <div class="nav-meta">
-        <span class="nav-date">20 May 2026</span>
+        <span class="nav-date">21 May 2026</span>
         <a href="archive/index.html" class="archive-link">
           <span>View archive</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -906,25 +230,15 @@
     </div>
   </nav>
 
-  <!-- SIGNUP MODAL -->
   <div id="signupOverlay" class="signup-overlay">
     <div class="signup-modal">
-      <button class="signup-close" id="closeSignup">×</button>
-      
+      <button class="signup-close" id="closeSignup">&#215;</button>
       <div class="signup-header">
         <h2>Subscribe to AI Pulse</h2>
         <p>Get five key AI stories each morning, delivered to your inbox.</p>
       </div>
-
       <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
-        <input 
-          type="email" 
-          name="email" 
-          id="signupEmail" 
-          placeholder="your@email.com" 
-          required
-          autocomplete="email"
-        >
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
         <button type="submit" class="signup-submit">Subscribe</button>
         <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
       </form>
@@ -938,9 +252,9 @@
       <div>
         <div class="hero-eyebrow">
           <span class="live-dot"></span>
-          Today's brief · 20 May 2026
+          Today's brief &middot; 21 May 2026
         </div>
-        <h1>Five developments in AI <em>model pricing</em>, consumer subscriptions, persistent agents, regulatory policy, and infrastructure capital expenditure.</h1>
+        <h1>Five developments in AI <em>workforce restructuring</em>, government oversight, semiconductor supply, and enterprise capital allocation.</h1>
         <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
       </div>
       <div class="hero-stats">
@@ -950,11 +264,11 @@
         </div>
         <div class="hero-stat">
           <div class="hero-stat-label">Sectors covered</div>
-          <div class="hero-stat-value" data-count-to="3" data-count-suffix=" verticals">3 verticals</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" verticals">4 verticals</div>
         </div>
         <div class="hero-stat">
           <div class="hero-stat-label">Read time</div>
-          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">14 minutes</div>
+          <div class="hero-stat-value" data-count-to="10" data-count-suffix=" minutes">10 minutes</div>
         </div>
       </div>
     </div>
@@ -966,8 +280,9 @@
         <span class="filter-label">Filter by sector</span>
         <div class="filter-chips" id="filterChips">
           <button class="chip active" data-sector-filter="all">All sectors</button>
-          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
           <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
           <button class="chip" data-sector-filter="finance">Financial Services</button>
         </div>
       </div>
@@ -976,84 +291,70 @@
   </div>
 
   <div class="story-nav" id="storyNav">
-    <button class="story-nav-dot" data-story-target="0" data-label="01 · Gemini 3.5 Flash launch"></button>
-    <button class="story-nav-dot" data-story-target="1" data-label="02 · Google subscription tiers"></button>
-    <button class="story-nav-dot" data-story-target="2" data-label="03 · Gemini Spark agent"></button>
-    <button class="story-nav-dot" data-story-target="3" data-label="04 · White House AI order"></button>
-    <button class="story-nav-dot" data-story-target="4" data-label="05 · Alphabet $190B capex"></button>
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Trump AI review order"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Intuit 3,000 layoffs"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · Samsung strike averted"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · Meta 8,000 cuts $145B"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · 114K tech jobs cut"></button>
   </div>
 
   <main class="stories">
     <div class="container">
 
-      <article class="story" data-sectors="operations,finance" data-story-index="0">
+      <article class="story" data-sectors="policy" data-story-index="0">
         <div class="story-header">
           <div class="story-num"><span class="num-current">01</span> / 05</div>
           <div>
             <div class="story-meta">
-              <span class="tag">Operations &amp; Enterprise</span>
-              <span class="tag">Financial Services</span>
+              <span class="tag">Policy &amp; Regulation</span>
             </div>
-            <h2>Google launched Gemini 3.5 Flash at its I/O 2026 developer conference – priced at $1.50 per million input tokens, running four times faster than competing frontier models, and outperforming the previous generation on coding, agentic, and multimodal benchmarks</h2>
+            <h2>President Trump is expected to sign an executive order establishing a voluntary government pre-release review of advanced AI models, with the review window contested between 14 and 90 days</h2>
             <div class="plain-text">
-              <p>At its annual I/O developer conference on 19–20 May 2026 in Mountain View, California, Google launched Gemini 3.5 Flash, the first model in its new 3.5 series. Gemini is Google's family of large language models – software systems that process text, images, and other data to generate responses and complete tasks. The new model surpasses Gemini 3.1 Pro, the previous leading model in the series, across coding, agentic task completion, and multimodal understanding benchmarks, while retaining the speed characteristics of the Flash tier: four times faster than other frontier models on output tokens per second, according to Google's own measurements.</p>
-              <p>Pricing has been confirmed at $1.50 per million input tokens, $9.00 per million output tokens, and $0.15 per million cached input tokens – roughly one-third to one-half cheaper than the previous tier. A token is roughly four characters of text; a million tokens is approximately 750,000 words. Gemini 3.5 Flash is rolling out immediately in the Gemini app, Google Search, Antigravity 2.0 (Google's consolidated developer platform), and the Gemini API. Gemini 3.5 Pro – targeting deeper reasoning tasks – was announced as in testing, with general availability expected next month. On benchmarks, confirmed scores include 76.2% on Terminal-Bench 2.1 (coding performance), 83.6% on MCP Atlas (tool-use reliability), and 84.2% on CharXiv Reasoning (multimodal understanding). Separately, Gemini CLI – Google's command-line interface for developers – is being retired, with users required to migrate to Antigravity CLI by 18 June 2026. One pricing detail worth flagging: independent analysts have noted that $1.50 per million input tokens represents ~5x the input cost of Gemini 2.5 Flash, the model it effectively supersedes, though Google frames the comparison on per-task cost rather than per-token cost given the speed advantage.</p>
+              <p>President Donald Trump is expected to sign an executive order on Thursday requiring AI companies to share their most powerful models with US government agencies for evaluation before public release. Sources familiar with the discussions told both CNN and the Washington Post that the order creates a formal review channel involving intelligence and national security agencies. The review period remains contested: one draft of the order specifies 90 days, while major AI firms &#8211; including OpenAI (the company behind ChatGPT) and Anthropic (the company that makes the Claude AI assistant) &#8211; are pushing for a shorter window of ~14 days.</p>
+              <p>The order is framed principally around cybersecurity risk. Officials have warned that increasingly powerful AI models could be exploited to accelerate cyberattack development, and the framework is designed to give agencies time to evaluate those risks before public release. National Economic Council Director Kevin Hassett previously described the process as analogous to FDA drug approval: a structured safety evaluation before commercial launch. The voluntary framing is significant &#8211; the order does not mandate compliance, meaning its practical effectiveness depends entirely on industry participation. If the final review window lands closer to 90 days, it would create the longest formal pre-launch pause yet seen for a consumer AI product in the US, with implications for competitive timing between US and international labs.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>Gemini 3.5 Flash entering the market at benchmark parity with or above the previous generation's top tier, while carrying Flash-tier pricing and speed, materially shifts the cost calculus for enterprise AI deployments. With Google CEO Sundar Pichai citing that heavy users could save more than $1 billion annually by switching to Google's models at a fraction of the cost of competing frontier systems, this is a direct pricing attack on OpenAI and Anthropic's enterprise accounts at a moment when both are preparing for public stock market listings.
+              <strong>Why it matters</strong>A voluntary pre-release review regime changes the deployment timeline for every frontier AI lab operating in the US. If the 90-day window holds, it would impose a regulatory lag that does not exist in most international jurisdictions, potentially disadvantaging US-based labs in fast-moving competitive cycles. It also signals a structural shift: the Trump administration, which revoked President Biden's AI safety executive order in January 2025, is now building its own safety architecture through a different mechanism.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value mono">4x</div>
-                  <div class="indicator-desc">Speed advantage of Gemini 3.5 Flash vs. other frontier models on output tokens per second (per Google)</div>
+                  <div class="indicator-value mono">90 days</div>
+                  <div class="indicator-desc">Proposed government pre-release review window in one draft of the executive order</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">$1.50/M</div>
-                  <div class="indicator-desc">Confirmed input token price per million tokens</div>
+                  <div class="indicator-value mono">14 days</div>
+                  <div class="indicator-desc">Shorter review period preferred by AI companies including OpenAI and Anthropic</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">$9.00/M</div>
-                  <div class="indicator-desc">Confirmed output token price per million tokens</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">$0.15/M</div>
-                  <div class="indicator-desc">Confirmed cached input token price per million tokens</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value">76.2%</div>
-                  <div class="indicator-desc">Terminal-Bench 2.1 score (coding performance benchmark)</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value">84.2%</div>
-                  <div class="indicator-desc">CharXiv Reasoning score (multimodal understanding benchmark)</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">18 Jun 2026</div>
-                  <div class="indicator-desc">Deadline to migrate from Gemini CLI to Antigravity CLI</div>
+                  <div class="indicator-value" data-count-to="2" data-count-suffix=" labs">0 labs</div>
+                  <div class="indicator-desc">Named AI labs confirmed as engaged in White House discussions (OpenAI, Anthropic)</div>
                 </div>
               </div>
             </div>
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
-                <div class="impact-audience">For enterprise AI and platform engineering teams</div>
-                <p>Gemini 3.5 Flash's simultaneous improvement in benchmark performance and cost reduction makes this a mandatory evaluation item for any team currently running workloads on Gemini 3.1 Pro. The Head of AI Infrastructure should initiate a benchmark comparison of Gemini 3.5 Flash against the incumbent stack within the next two weeks, using Terminal-Bench 2.1 results and internal agentic task sets as the evaluation frame. The 18 June Gemini CLI deprecation date creates a hard migration deadline for developer tooling teams that cannot be deferred.</p>
+                <div class="impact-audience">For frontier AI labs (OpenAI, Anthropic, Google DeepMind, Meta AI)</div>
+                <p>General Counsels and Chief Compliance Officers should obtain and read the final signed executive order on the day of publication. If the voluntary framework includes any formal sign-up or agreement mechanism, assess by end of this week whether participation is strategically preferable to non-participation, given the reputational and regulatory signaling involved.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For AI product managers at enterprise SaaS companies</div>
-                <p>The shift from Gemini 3.1 Pro to 3.5 Flash as the benchmark-leading mid-tier model changes the economics of building AI-native product features. Product leads should reassess token budget projections for any features currently priced on 3.1 Pro assumptions – the input cost difference and speed improvement will materially affect both margins and user experience. This review should complete before end of Q2 2026.</p>
+                <div class="impact-audience">For enterprise AI procurement teams at large organizations</div>
+                <p>Heads of AI Procurement should factor potential release delays into vendor roadmap planning. A 90-day pre-release review window applied to frontier models could push expected deployment dates for next-generation capabilities by one to three quarters &#8211; update internal timelines accordingly before committing to vendor contracts tied to specific capability thresholds.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For OpenAI and Anthropic enterprise sales teams</div>
-                <p>This is a direct competitive challenge at the pricing layer. Account executives managing large enterprise contracts should proactively prepare cost-comparison rebuttals within the next 30 days, with particular focus on total cost of ownership across multimodal and agentic workflows where Gemini 3.5 Flash's per-task efficiency claims are strongest. Waiting for customers to raise the comparison first cedes the framing.</p>
+                <div class="impact-audience">For cybersecurity and national security agencies (CISA, NSA, DoD)</div>
+                <p>Agency CISOs should begin scoping what a model evaluation capacity looks like in practice: what testing infrastructure, staffing, and standardized threat assessment frameworks would be needed to operationalize 90-day or 14-day reviews at scale. The order creates a mandate without a built-out institutional mechanism.</p>
               </div>
             </div>
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="https://cloud.google.com/blog/products/ai-machine-learning/innovations-from-google-io-26-on-google-cloud" target="_blank" rel="noopener">Google Cloud Blog</a>
-              <span class="source-meta">· 20 May 2026</span>
+              <a href="https://www.cnn.com/2026/05/20/tech/ai-executive-order-trump-white-house" target="_blank" rel="noopener">CNN</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.washingtonpost.com/technology/2026/05/21/white-house-tore-down-ai-rules-now-its-building-new-defenses/" target="_blank" rel="noopener">Washington Post</a>
+              <span class="source-meta">&middot; 21 May 2026</span>
             </div>
           </div>
         </div>
@@ -1067,265 +368,281 @@
               <span class="tag">Operations &amp; Enterprise</span>
               <span class="tag">Financial Services</span>
             </div>
-            <h2>Google restructured its consumer AI subscription tiers at I/O 2026 – adding a new $100-per-month entry Ultra plan, cutting the top tier from $250 to $200 per month, and replacing flat daily usage caps with a compute-based model</h2>
+            <h2>Intuit eliminates 3,000 positions &#8211; 17% of its workforce &#8211; in an AI restructuring costing $300&#8211;$340 million, as shares decline 13.4% after hours on the same day the company raises full-year guidance</h2>
             <div class="plain-text">
-              <p>At Google I/O 2026, Google announced a significant restructuring of its consumer AI subscription ladder. A new "AI Ultra" entry tier priced at $100 per month was introduced, offering five times the usage limits of the $20-per-month AI Pro plan, along with 20 TB of cloud storage, YouTube Premium, and priority access to Antigravity – Google's consolidated developer and agent platform. Separately, Google reduced its highest-end AI Ultra plan from $250 to $200 per month, maintaining the same feature set at a 20% price cut; that tier retains a 20x usage limit over AI Pro. Google is also replacing flat daily prompt caps with a compute-based usage model that refreshes every five hours until a weekly ceiling is reached, with paid top-up credits planned for heavier workloads.</p>
-              <p>The pricing reset lands against a backdrop of significant usage growth. Sundar Pichai disclosed at the keynote that the Gemini app now has 900 million monthly active users – up from 400 million at I/O 2025 – while Google AI Overviews has reached 2.5 billion monthly active users. Google is now processing more than 3.2 quadrillion tokens per month, versus 480 trillion tokens per month at I/O 2025 – a ~6.7x increase in twelve months. The new $100 tier creates direct price competition with OpenAI's ChatGPT Pro at $200 per month and Anthropic's equivalent offerings, targeting developers and professional power users who need agentic capability without the full premium ceiling.</p>
+              <p>Intuit, the financial software company behind TurboTax, QuickBooks, and Credit Karma, announced it is eliminating ~3,000 positions, representing 17% of its global workforce of ~18,200 employees. CEO Sasan Goodarzi communicated the decision via an internal memo, stating the goal is to reduce organizational complexity and accelerate AI product development. The company expects restructuring charges of $300&#8211;$340 million. Affected US employees remain with the company until 31 July, with severance of 16 weeks of base pay plus two additional weeks per year of service. Intuit will also close its offices in Reno, Nevada, and Woodland Hills, California.</p>
+              <p>The layoffs were announced on the same day Intuit reported its Q3 earnings and raised its full-year fiscal 2026 guidance &#8211; now projecting adjusted earnings per share of $23.80&#8211;$23.85 and revenue of $21.34&#8211;$21.37 billion, both above analyst consensus. Q3 revenue growth came in at 10%, Intuit's weakest rate since 2024. On CNBC, Goodarzi framed the cuts as structural simplification: reducing management layers, eliminating coordination-heavy project manager roles, and stripping out duplicative functions after the closer integration of Credit Karma and TurboTax. Intuit has, however, signed multi-year deals with both Anthropic and OpenAI to embed their AI models into its tax and finance platforms. Investors did not accept the framing: shares fell 3.95% during regular trading and a further 13.4% after hours to ~$332. The stock is now down more than 40% in 2026, sharply underperforming the S&amp;P 500's ~8% gain over the same period.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>Google's multi-tier expansion effectively brackets the professional AI subscription market – $20 for casual use, $100 for developers and heavy professionals, $200 for maximum-throughput enterprise power users – at a moment when OpenAI and Anthropic are pricing above the new Google floor. The switch from flat-rate unlimited plans to compute-credit pricing also changes how enterprise procurement teams must model AI tool costs going forward.
+              <strong>Why it matters</strong>Intuit's announcement &#8211; cutting 17% of staff on the same day it raises financial guidance &#8211; is the clearest single illustration yet of AI-era corporate logic: the company is not struggling; it is making a deliberate bet that fewer people plus AI tooling will produce better outcomes than a larger workforce without it. The simultaneous announcement of multi-year Anthropic and OpenAI embedding deals makes the implicit explicit. For enterprise software incumbents, this is now the model to either adopt or argue against.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value mono">$100/mo</div>
-                  <div class="indicator-desc">New AI Ultra entry tier (confirmed, Google I/O 2026)</div>
+                  <div class="indicator-value" data-count-to="3000" data-count-suffix=" jobs">0 jobs</div>
+                  <div class="indicator-desc">Employees affected, ~17% of Intuit's global workforce of 18,200</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">$200/mo</div>
-                  <div class="indicator-desc">Revised top-tier AI Ultra price, reduced from $250 per month</div>
+                  <div class="indicator-value mono">$300&#8211;$340M</div>
+                  <div class="indicator-desc">Expected restructuring charges, per CFO Sandeep Aujla</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">5x</div>
-                  <div class="indicator-desc">Usage limit multiple of the $100 tier vs. AI Pro ($20/month)</div>
+                  <div class="indicator-value mono">16 weeks</div>
+                  <div class="indicator-desc">Base severance for US employees, plus two additional weeks per year of tenure</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">20x</div>
-                  <div class="indicator-desc">Usage limit multiple of the $200 tier vs. AI Pro</div>
+                  <div class="indicator-value">13.4%</div>
+                  <div class="indicator-desc">After-hours share price decline on announcement day</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">20 TB</div>
-                  <div class="indicator-desc">Cloud storage included with the new $100 AI Ultra tier</div>
+                  <div class="indicator-value mono">&gt;40%</div>
+                  <div class="indicator-desc">Intuit share price decline year-to-date in 2026</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">900M</div>
-                  <div class="indicator-desc">Gemini app monthly active users (up from 400M at I/O 2025)</div>
+                  <div class="indicator-value mono">$21.34&#8211;$21.37B</div>
+                  <div class="indicator-desc">Raised full-year fiscal 2026 revenue guidance</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">3.2 quadrillion</div>
-                  <div class="indicator-desc">Tokens processed per month (vs. 480 trillion at I/O 2025 – a ~6.7x increase)</div>
+                  <div class="indicator-value">10%</div>
+                  <div class="indicator-desc">Q3 2026 revenue growth rate &#8211; Intuit's weakest since 2024</div>
                 </div>
               </div>
             </div>
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
-                <div class="impact-audience">For IT procurement and SaaS finance teams at mid-size enterprises</div>
-                <p>The new compute-based usage model – replacing flat daily caps – requires procurement teams to rethink how they budget AI subscriptions. CFOs and IT Directors should request usage telemetry from Google by end of June 2026 to understand actual token burn rates before committing to tier selection, as the switch to compute credits may expose organisations to cost unpredictability at scale. Do not renew or commit to a tier before this data is in hand.</p>
+                <div class="impact-audience">For CEOs and CFOs at enterprise SaaS companies</div>
+                <p>The Intuit announcement will accelerate board-level pressure on every mid-to-large SaaS company to present an AI-efficiency case alongside its headcount plan. CFOs should prepare a workforce-versus-AI-tooling analysis for the next board meeting that quantifies which specific roles &#8211; coordination, middle management, duplicative post-merger functions &#8211; could be restructured, so the board discussion is based on data rather than reactive pressure.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For developers and technical leads currently on AI Pro ($20/month)</div>
-                <p>The $100 AI Ultra tier's five-times higher usage limits and priority Antigravity access represent a meaningful unlock for engineers running longer agentic loops or coding sessions. Engineering leads should evaluate whether the 5x usage headroom would eliminate the workflow interruptions currently blocking autonomous coding pipelines, and trial the new tier before the Antigravity CLI migration deadline of 18 June 2026.</p>
+                <div class="impact-audience">For tax and accounting professionals (CPAs, enrolled agents, practice managers)</div>
+                <p>Goodarzi's statement that people "spend seven times more on tax and accounting experts as they do on software, because people don't buy code, they buy confidence" is a direct signal that Intuit is targeting the advisory layer, not the compliance layer, of the profession. Practice managers at mid-size accounting firms should assess within Q3 2026 which of their service lines are most exposed to AI-native competition from Intuit's planned embedding of Anthropic and OpenAI models into TurboTax and QuickBooks.</p>
               </div>
             </div>
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="https://www.engadget.com/2176896/everything-google-announced-io-2026-gemini-omni-spark/" target="_blank" rel="noopener">Engadget</a>
-              <span class="source-meta">· 20 May 2026</span>
+              <a href="https://techcrunch.com/2026/05/20/intuit-to-lay-off-over-3000-employees-to-refocus-on-ai/" target="_blank" rel="noopener">TechCrunch</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <article class="story" data-sectors="operations,policy" data-story-index="2">
+      <article class="story" data-sectors="hardware,operations" data-story-index="2">
         <div class="story-header">
           <div class="story-num"><span class="num-current">03</span> / 05</div>
           <div>
             <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
               <span class="tag">Operations &amp; Enterprise</span>
-              <span class="tag">Policy &amp; Regulation</span>
             </div>
-            <h2>Google launched Gemini Spark – a persistent personal AI agent running 24 hours a day on dedicated cloud servers, available to Ultra subscribers from the week of 19 May 2026 – with continuous access to users' Gmail, Calendar, and documents</h2>
+            <h2>Samsung's 48,000-member union agrees a tentative wage deal hours before a planned 18-day strike, averting a disruption to global AI memory chip supply</h2>
             <div class="plain-text">
-              <p>At Google I/O 2026, Google unveiled Gemini Spark, a persistent personal AI agent it describes as a "24/7 partner that does real work on your behalf." Unlike conventional AI assistants that respond to individual queries, Spark runs continuously on dedicated Google Cloud virtual machines – cloud-based computers maintained by Google – and can be accessed from any device via the Gemini app, email, text message, and Chrome. It is powered by Gemini 3.5 Flash with the full Antigravity 2.0 agent harness, enabling what Google calls "long horizon tasks" – multi-step workflows that involve writing code, parsing documents, and synthesising data across time. In its launch form, Spark integrates with Gmail, Docs, and other Google Workspace apps, with planned expansion to third-party tools via the Model Context Protocol (MCP) – a standard for connecting AI models to external software – over the summer.</p>
-              <p>Google disclosed specific initial use cases: automatically parsing monthly credit card statements to flag hidden subscription fees; synthesising raw meeting notes from across emails and chats into polished Google Docs; and extracting deadline information from school communications to deliver consolidated daily digests. High-stakes actions such as sending emails or spending money require explicit user confirmation. Gemini Spark will be available to Google AI Ultra subscribers in the US starting the week of 19 May 2026, before expanding more broadly. A companion feature, "Daily Brief," pulls from Gmail, Calendar, and Tasks to present a prioritised morning digest of the day's obligations and suggested next steps. Gemini Spark's functionality depends on persistent access to Gmail, Calendar, Docs, and Chrome browsing context. Google has not yet disclosed retention policies for the cloud VM sessions, nor specific data residency terms – a gap that enterprise legal and compliance teams will need to evaluate before broad deployment.</p>
+              <p>Samsung Electronics &#8211; the South Korean technology company and the world's largest maker of memory chips &#8211; reached a tentative wage agreement with its labor union late Wednesday, just hours before a planned 18-day general strike was due to begin. The union, representing ~48,000 members, confirmed it had suspended the strike &#8211; scheduled to run from May 21 through June 7 &#8211; and announced a member vote on the tentative 2026 wage agreement from May 23 to May 28. The deal followed last-minute government-mediated negotiations involving South Korea's Labor Minister Kim Young-hoon, after earlier talks had collapsed on May 12.</p>
+              <p>Samsung and union leaders did not immediately disclose the full terms. Management confirmed it agreed to extend bonus payments beyond the memory division to less profitable units, including foundry (chip manufacturing) operations &#8211; one of the union's central demands. The union had been seeking elimination of a 50% bonus cap, allocation of 15% of annual operating profit to a bonus pool, and a 7% base wage increase. Leaked transcripts from earlier talks alleged Samsung offered memory workers a 607% bonus worth ~$477,000, while logic chip staff were to receive as little as 50% &#8211; an imbalance the union characterized as a retention crisis, given that rival SK Hynix had already lifted its bonus cap. In the preceding three months, more than 100 union members had left Samsung for SK Hynix. The strike threat carries specific weight because Samsung makes the high-bandwidth memory (HBM) chips &#8211; specialized, high-speed memory components &#8211; that power the AI data centers and GPU clusters driving the current AI infrastructure boom.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>Gemini Spark is the first persistent, always-on AI agent from a major platform to be rolled out to consumer subscribers at scale. Its arrival places immediate pressure on Microsoft Copilot, OpenAI Operator, and Anthropic's Cowork product to accelerate their own persistent agent launches. The Workspace-first integration strategy also reinforces Google's competitive advantage against non-Google productivity suites in organisations where employees are already working inside Gmail and Docs.
+              <strong>Why it matters</strong>A Samsung strike would have been the most direct AI infrastructure supply shock of 2026 &#8211; not a financial market event, but a physical production halt at the facility that makes the memory chips inside Nvidia GPUs and AI accelerators. The tentative deal removes the immediate threat, but the vote result is not yet known and the structural compensation gap between memory and foundry workers remains unresolved. If the vote fails, the strike threat returns within days.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value mono">24/7</div>
-                  <div class="indicator-desc">Continuous operation on dedicated Google Cloud VMs</div>
+                  <div class="indicator-value" data-count-to="48000" data-count-suffix=" members">0 members</div>
+                  <div class="indicator-desc">Union members eligible to participate in the planned strike</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">Week of 19 May 2026</div>
-                  <div class="indicator-desc">US AI Ultra subscriber rollout date</div>
+                  <div class="indicator-value mono">18 days</div>
+                  <div class="indicator-desc">Length of the planned strike (May 21 &#8211; June 7)</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">$100/mo</div>
-                  <div class="indicator-desc">Minimum subscription tier required to access Spark (AI Ultra entry)</div>
+                  <div class="indicator-value">15%</div>
+                  <div class="indicator-desc">Share of annual operating profit the union demanded for the bonus pool</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">Summer 2026</div>
-                  <div class="indicator-desc">Timeline for MCP-based third-party tool integration to arrive</div>
+                  <div class="indicator-value">10%</div>
+                  <div class="indicator-desc">Samsung's counter-offer: operating profit share allocated to bonuses</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">Not yet disclosed</div>
-                  <div class="indicator-desc">Google's cloud VM session data retention policy and data residency terms</div>
+                  <div class="indicator-value mono">607%</div>
+                  <div class="indicator-desc">Alleged bonus offer to memory workers in leaked transcripts, worth ~$477,000</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;100</div>
+                  <div class="indicator-desc">Union members who left Samsung for SK Hynix in the preceding three months</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">May 23&#8211;28</div>
+                  <div class="indicator-desc">Window for union member vote on the tentative agreement</div>
                 </div>
               </div>
             </div>
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
-                <div class="impact-audience">For Chief Information Security Officers at enterprises using Google Workspace</div>
-                <p>Spark's launch introduces a persistent AI agent with continuous access to corporate email, calendar, and documents. CISOs should initiate a data access review within 30 days to determine whether current Google Workspace data governance policies cover persistent agent access – they almost certainly do not, as these policies were written before always-on agents existed. Engage Google Workspace Enterprise Support to understand session logging and data retention before authorising employee use of Spark in any work context.</p>
+                <div class="impact-audience">For AI infrastructure procurement (hyperscalers, cloud providers, GPU cluster operators)</div>
+                <p>Heads of Supply Chain and VP-level Infrastructure Procurement at AWS, Azure, Google Cloud, and Oracle Cloud should treat the May 23&#8211;28 vote window as a risk period. If the tentative deal is rejected, HBM spot prices and delivery timelines could move within days. Identify alternative HBM suppliers (SK Hynix, Micron) and assess how quickly procurement could be shifted if Samsung production is disrupted.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For Microsoft and Salesforce enterprise account teams</div>
-                <p>Spark's deep Workspace integration represents a concrete competitive threat to Microsoft 365 Copilot adoption in Google-native organisations. Enterprise account managers should prepare a direct feature comparison of Copilot's agent capabilities against Spark's functionality – with particular focus on MCP integration availability, cross-platform reach, and data governance transparency – for customer conversations within the next 60 days. Customers will be asking this question; be the one who raises it first.</p>
-              </div>
-              <div class="impact-card">
-                <div class="impact-audience">For legal and compliance teams at organisations with data residency obligations</div>
-                <p>Spark's cloud VM architecture processes sensitive personal and corporate data without a published data residency commitment. The General Counsel should issue internal guidance within the next two weeks advising employees not to connect Spark to any systems containing regulated data – including contracts, HR communications, or financial records – until Google publishes its data residency terms and those terms are reviewed by outside counsel.</p>
+                <div class="impact-audience">For semiconductor investors and equity analysts</div>
+                <p>The structural compensation gap between Samsung's memory and foundry divisions &#8211; now a disclosed, negotiated-over issue &#8211; will weigh on Samsung's foundry talent retention regardless of whether this deal passes. Foundry analysts should downgrade Samsung Foundry's near-term talent risk rating relative to TSMC and SK Hynix and flag it in Q2 notes.</p>
               </div>
             </div>
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="https://9to5google.com/2026/05/19/gemini-app-google-io-2026/" target="_blank" rel="noopener">9to5Google</a>
-              <span class="source-meta">· 19 May 2026</span>
+              <a href="https://www.usnews.com/news/business/articles/2026-05-20/samsung-faces-strike-after-pay-talks-with-union-fall-apart" target="_blank" rel="noopener">AP / US News</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.tomshardware.com/tech-industry/big-tech/samsung-narrowly-avoids-18-day-chip-strike-after-last-minute-wage-deal-with-48-000-worker-union-tentative-deal-subject-to-workers-vote-suspends-billions-of-dollars-worth-of-potential-losses" target="_blank" rel="noopener">Tom's Hardware</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <article class="story" data-sectors="policy,operations" data-story-index="3">
+      <article class="story" data-sectors="operations" data-story-index="3">
         <div class="story-header">
           <div class="story-num"><span class="num-current">04</span> / 05</div>
           <div>
             <div class="story-meta">
-              <span class="tag">Policy &amp; Regulation</span>
               <span class="tag">Operations &amp; Enterprise</span>
             </div>
-            <h2>The White House is preparing an imminent AI executive order that would create a voluntary framework requiring frontier AI labs to share their most powerful models with the federal government at least 90 days before public release</h2>
+            <h2>Meta Platforms begins notifying ~8,000 employees of layoffs &#8211; 10% of its workforce &#8211; while raising its 2026 AI capital expenditure guidance to as much as $145 billion</h2>
             <div class="plain-text">
-              <p>Axios reported on 20 May 2026, citing two sources familiar with the plans, that a Trump administration AI executive order is imminent. In its current draft form, the order creates a voluntary framework under which AI labs would share their frontier models – their most capable and powerful AI systems – with the federal government at least 90 days before public release, and would also provide access to certain critical infrastructure providers. The order's primary stated purpose is to bolster cybersecurity around advanced AI models. Both national security and civilian agencies appear to have enforcement roles under the draft. Some details were previously reported by Bloomberg.</p>
-              <p>The draft represents a notable shift for the Trump administration, which repealed the Biden-era AI executive order on Inauguration Day and had characterised heavy AI regulation as a barrier to American competitiveness. Axios reported that the shift was accelerated by concerns about Anthropic's Claude Mythos Preview model – the first model verified by the UK AI Security Institute (AISI) to autonomously complete a 32-step corporate-network penetration simulation, achieving success in 3 of 10 runs. Mythos also achieved a 73% expert-level task success rate on AISI's broader benchmarks. Sources at top AI companies confirmed to Axios that they are cooperating with the White House. The Department of Commerce had already announced separate agreements with Google DeepMind, Microsoft, and xAI to test powerful models ahead of the expected order. The draft's "voluntary" characterisation is significant and its scope contains key unresolved questions: which agencies would participate in the 90-day review, what capability or compute threshold triggers the framework, and whether open-weight model releases – such as Meta's Llama series, which are freely downloadable – fall under its scope.</p>
+              <p>Meta Platforms &#8211; the company behind Facebook, Instagram, and WhatsApp &#8211; began notifying ~8,000 employees of layoffs on Wednesday, May 20, with notifications starting at 4 a.m. Singapore time before rolling out to US-based staff. Bloomberg confirmed the cuts, describing them as the largest single round of Meta layoffs since its 2023 restructuring. The 8,000 positions represent ~10% of Meta's global workforce of 78,865 employees. The company is also cancelling 6,000 open job requisitions, bringing the effective headcount reduction to 14,000 positions. Additional layoff rounds are planned for August and fall 2026, with earlier reporting from CNBC suggesting the total could eventually reach 20% of the pre-2026 workforce &#8211; though Meta called that figure speculative.</p>
+              <p>The cuts arrive alongside record financial performance. Meta reported Q1 2026 quarterly revenue of $56.31 billion and net income of $26.8 billion. Simultaneously, the company raised its full-year 2026 capital expenditure guidance to between $125 billion and $145 billion &#8211; nearly double the $72.2 billion it spent in 2025 and ~four times the $39.2 billion spent in 2024. In Q1 alone, Meta added $107 billion in new contractual commitments for cloud and infrastructure deals, and committed $27 billion to a joint venture with Nebius for a gigawatt-scale AI data center campus in Louisiana. Bank of America estimated the layoffs could generate $7&#8211;$8 billion in annualized savings. CEO Mark Zuckerberg described the broader strategy as building AI-powered products amounting to "personal superintelligence" for billions of users. Teams are being reorganized into AI-focused "pods" under Chief AI Officer Alexandr Wang's Superintelligence Labs.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>Even a voluntary 90-day pre-release framework, if adopted, would be the first formal mechanism by which the US government gains structured early access to frontier AI models before public deployment. For AI labs preparing initial public offerings – OpenAI and Anthropic are both in that category – this creates a new category of regulatory disclosure risk and could affect product launch timelines. For open-source AI, the unresolved scope question around open-weight models could determine whether the framework creates a structural competitive advantage for closed API providers.
+              <strong>Why it matters</strong>Meta's paradox &#8211; record profits alongside mass layoffs &#8211; has become the defining feature of the AI era in large-cap technology. The decision to redeploy human salary budgets into GPU purchases and data centers at this scale sets a template other hyperscalers are likely to follow. The $145 billion capex ceiling, if reached, would represent the largest single-year capital expenditure in the history of the consumer internet industry.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value mono">90 days</div>
-                  <div class="indicator-desc">Minimum advance notice period for model sharing under the draft framework (per Axios, two confirmed sources)</div>
+                  <div class="indicator-value" data-count-to="8000" data-count-suffix=" jobs">0 jobs</div>
+                  <div class="indicator-desc">Employees notified of layoffs starting May 20 (per Bloomberg)</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">3 of 10 runs</div>
-                  <div class="indicator-desc">Mythos's success rate on the UK AISI's 32-step full corporate-network takeover simulation</div>
+                  <div class="indicator-value mono">14,000</div>
+                  <div class="indicator-desc">Effective headcount reduction including 6,000 cancelled open requisitions</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">73%</div>
-                  <div class="indicator-desc">Mythos's expert-level task success rate on AISI's broader benchmarks (per Air Street Press citing AISI)</div>
+                  <div class="indicator-value">10%</div>
+                  <div class="indicator-desc">Share of Meta's global workforce affected by the May round</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">3</div>
-                  <div class="indicator-desc">AI companies (Google DeepMind, Microsoft, xAI) that have already signed Commerce Department model-testing agreements</div>
+                  <div class="indicator-value mono">$56.31B</div>
+                  <div class="indicator-desc">Meta Q1 2026 quarterly revenue &#8211; a company record</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$125&#8211;$145B</div>
+                  <div class="indicator-desc">Meta's raised full-year 2026 capital expenditure guidance</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$27B</div>
+                  <div class="indicator-desc">Joint venture with Nebius for a gigawatt-scale AI data center campus in Louisiana</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$107B</div>
+                  <div class="indicator-desc">New contractual cloud and infrastructure commitments added in Q1 2026 alone</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~25,000</div>
+                  <div class="indicator-desc">Total Meta workforce reductions since 2022</div>
                 </div>
               </div>
             </div>
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
-                <div class="impact-audience">For General Counsels and Chief Compliance Officers at frontier AI labs</div>
-                <p>The voluntary nature of the framework does not eliminate legal and reputational risk. General Counsels should immediately engage federal policy counsel to assess whether "voluntary" participation affects liability exposure in the event of a post-deployment incident involving a model shared under the framework, and begin drafting internal model disclosure protocols that could be adapted to comply with a formalised 90-day window – even before the order is signed. Preparation now avoids a compressed drafting exercise under public scrutiny later.</p>
+                <div class="impact-audience">For CTOs and Chief People Officers at large-cap technology firms</div>
+                <p>Meta's restructuring architecture &#8211; AI pods, elimination of middle management layers, reallocation from headcount to capex &#8211; will be cited by boards at comparable firms within weeks. CTOs should prepare a one-page framework by end of Q2 2026 that maps which roles in their organization are subject to AI-driven efficiency gains within 12 months, so the CPO and CFO are not caught without a position when the board asks.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For enterprise CISOs and critical infrastructure operators in banking, energy, and healthcare</div>
-                <p>The draft order explicitly includes critical infrastructure providers as recipients of early model access. CISOs at regulated entities should engage their government affairs teams within the next 30 days to determine whether their organisation qualifies for early access under the framework, and begin assessing what internal security review capability they would need to meaningfully evaluate a frontier model 90 days before its public release. Receiving early access without the capacity to review it provides no security benefit.</p>
-              </div>
-              <div class="impact-card">
-                <div class="impact-audience">For Meta's open-source AI strategy team</div>
-                <p>The scope ambiguity around open-weight models is the single highest-stakes unresolved question in the draft. Meta's VP of AI Research should seek a direct policy briefing with the White House AI office within 30 days to determine whether Llama-series releases fall under the framework. Any requirement to delay open-weight releases 90 days would fundamentally restructure Meta's competitive differentiation from closed API providers – the entire value of the open-weight strategy depends on releasing faster and without restriction.</p>
+                <div class="impact-audience">For advertising agencies and brand marketers (Heads of Paid Social)</div>
+                <p>A leaner Meta engineering organization running AI-built recommendation and targeting systems may produce faster product iteration but also less human oversight of ad delivery. Agency Heads of Paid Social should review their Meta performance data for signs of algorithmic drift &#8211; changes in audience delivery, frequency, or creative fatigue &#8211; over the next two quarters as the new pod structure takes effect.</p>
               </div>
             </div>
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="https://www.axios.com/2026/05/20/ai-trump-executive-order-white-house-infighting" target="_blank" rel="noopener">Axios</a>
-              <span class="source-meta">· 20 May 2026</span>
+              <a href="https://www.bloomberg.com/news/articles/2026-05-19/meta-begins-job-cuts-in-efficiency-push-spurred-on-by-ai" target="_blank" rel="noopener">Bloomberg</a>
+              <span class="source-meta">&middot; 19 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.cnbc.com/2026/05/18/metas-layoffs-starting-this-week-underscore-zuckerbergs-ai-reality-.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">&middot; 18 May 2026</span>
             </div>
           </div>
         </div>
       </article>
 
-      <article class="story" data-sectors="finance,operations" data-story-index="4">
+      <article class="story" data-sectors="operations,policy" data-story-index="4">
         <div class="story-header">
           <div class="story-num"><span class="num-current">05</span> / 05</div>
           <div>
             <div class="story-meta">
-              <span class="tag">Financial Services</span>
               <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Policy &amp; Regulation</span>
             </div>
-            <h2>Alphabet confirmed $180–190 billion in AI capital expenditure for 2026 at the I/O keynote – six times its 2022 infrastructure spend – as part of a combined $680–720 billion committed by the four largest US cloud platforms in a single year</h2>
+            <h2>The technology sector has cut more than 114,000 jobs across 140+ companies in 2026 as AI-driven restructuring continues &#8211; with Meta, Intuit, and the Samsung near-strike all arriving within a 48-hour window</h2>
             <div class="plain-text">
-              <p>At the Google I/O 2026 keynote, Alphabet CEO Sundar Pichai publicly confirmed that Alphabet – the parent company of Google – expects to spend $180–190 billion in capital expenditure (capex) in 2026, describing this as roughly six times its $31 billion annual capex in 2022. Capital expenditure refers to spending on physical infrastructure such as data centres, computing hardware, and power systems. The figure had been previously guided during Alphabet's Q1 2026 earnings call, where CFO Anat Ashkenazi raised guidance from $175–185 billion to $180–190 billion following a single quarter in which Google Cloud revenue grew 63% year-over-year to $20 billion. Pichai confirmed at I/O that the majority of 2026 capex is directed at custom silicon – specifically eighth-generation Tensor Processing Units (TPUs), Google's proprietary AI chips: the TPU 8t for large-scale AI training and the TPU 8i for inference workloads.</p>
-              <p>To contextualise the scale: Alphabet's $180–190 billion is one component of a broader hyperscaler infrastructure commitment. Amazon projects $200 billion in 2026 capex, Microsoft is tracking toward $190 billion, and Meta has guided $115–135 billion. Combined, the four largest US cloud platforms have committed to between $680–720 billion in 2026 infrastructure spend – nearly double 2025 levels, per analysis from Fortune citing company earnings reports. Pichai also disclosed that Google Cloud ended 2025 at an annual run rate of over $70 billion. The aggregate commitment is occurring against documented supply constraints: Pichai acknowledged in the Q4 2025 earnings call that Alphabet expects to "go through the year in a supply constrained way," citing power, land, and chip manufacturing bottlenecks. At I/O, he specifically noted custom silicon as the primary near-term scaling lever, signalling that TPU investment is intended to reduce dependency on external GPU supply chains.</p>
+              <p>The AI-driven restructuring wave across the technology sector has now resulted in more than 114,000 layoffs at over 140 companies in 2026, according to Layoffs.fyi data cited by CNBC and Reuters. The current pace projects to ~371,000 total tech job cuts across the full calendar year, per TrueUp. The week of May 19&#8211;21 alone saw confirmed cuts from Meta (8,000 employees, 10% of workforce), Intuit (3,000 employees, 17% of workforce), and the near-avoidance of a Samsung union strike involving 48,000 chip workers &#8211; all within a 48-hour window. Earlier in 2026, Amazon cut 16,000 positions in January; Oracle eliminated up to 30,000 (~18% of its workforce); LinkedIn reduced headcount by 5%; and Microsoft by 7%. The tech industry has averaged 882 layoffs per day in 2026 across 247 distinct layoff events, per The Next Web.</p>
+              <p>The common thread is that layoffs are occurring simultaneously with record or near-record financial performance. Meta posted $56.31 billion in Q1 revenue while cutting 10% of staff. Intuit raised full-year guidance on the same day it announced 17% workforce reductions. Samsung reported quarterly profits 8.5 times higher Y-o-Y while its union threatened a strike over bonus structures workers argue do not reflect the company's AI-driven financial gains. This is a structural, not cyclical, pattern: companies are reducing human headcount as a deliberate choice to redirect capital toward AI infrastructure and tooling, not because business is deteriorating. Separately, South Korea's Prime Minister Kim Min-seok warned that disruption to Samsung's semiconductor operations would leave "deep scars across the national economy" &#8211; reflecting how AI supply chain stability has become a matter of national economic security, not merely corporate strategy.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>Alphabet's public confirmation of $180–190 billion in 2026 capex – at the developer conference where its AI products were simultaneously launched – signals that the infrastructure buildout and product roadmap are now explicitly linked. For the broader market, the combined $680–720 billion in hyperscaler AI infrastructure spending in a single year represents the largest coordinated private capital deployment in technology infrastructure history, with structural consequences for power grids, semiconductor supply chains, and data centre real estate that will extend well past 2026.
+              <strong>Why it matters</strong>The convergence of record AI infrastructure spending, mass white-collar layoffs, and a near-miss on a chip supply disruption in a single week illustrates the structural tension at the core of the current AI economy: the capital gains from AI efficiency flow to infrastructure owners and shareholders, while the workforce disruption is concentrated in the middle of the corporate stack &#8211; coordination roles, project managers, mid-level managers, and professional services workers whose tasks are most directly automated by AI tooling.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value mono">$180–190B</div>
-                  <div class="indicator-desc">Alphabet's confirmed 2026 capex (confirmed by Sundar Pichai at I/O 2026 keynote, 20 May)</div>
+                  <div class="indicator-value mono">114,000+</div>
+                  <div class="indicator-desc">Tech workers laid off in 2026 to date (per Layoffs.fyi, as of this week)</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">$31B</div>
-                  <div class="indicator-desc">Alphabet's 2022 annual capex – Pichai's comparison baseline</div>
+                  <div class="indicator-value mono">140+</div>
+                  <div class="indicator-desc">Number of tech companies with confirmed layoffs in 2026</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">~6x</div>
-                  <div class="indicator-desc">Growth in Alphabet capex from 2022 to 2026</div>
+                  <div class="indicator-value mono">~371,000</div>
+                  <div class="indicator-desc">Projected total tech job cuts across full calendar year 2026 (per TrueUp)</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">$20B</div>
-                  <div class="indicator-desc">Google Cloud Q1 2026 revenue (63% year-over-year growth)</div>
+                  <div class="indicator-value" data-count-to="882" data-count-suffix="/day">0/day</div>
+                  <div class="indicator-desc">Average daily tech layoffs in 2026 (per The Next Web)</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">&gt;$70B</div>
-                  <div class="indicator-desc">Google Cloud annual revenue run rate at end of 2025</div>
+                  <div class="indicator-value" data-count-to="247" data-count-suffix=" events">0 events</div>
+                  <div class="indicator-desc">Number of distinct layoff events in the tech sector in 2026</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">$680–720B</div>
-                  <div class="indicator-desc">Estimated combined 2026 capex for Amazon, Alphabet, Microsoft, and Meta (per Fortune, citing earnings)</div>
+                  <div class="indicator-value mono">30,000</div>
+                  <div class="indicator-desc">Oracle layoffs in 2026 (~18% of workforce)</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">$200B</div>
-                  <div class="indicator-desc">Amazon's 2026 capex projection</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">$190B</div>
-                  <div class="indicator-desc">Microsoft's 2026 capex projection (per CFO Amy Hood, Q1 earnings)</div>
+                  <div class="indicator-value mono">16,000</div>
+                  <div class="indicator-desc">Amazon layoffs in January 2026</div>
                 </div>
               </div>
             </div>
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
-                <div class="impact-audience">For institutional investors and infrastructure asset managers</div>
-                <p>The $680–720 billion hyperscaler capex commitment in a single year creates structural, multi-year demand for power infrastructure, data centre construction, advanced cooling systems, and custom silicon. Portfolio managers with exposure to utilities, real estate investment trusts (REITs), and semiconductor equipment should treat this as a decade-scale demand signal rather than a cyclical investment thesis – Alphabet's CFO has already signalled that 2027 capex will "significantly increase" from 2026 levels.</p>
+                <div class="impact-audience">For HR leaders and Chief People Officers across the technology sector</div>
+                <p>The pattern of simultaneous record earnings and mass layoffs will face increasing scrutiny from employees, unions, and regulators. CPOs should conduct a workforce communications audit in Q2 2026: review how the company publicly frames workforce reductions in relation to AI investments, and ensure the internal narrative is consistent with public statements, before a regulator or union organizer forces that conversation.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For enterprise technology buyers currently in multi-year cloud contracts</div>
-                <p>Google Cloud's 63% year-over-year revenue growth and Pichai's explicit cost-competitiveness claims – citing heavy users saving over $1 billion annually – create legitimate grounds to renegotiate committed use agreements. Chief Procurement Officers should initiate contract review discussions with Google Cloud account teams before Q3 2026 renewal windows, using Gemini 3.5 Flash's confirmed pricing as a benchmark for per-token cost expectations in any new or extended commitment.</p>
-              </div>
-              <div class="impact-card">
-                <div class="impact-audience">For semiconductor and power infrastructure companies</div>
-                <p>Pichai's confirmation that a major portion of $180–190 billion is directed at custom silicon – specifically eighth-generation TPUs – validates continued investment in specialised AI chip supply chains. CFOs at semiconductor equipment and advanced packaging companies should incorporate this demand signal into 2027 capacity planning within the next 90 days, as demand visibility at this scale is rarely confirmed this far in advance.</p>
+                <div class="impact-audience">For institutional investors and ESG analysts holding positions in Meta, Intuit, Samsung, Amazon, and Oracle</div>
+                <p>The divergence between AI capex growth and headcount reduction is now a material governance question, not just a trend piece. ESG analysts at asset managers should add a "workforce displacement ratio" metric &#8211; layoffs per dollar of AI capex &#8211; to their Q2 2026 ESG assessments of these holdings.</p>
               </div>
             </div>
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="https://blog.google/innovation-and-ai/sundar-pichai-io-2026/" target="_blank" rel="noopener">Google I/O 2026 Keynote Blog</a>
-              <span class="source-meta">· 20 May 2026</span>
+              <a href="https://www.cnbc.com/2026/05/18/metas-layoffs-starting-this-week-underscore-zuckerbergs-ai-reality-.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">&middot; 18 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="#" target="_blank" rel="noopener">Reuters / TechCrunch</a>
+              <span class="source-meta">&middot; 20&#8211;21 May 2026</span>
             </div>
           </div>
         </div>
@@ -1342,10 +659,10 @@
   <section class="editorial">
     <div class="container editorial-inner">
       <div class="editorial-eyebrow">Editor's note</div>
-      <blockquote>Five stories, one structural pattern: AI has moved from a product feature into <em>critical infrastructure</em>, and the regulatory, economic, and security consequences of that transition are now arriving simultaneously.</blockquote>
-      <p>Google's I/O announcements are coherent only when read together. Gemini 3.5 Flash is a pricing attack on OpenAI and Anthropic's enterprise accounts. The subscription restructuring brackets the professional AI market at price points that force direct comparison. Gemini Spark is a consumer-facing declaration that persistent agents – AI systems running continuously in the background with access to your email and calendar – are no longer a research concept but a live product. And the $180–190 billion capex confirmation is Google publicly linking its infrastructure bet to its product roadmap in the same keynote. These are not individual product announcements; they are components of a coordinated platform strategy.</p>
-      <p>The White House executive order sits alongside this differently. The Trump administration, which dismantled the Biden-era AI order on day one, has been moved toward a pre-release review framework by a single demonstration: an Anthropic model autonomously completing a 32-step corporate-network takeover simulation. That one benchmark result – 3 successful runs out of 10 – appears to have done more to accelerate US AI governance than years of policy advocacy. The organisations most exposed by today's issue combined are mid-size enterprises still procuring AI as a subscription SaaS product: they face converging pressure from repriced tiers, mandatory governance requirements, persistent-agent data access decisions, and infrastructure cost signals that will flow through to API pricing across all providers over the next 12 to 18 months – all arriving faster than most enterprise change management cycles can absorb.</p>
-      <span class="editorial-date">20 May 2026</span>
+      <blockquote>Five stories, one structural pattern: the AI economy is generating <em>record profits and record capital expenditure</em> at one end of the value chain, while simultaneously compressing and restructuring the human workforce that built and operates it.</blockquote>
+      <p>The White House executive order expected Thursday seeks to insert government oversight into the model-release pipeline &#8211; not into the labor market effects of AI deployment, which remain entirely unaddressed at the federal level. The Samsung near-strike is the clearest expression of that gap: tens of thousands of workers at the company making the chips that power the AI boom nearly walked off the job because the financial gains from that boom were not flowing to them.</p>
+      <p>Intuit's and Meta's announcements make the same point from the other side of the ledger: both companies announced record or near-record results and workforce reductions in the same breath, explicitly framing the latter as the mechanism for funding the former. The organization most exposed by the combination of stories this week is any large enterprise software company that has not yet published a coherent position on how AI-driven efficiency gains will be balanced against workforce obligations &#8211; that silence is now a governance risk, not merely a communications gap.</p>
+      <span class="editorial-date">21 May 2026</span>
     </div>
   </section>
 
@@ -1358,25 +675,21 @@
       <button id="footerSignupBtn" class="archive-link subscribe-btn">
         <span>Subscribe</span>
       </button>
-      <div class="footer-date">20 May 2026 · Issue archived nightly</div>
+      <div class="footer-date">21 May 2026 &middot; Issue archived nightly</div>
     </div>
   </footer>
 
   <script>
-    // === CUSTOM CURSOR ===
     const cursorDot = document.getElementById('cursorDot');
     const cursorTrail = document.getElementById('cursorTrail');
-    let mouseX = 0, mouseY = 0;
-    let trailX = 0, trailY = 0;
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
 
     if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+        mouseX = e.clientX; mouseY = e.clientY;
         cursorDot.style.left = mouseX + 'px';
         cursorDot.style.top = mouseY + 'px';
       });
-
       function animateTrail() {
         trailX += (mouseX - trailX) * 0.18;
         trailY += (mouseY - trailY) * 0.18;
@@ -1385,74 +698,51 @@
         requestAnimationFrame(animateTrail);
       }
       animateTrail();
-
-      // Cursor expansion on interactive elements
       const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
       document.querySelectorAll(interactiveSelectors).forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          cursorDot.classList.add('expanded');
-          cursorTrail.classList.add('expanded');
-        });
-        el.addEventListener('mouseleave', () => {
-          cursorDot.classList.remove('expanded');
-          cursorTrail.classList.remove('expanded');
-        });
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
       });
     }
 
-    // === READING PROGRESS BAR ===
     const progressBar = document.getElementById('progressBar');
-    function updateProgress() {
+    window.addEventListener('scroll', () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
       progressBar.style.width = Math.min(progress, 100) + '%';
-    }
-    window.addEventListener('scroll', updateProgress, { passive: true });
+    }, { passive: true });
 
-    // === HERO GLOW FOLLOWS MOUSE ===
     const heroGlow = document.getElementById('heroGlow');
     const hero = document.querySelector('.hero');
     if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
       hero.addEventListener('mousemove', (e) => {
         const rect = hero.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        heroGlow.style.left = x + '%';
-        heroGlow.style.top = y + '%';
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
       });
     }
 
-    // === 3D PARALLAX TILT ON METRIC CARDS ===
     document.querySelectorAll('.indicator').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -8;
-        const rotateY = ((x - centerX) / centerX) * 8;
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`;
-        card.style.setProperty('--mouse-x', (x / rect.width * 100) + '%');
-        card.style.setProperty('--mouse-y', (y / rect.height * 100) + '%');
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
       });
       card.addEventListener('mouseleave', () => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
       });
     });
 
-    // === SCROLL REVEALS ===
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          revealObserver.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
     document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
 
-    // === COUNT-UP NUMBERS ===
     const countObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1466,8 +756,7 @@
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
             const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-            const value = Math.floor(eased * target);
-            el.textContent = prefix + value.toLocaleString() + suffix;
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
             if (progress < 1) requestAnimationFrame(tick);
             else el.textContent = prefix + target.toLocaleString() + suffix;
           }
@@ -1478,7 +767,6 @@
     }, { threshold: 0.4 });
     document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
 
-    // === STORY NAV ACTIVE DOT ===
     const navDots = document.querySelectorAll('.story-nav-dot');
     const stories = document.querySelectorAll('.story');
     const storyNavObserver = new IntersectionObserver((entries) => {
@@ -1486,8 +774,8 @@
         if (entry.isIntersecting) {
           const idx = entry.target.dataset.storyIndex;
           navDots.forEach(d => d.classList.remove('active'));
-          const matchingDot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
-          if (matchingDot) matchingDot.classList.add('active');
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
         }
       });
     }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
@@ -1499,7 +787,6 @@
       });
     });
 
-    // === SECTOR FILTER ===
     const chips = document.querySelectorAll('[data-sector-filter]');
     const emptyState = document.getElementById('emptyState');
     const visibleCount = document.getElementById('visibleCount');
@@ -1508,12 +795,8 @@
       stories.forEach(story => {
         const sectors = (story.dataset.sectors || '').split(',');
         const matches = sector === 'all' || sectors.includes(sector);
-        if (matches) {
-          story.classList.remove('filter-hidden');
-          visible++;
-        } else {
-          story.classList.add('filter-hidden');
-        }
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
       });
       visibleCount.textContent = visible;
       emptyState.style.display = visible === 0 ? 'block' : 'none';
@@ -1526,35 +809,16 @@
       });
     });
 
-    // === SIGNUP MODAL ===
     const signupBtn = document.getElementById('signupBtn');
     const footerSignupBtn = document.getElementById('footerSignupBtn');
     const signupOverlay = document.getElementById('signupOverlay');
     const closeSignup = document.getElementById('closeSignup');
-
-    signupBtn.addEventListener('click', () => {
-      signupOverlay.classList.add('active');
-    });
-
-    footerSignupBtn.addEventListener('click', () => {
-      signupOverlay.classList.add('active');
-    });
-
-    closeSignup.addEventListener('click', () => {
-      signupOverlay.classList.remove('active');
-    });
-
-    signupOverlay.addEventListener('click', (e) => {
-      if (e.target === signupOverlay) {
-        signupOverlay.classList.remove('active');
-      }
-    });
-
-    // Close modal on successful submission
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
     document.getElementById('emailForm').addEventListener('submit', () => {
-      setTimeout(() => {
-        signupOverlay.classList.remove('active');
-      }, 1000);
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
     });
   </script>
 </body>
