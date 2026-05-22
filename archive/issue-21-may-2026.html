@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 21 May 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+      <div class="nav-meta">
+  <span class="nav-date">21 May 2026</span>
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+    <span>Back to archive</span>
+  </a>
+</div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get five key AI stories each morning, delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief &middot; 21 May 2026
+        </div>
+        <h1>Five developments in AI <em>workforce restructuring</em>, government oversight, semiconductor supply, and enterprise capital allocation.</h1>
+        <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" developments">5 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" verticals">4 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="10" data-count-suffix=" minutes">10 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">5</strong> of 5 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Trump AI review order"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Intuit 3,000 layoffs"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · Samsung strike averted"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · Meta 8,000 cuts $145B"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · 114K tech jobs cut"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" data-sectors="policy" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+            </div>
+            <h2>President Trump is expected to sign an executive order establishing a voluntary government pre-release review of advanced AI models, with the review window contested between 14 and 90 days</h2>
+            <div class="plain-text">
+              <p>President Donald Trump is expected to sign an executive order on Thursday requiring AI companies to share their most powerful models with US government agencies for evaluation before public release. Sources familiar with the discussions told both CNN and the Washington Post that the order creates a formal review channel involving intelligence and national security agencies. The review period remains contested: one draft of the order specifies 90 days, while major AI firms &#8211; including OpenAI (the company behind ChatGPT) and Anthropic (the company that makes the Claude AI assistant) &#8211; are pushing for a shorter window of ~14 days.</p>
+              <p>The order is framed principally around cybersecurity risk. Officials have warned that increasingly powerful AI models could be exploited to accelerate cyberattack development, and the framework is designed to give agencies time to evaluate those risks before public release. National Economic Council Director Kevin Hassett previously described the process as analogous to FDA drug approval: a structured safety evaluation before commercial launch. The voluntary framing is significant &#8211; the order does not mandate compliance, meaning its practical effectiveness depends entirely on industry participation. If the final review window lands closer to 90 days, it would create the longest formal pre-launch pause yet seen for a consumer AI product in the US, with implications for competitive timing between US and international labs.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>A voluntary pre-release review regime changes the deployment timeline for every frontier AI lab operating in the US. If the 90-day window holds, it would impose a regulatory lag that does not exist in most international jurisdictions, potentially disadvantaging US-based labs in fast-moving competitive cycles. It also signals a structural shift: the Trump administration, which revoked President Biden's AI safety executive order in January 2025, is now building its own safety architecture through a different mechanism.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">90 days</div>
+                  <div class="indicator-desc">Proposed government pre-release review window in one draft of the executive order</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">14 days</div>
+                  <div class="indicator-desc">Shorter review period preferred by AI companies including OpenAI and Anthropic</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="2" data-count-suffix=" labs">0 labs</div>
+                  <div class="indicator-desc">Named AI labs confirmed as engaged in White House discussions (OpenAI, Anthropic)</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For frontier AI labs (OpenAI, Anthropic, Google DeepMind, Meta AI)</div>
+                <p>General Counsels and Chief Compliance Officers should obtain and read the final signed executive order on the day of publication. If the voluntary framework includes any formal sign-up or agreement mechanism, assess by end of this week whether participation is strategically preferable to non-participation, given the reputational and regulatory signaling involved.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise AI procurement teams at large organizations</div>
+                <p>Heads of AI Procurement should factor potential release delays into vendor roadmap planning. A 90-day pre-release review window applied to frontier models could push expected deployment dates for next-generation capabilities by one to three quarters &#8211; update internal timelines accordingly before committing to vendor contracts tied to specific capability thresholds.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For cybersecurity and national security agencies (CISA, NSA, DoD)</div>
+                <p>Agency CISOs should begin scoping what a model evaluation capacity looks like in practice: what testing infrastructure, staffing, and standardized threat assessment frameworks would be needed to operationalize 90-day or 14-day reviews at scale. The order creates a mandate without a built-out institutional mechanism.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnn.com/2026/05/20/tech/ai-executive-order-trump-white-house" target="_blank" rel="noopener">CNN</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.washingtonpost.com/technology/2026/05/21/white-house-tore-down-ai-rules-now-its-building-new-defenses/" target="_blank" rel="noopener">Washington Post</a>
+              <span class="source-meta">&middot; 21 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="operations,finance" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>Intuit eliminates 3,000 positions &#8211; 17% of its workforce &#8211; in an AI restructuring costing $300&#8211;$340 million, as shares decline 13.4% after hours on the same day the company raises full-year guidance</h2>
+            <div class="plain-text">
+              <p>Intuit, the financial software company behind TurboTax, QuickBooks, and Credit Karma, announced it is eliminating ~3,000 positions, representing 17% of its global workforce of ~18,200 employees. CEO Sasan Goodarzi communicated the decision via an internal memo, stating the goal is to reduce organizational complexity and accelerate AI product development. The company expects restructuring charges of $300&#8211;$340 million. Affected US employees remain with the company until 31 July, with severance of 16 weeks of base pay plus two additional weeks per year of service. Intuit will also close its offices in Reno, Nevada, and Woodland Hills, California.</p>
+              <p>The layoffs were announced on the same day Intuit reported its Q3 earnings and raised its full-year fiscal 2026 guidance &#8211; now projecting adjusted earnings per share of $23.80&#8211;$23.85 and revenue of $21.34&#8211;$21.37 billion, both above analyst consensus. Q3 revenue growth came in at 10%, Intuit's weakest rate since 2024. On CNBC, Goodarzi framed the cuts as structural simplification: reducing management layers, eliminating coordination-heavy project manager roles, and stripping out duplicative functions after the closer integration of Credit Karma and TurboTax. Intuit has, however, signed multi-year deals with both Anthropic and OpenAI to embed their AI models into its tax and finance platforms. Investors did not accept the framing: shares fell 3.95% during regular trading and a further 13.4% after hours to ~$332. The stock is now down more than 40% in 2026, sharply underperforming the S&amp;P 500's ~8% gain over the same period.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Intuit's announcement &#8211; cutting 17% of staff on the same day it raises financial guidance &#8211; is the clearest single illustration yet of AI-era corporate logic: the company is not struggling; it is making a deliberate bet that fewer people plus AI tooling will produce better outcomes than a larger workforce without it. The simultaneous announcement of multi-year Anthropic and OpenAI embedding deals makes the implicit explicit. For enterprise software incumbents, this is now the model to either adopt or argue against.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="3000" data-count-suffix=" jobs">0 jobs</div>
+                  <div class="indicator-desc">Employees affected, ~17% of Intuit's global workforce of 18,200</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$300&#8211;$340M</div>
+                  <div class="indicator-desc">Expected restructuring charges, per CFO Sandeep Aujla</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">16 weeks</div>
+                  <div class="indicator-desc">Base severance for US employees, plus two additional weeks per year of tenure</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">13.4%</div>
+                  <div class="indicator-desc">After-hours share price decline on announcement day</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;40%</div>
+                  <div class="indicator-desc">Intuit share price decline year-to-date in 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$21.34&#8211;$21.37B</div>
+                  <div class="indicator-desc">Raised full-year fiscal 2026 revenue guidance</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">10%</div>
+                  <div class="indicator-desc">Q3 2026 revenue growth rate &#8211; Intuit's weakest since 2024</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CEOs and CFOs at enterprise SaaS companies</div>
+                <p>The Intuit announcement will accelerate board-level pressure on every mid-to-large SaaS company to present an AI-efficiency case alongside its headcount plan. CFOs should prepare a workforce-versus-AI-tooling analysis for the next board meeting that quantifies which specific roles &#8211; coordination, middle management, duplicative post-merger functions &#8211; could be restructured, so the board discussion is based on data rather than reactive pressure.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For tax and accounting professionals (CPAs, enrolled agents, practice managers)</div>
+                <p>Goodarzi's statement that people "spend seven times more on tax and accounting experts as they do on software, because people don't buy code, they buy confidence" is a direct signal that Intuit is targeting the advisory layer, not the compliance layer, of the profession. Practice managers at mid-size accounting firms should assess within Q3 2026 which of their service lines are most exposed to AI-native competition from Intuit's planned embedding of Anthropic and OpenAI models into TurboTax and QuickBooks.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://techcrunch.com/2026/05/20/intuit-to-lay-off-over-3000-employees-to-refocus-on-ai/" target="_blank" rel="noopener">TechCrunch</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="hardware,operations" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Samsung's 48,000-member union agrees a tentative wage deal hours before a planned 18-day strike, averting a disruption to global AI memory chip supply</h2>
+            <div class="plain-text">
+              <p>Samsung Electronics &#8211; the South Korean technology company and the world's largest maker of memory chips &#8211; reached a tentative wage agreement with its labor union late Wednesday, just hours before a planned 18-day general strike was due to begin. The union, representing ~48,000 members, confirmed it had suspended the strike &#8211; scheduled to run from May 21 through June 7 &#8211; and announced a member vote on the tentative 2026 wage agreement from May 23 to May 28. The deal followed last-minute government-mediated negotiations involving South Korea's Labor Minister Kim Young-hoon, after earlier talks had collapsed on May 12.</p>
+              <p>Samsung and union leaders did not immediately disclose the full terms. Management confirmed it agreed to extend bonus payments beyond the memory division to less profitable units, including foundry (chip manufacturing) operations &#8211; one of the union's central demands. The union had been seeking elimination of a 50% bonus cap, allocation of 15% of annual operating profit to a bonus pool, and a 7% base wage increase. Leaked transcripts from earlier talks alleged Samsung offered memory workers a 607% bonus worth ~$477,000, while logic chip staff were to receive as little as 50% &#8211; an imbalance the union characterized as a retention crisis, given that rival SK Hynix had already lifted its bonus cap. In the preceding three months, more than 100 union members had left Samsung for SK Hynix. The strike threat carries specific weight because Samsung makes the high-bandwidth memory (HBM) chips &#8211; specialized, high-speed memory components &#8211; that power the AI data centers and GPU clusters driving the current AI infrastructure boom.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>A Samsung strike would have been the most direct AI infrastructure supply shock of 2026 &#8211; not a financial market event, but a physical production halt at the facility that makes the memory chips inside Nvidia GPUs and AI accelerators. The tentative deal removes the immediate threat, but the vote result is not yet known and the structural compensation gap between memory and foundry workers remains unresolved. If the vote fails, the strike threat returns within days.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="48000" data-count-suffix=" members">0 members</div>
+                  <div class="indicator-desc">Union members eligible to participate in the planned strike</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">18 days</div>
+                  <div class="indicator-desc">Length of the planned strike (May 21 &#8211; June 7)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">15%</div>
+                  <div class="indicator-desc">Share of annual operating profit the union demanded for the bonus pool</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">10%</div>
+                  <div class="indicator-desc">Samsung's counter-offer: operating profit share allocated to bonuses</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">607%</div>
+                  <div class="indicator-desc">Alleged bonus offer to memory workers in leaked transcripts, worth ~$477,000</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;100</div>
+                  <div class="indicator-desc">Union members who left Samsung for SK Hynix in the preceding three months</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">May 23&#8211;28</div>
+                  <div class="indicator-desc">Window for union member vote on the tentative agreement</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For AI infrastructure procurement (hyperscalers, cloud providers, GPU cluster operators)</div>
+                <p>Heads of Supply Chain and VP-level Infrastructure Procurement at AWS, Azure, Google Cloud, and Oracle Cloud should treat the May 23&#8211;28 vote window as a risk period. If the tentative deal is rejected, HBM spot prices and delivery timelines could move within days. Identify alternative HBM suppliers (SK Hynix, Micron) and assess how quickly procurement could be shifted if Samsung production is disrupted.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For semiconductor investors and equity analysts</div>
+                <p>The structural compensation gap between Samsung's memory and foundry divisions &#8211; now a disclosed, negotiated-over issue &#8211; will weigh on Samsung's foundry talent retention regardless of whether this deal passes. Foundry analysts should downgrade Samsung Foundry's near-term talent risk rating relative to TSMC and SK Hynix and flag it in Q2 notes.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.usnews.com/news/business/articles/2026-05-20/samsung-faces-strike-after-pay-talks-with-union-fall-apart" target="_blank" rel="noopener">AP / US News</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.tomshardware.com/tech-industry/big-tech/samsung-narrowly-avoids-18-day-chip-strike-after-last-minute-wage-deal-with-48-000-worker-union-tentative-deal-subject-to-workers-vote-suspends-billions-of-dollars-worth-of-potential-losses" target="_blank" rel="noopener">Tom's Hardware</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="operations" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Meta Platforms begins notifying ~8,000 employees of layoffs &#8211; 10% of its workforce &#8211; while raising its 2026 AI capital expenditure guidance to as much as $145 billion</h2>
+            <div class="plain-text">
+              <p>Meta Platforms &#8211; the company behind Facebook, Instagram, and WhatsApp &#8211; began notifying ~8,000 employees of layoffs on Wednesday, May 20, with notifications starting at 4 a.m. Singapore time before rolling out to US-based staff. Bloomberg confirmed the cuts, describing them as the largest single round of Meta layoffs since its 2023 restructuring. The 8,000 positions represent ~10% of Meta's global workforce of 78,865 employees. The company is also cancelling 6,000 open job requisitions, bringing the effective headcount reduction to 14,000 positions. Additional layoff rounds are planned for August and fall 2026, with earlier reporting from CNBC suggesting the total could eventually reach 20% of the pre-2026 workforce &#8211; though Meta called that figure speculative.</p>
+              <p>The cuts arrive alongside record financial performance. Meta reported Q1 2026 quarterly revenue of $56.31 billion and net income of $26.8 billion. Simultaneously, the company raised its full-year 2026 capital expenditure guidance to between $125 billion and $145 billion &#8211; nearly double the $72.2 billion it spent in 2025 and ~four times the $39.2 billion spent in 2024. In Q1 alone, Meta added $107 billion in new contractual commitments for cloud and infrastructure deals, and committed $27 billion to a joint venture with Nebius for a gigawatt-scale AI data center campus in Louisiana. Bank of America estimated the layoffs could generate $7&#8211;$8 billion in annualized savings. CEO Mark Zuckerberg described the broader strategy as building AI-powered products amounting to "personal superintelligence" for billions of users. Teams are being reorganized into AI-focused "pods" under Chief AI Officer Alexandr Wang's Superintelligence Labs.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Meta's paradox &#8211; record profits alongside mass layoffs &#8211; has become the defining feature of the AI era in large-cap technology. The decision to redeploy human salary budgets into GPU purchases and data centers at this scale sets a template other hyperscalers are likely to follow. The $145 billion capex ceiling, if reached, would represent the largest single-year capital expenditure in the history of the consumer internet industry.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="8000" data-count-suffix=" jobs">0 jobs</div>
+                  <div class="indicator-desc">Employees notified of layoffs starting May 20 (per Bloomberg)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">14,000</div>
+                  <div class="indicator-desc">Effective headcount reduction including 6,000 cancelled open requisitions</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">10%</div>
+                  <div class="indicator-desc">Share of Meta's global workforce affected by the May round</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$56.31B</div>
+                  <div class="indicator-desc">Meta Q1 2026 quarterly revenue &#8211; a company record</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$125&#8211;$145B</div>
+                  <div class="indicator-desc">Meta's raised full-year 2026 capital expenditure guidance</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$27B</div>
+                  <div class="indicator-desc">Joint venture with Nebius for a gigawatt-scale AI data center campus in Louisiana</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$107B</div>
+                  <div class="indicator-desc">New contractual cloud and infrastructure commitments added in Q1 2026 alone</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~25,000</div>
+                  <div class="indicator-desc">Total Meta workforce reductions since 2022</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and Chief People Officers at large-cap technology firms</div>
+                <p>Meta's restructuring architecture &#8211; AI pods, elimination of middle management layers, reallocation from headcount to capex &#8211; will be cited by boards at comparable firms within weeks. CTOs should prepare a one-page framework by end of Q2 2026 that maps which roles in their organization are subject to AI-driven efficiency gains within 12 months, so the CPO and CFO are not caught without a position when the board asks.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For advertising agencies and brand marketers (Heads of Paid Social)</div>
+                <p>A leaner Meta engineering organization running AI-built recommendation and targeting systems may produce faster product iteration but also less human oversight of ad delivery. Agency Heads of Paid Social should review their Meta performance data for signs of algorithmic drift &#8211; changes in audience delivery, frequency, or creative fatigue &#8211; over the next two quarters as the new pod structure takes effect.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.bloomberg.com/news/articles/2026-05-19/meta-begins-job-cuts-in-efficiency-push-spurred-on-by-ai" target="_blank" rel="noopener">Bloomberg</a>
+              <span class="source-meta">&middot; 19 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.cnbc.com/2026/05/18/metas-layoffs-starting-this-week-underscore-zuckerbergs-ai-reality-.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">&middot; 18 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="operations,policy" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Policy &amp; Regulation</span>
+            </div>
+            <h2>The technology sector has cut more than 114,000 jobs across 140+ companies in 2026 as AI-driven restructuring continues &#8211; with Meta, Intuit, and the Samsung near-strike all arriving within a 48-hour window</h2>
+            <div class="plain-text">
+              <p>The AI-driven restructuring wave across the technology sector has now resulted in more than 114,000 layoffs at over 140 companies in 2026, according to Layoffs.fyi data cited by CNBC and Reuters. The current pace projects to ~371,000 total tech job cuts across the full calendar year, per TrueUp. The week of May 19&#8211;21 alone saw confirmed cuts from Meta (8,000 employees, 10% of workforce), Intuit (3,000 employees, 17% of workforce), and the near-avoidance of a Samsung union strike involving 48,000 chip workers &#8211; all within a 48-hour window. Earlier in 2026, Amazon cut 16,000 positions in January; Oracle eliminated up to 30,000 (~18% of its workforce); LinkedIn reduced headcount by 5%; and Microsoft by 7%. The tech industry has averaged 882 layoffs per day in 2026 across 247 distinct layoff events, per The Next Web.</p>
+              <p>The common thread is that layoffs are occurring simultaneously with record or near-record financial performance. Meta posted $56.31 billion in Q1 revenue while cutting 10% of staff. Intuit raised full-year guidance on the same day it announced 17% workforce reductions. Samsung reported quarterly profits 8.5 times higher Y-o-Y while its union threatened a strike over bonus structures workers argue do not reflect the company's AI-driven financial gains. This is a structural, not cyclical, pattern: companies are reducing human headcount as a deliberate choice to redirect capital toward AI infrastructure and tooling, not because business is deteriorating. Separately, South Korea's Prime Minister Kim Min-seok warned that disruption to Samsung's semiconductor operations would leave "deep scars across the national economy" &#8211; reflecting how AI supply chain stability has become a matter of national economic security, not merely corporate strategy.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The convergence of record AI infrastructure spending, mass white-collar layoffs, and a near-miss on a chip supply disruption in a single week illustrates the structural tension at the core of the current AI economy: the capital gains from AI efficiency flow to infrastructure owners and shareholders, while the workforce disruption is concentrated in the middle of the corporate stack &#8211; coordination roles, project managers, mid-level managers, and professional services workers whose tasks are most directly automated by AI tooling.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">114,000+</div>
+                  <div class="indicator-desc">Tech workers laid off in 2026 to date (per Layoffs.fyi, as of this week)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">140+</div>
+                  <div class="indicator-desc">Number of tech companies with confirmed layoffs in 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~371,000</div>
+                  <div class="indicator-desc">Projected total tech job cuts across full calendar year 2026 (per TrueUp)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="882" data-count-suffix="/day">0/day</div>
+                  <div class="indicator-desc">Average daily tech layoffs in 2026 (per The Next Web)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="247" data-count-suffix=" events">0 events</div>
+                  <div class="indicator-desc">Number of distinct layoff events in the tech sector in 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">30,000</div>
+                  <div class="indicator-desc">Oracle layoffs in 2026 (~18% of workforce)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">16,000</div>
+                  <div class="indicator-desc">Amazon layoffs in January 2026</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For HR leaders and Chief People Officers across the technology sector</div>
+                <p>The pattern of simultaneous record earnings and mass layoffs will face increasing scrutiny from employees, unions, and regulators. CPOs should conduct a workforce communications audit in Q2 2026: review how the company publicly frames workforce reductions in relation to AI investments, and ensure the internal narrative is consistent with public statements, before a regulator or union organizer forces that conversation.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For institutional investors and ESG analysts holding positions in Meta, Intuit, Samsung, Amazon, and Oracle</div>
+                <p>The divergence between AI capex growth and headcount reduction is now a material governance question, not just a trend piece. ESG analysts at asset managers should add a "workforce displacement ratio" metric &#8211; layoffs per dollar of AI capex &#8211; to their Q2 2026 ESG assessments of these holdings.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/18/metas-layoffs-starting-this-week-underscore-zuckerbergs-ai-reality-.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">&middot; 18 May 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="#" target="_blank" rel="noopener">Reuters / TechCrunch</a>
+              <span class="source-meta">&middot; 20&#8211;21 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>Five stories, one structural pattern: the AI economy is generating <em>record profits and record capital expenditure</em> at one end of the value chain, while simultaneously compressing and restructuring the human workforce that built and operates it.</blockquote>
+      <p>The White House executive order expected Thursday seeks to insert government oversight into the model-release pipeline &#8211; not into the labor market effects of AI deployment, which remain entirely unaddressed at the federal level. The Samsung near-strike is the clearest expression of that gap: tens of thousands of workers at the company making the chips that power the AI boom nearly walked off the job because the financial gains from that boom were not flowing to them.</p>
+      <p>Intuit's and Meta's announcements make the same point from the other side of the ledger: both companies announced record or near-record results and workforce reductions in the same breath, explicitly framing the latter as the mechanism for funding the former. The organization most exposed by the combination of stories this week is any large enterprise software company that has not yet published a coherent position on how AI-driven efficiency gains will be balanced against workforce obligations &#8211; that silence is now a governance risk, not merely a communications gap.</p>
+      <span class="editorial-date">21 May 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <button id="footerSignupBtn" class="archive-link subscribe-btn">
+        <span>Subscribe</span>
+      </button>
+      <div class="footer-date">21 May 2026 &middot; Issue archived nightly</div>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>
