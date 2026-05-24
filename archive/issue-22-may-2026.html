@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 22 May 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+      <div class="nav-meta">
+        <span class="nav-date">22 May 2026</span>
+        <a href="archive/index.html" class="archive-link">
+          <span>View archive</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <button id="signupBtn" class="archive-link subscribe-btn">
+          <span>Subscribe</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get six key AI stories each morning, delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 22 May 2026
+        </div>
+        <h1>Six developments in AI <em>public market entry</em>, compute infrastructure costs, competitive pricing pressure, and market maturation.</h1>
+        <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="6" data-count-suffix=" developments">6 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" verticals">4 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">14 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">6</strong> of 6 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Anthropic Q2 Profit"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · OpenAI $1T IPO"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · SpaceX $45B Deal"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · SpaceX $1.75T IPO"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · AI EO Delayed"></button>
+    <button class="story-nav-dot" data-story-target="5" data-label="06 · China 60% Usage"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" data-sectors="finance,operations" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Anthropic reaches first quarterly operating profit with $10.9 billion Q2 revenue, a 130% quarter-over-quarter increase that shifts investor expectations for frontier AI company valuations</h2>
+            <div class="plain-text">
+              <p>Anthropic, the company that creates the Claude AI assistant, disclosed that it is on track for its first-ever quarterly operating profit in Q2 2026, with revenue projected at $10.9 billion, up 130% from Q1's $4.8 billion. The company expects operating income of approximately $559 million for the quarter ending June 30, 2026. This milestone was shared with investors as part of ongoing fundraising communications. The revenue growth trajectory reflects an annualized run rate that has accelerated from $9 billion at end-2025 to an estimated $43.6 billion by Q2 2026. Critical to the profitability story is improving compute efficiency: Anthropic's compute costs consumed 71 cents per dollar of revenue in Q1 but are projected to fall to 56 cents in Q2. The company now operates over 1,000 enterprise customers spending $1 million or more annually, double the count from February 2026.</p>
+              <p>The path to profitability is material because frontier AI companies are universally assumed by investors to operate at significant losses. Anthropic's shift to operating profit while still actively training frontier models changes the fundamental IPO narrative for both Anthropic and OpenAI, which has not disclosed its own profitability timeline. CEO Dario Amodei acknowledged that revenue growth had become "too hard to handle" – not as modesty, but as a reflection of genuine supply-side constraints in matching enterprise demand with available compute infrastructure.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Anthropic's demonstrated path to profitability at scale fundamentally shifts investor expectations for frontier AI company valuations. Unlike OpenAI's unclear path to sustained profitability, Anthropic's profitable unit economics at $43.6 billion annualized run rate suggests the frontier AI model business can achieve sustainable cash generation without continued venture funding. This restructures IPO comparables and makes Anthropic's October 2026 listing less vulnerable to macro risk that could undermine OpenAI's September filing. The profitability demonstration also validates the enterprise software motion – higher-margin API revenue, developer ecosystem stickiness, and concentrated customer base – as defensible against commoditized Chinese alternatives.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="11" data-count-prefix="$" data-count-suffix="B">$0B</div>
+                  <div class="indicator-desc">Q2 2026 projected revenue</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">130%</div>
+                  <div class="indicator-desc">Quarter-over-quarter revenue growth from Q1 to Q2 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$4.8B</div>
+                  <div class="indicator-desc">Q1 2026 actual revenue</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$559M</div>
+                  <div class="indicator-desc">Q2 2026 projected operating income</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$43.6B</div>
+                  <div class="indicator-desc">Annualized revenue run rate at Q2 2026 end</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">56 cents</div>
+                  <div class="indicator-desc">Compute cost per revenue dollar projected in Q2 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="1000" data-count-suffix=" customers">0 customers</div>
+                  <div class="indicator-desc">Enterprise accounts spending $1M+ annually, up from 500 in February</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs and finance teams managing AI infrastructure budgets</div>
+                <p>Your compute assumptions are likely understated. Anthropic's improvement from 71 to 56 cents per dollar of revenue reflects optimization of already-massive infrastructure spend. In the next 60 days, audit your own AI model serving costs against Anthropic's disclosed ratios. If your compute-to-revenue ratio exceeds 60%, you are operating below Anthropic's efficiency baseline despite likely much smaller scale. Establish a target compute cost ratio by Q4 2026 and assign a finance ops lead to track it monthly.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise software CTOs evaluating AI platform partnerships</div>
+                <p>Profitable AI companies can sustain price competition and API rate cuts without burning venture capital. When OpenAI and Anthropic both go public in the next four months, expect pricing pressure as both companies compete with public-market investors watching. Lock in multi-year API commitments now at current pricing before September 2026 IPOs introduce volatility.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For venture investors assessing Series B and C AI startups</div>
+                <p>The frontier model profitability baseline is now $43.6 billion annualized revenue. Any AI startup claiming path to profitability must articulate defensible margin mechanics and customer concentration that justify their cost structure relative to this new standard. "Trust the model performance" is no longer sufficient justification for raising at pre-profitability valuations.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.wsj.com/tech/ai/anthropic-projects-record-revenue-and-first-quarterly-operating-profit" target="_blank" rel="noopener">Wall Street Journal</a>
+              <span class="source-meta">· 21 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="finance" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>OpenAI files confidential IPO prospectus, targeting September 2026 listing at $852 billion to $1 trillion valuation, with Goldman Sachs and Morgan Stanley as underwriters</h2>
+            <div class="plain-text">
+              <p>OpenAI, the company behind ChatGPT, is preparing to file a confidential IPO prospectus with the SEC as early as May 22, 2026, according to CNBC, Reuters, and Axios reporting. The company is working with Goldman Sachs and Morgan Stanley on the filing. A confidential submission triggers SEC review without immediate public disclosure – the prospectus typically becomes public approximately two months after confidential filing, pointing toward a late July or early August public S-1 filing and September 2026 listing. OpenAI is targeting a valuation range of $852 billion to $1 trillion. At the upper valuation end, the offering would be the largest technology IPO in history. The filing comes after OpenAI's March 2026 funding round closed at $852 billion post-money valuation, with major participation from Amazon, Nvidia, SoftBank, and other investors. Company CFO Sarah Friar disclosed in January 2026 that annualized revenue exited 2025 above $20 billion, with full-year actual revenue approximately $13.1 billion. Current estimates place OpenAI's annualized run rate at approximately $25 billion as of May 2026.</p>
+              <p>The timing of the confidential filing is strategically significant. Anthropic has separately indicated openness to a public listing by year-end 2026, with October the most frequently cited window. Coinbase prediction market data shows 85% implied probability that OpenAI lists before Anthropic. Both companies are racing because the first to go public sets valuation comparables for the second. OpenAI's S-1 will disclose audited financials, contract terms, compute costs, and capital commitments that have been opaque to public view – information that will directly inform how investors value Anthropic's October filing.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>OpenAI's IPO filing initiates the most significant capital markets test of frontier AI revenue models since the sector emerged. Unlike Anthropic's disclosed path to profitability, OpenAI's financial picture has remained unclear: the company is generating $25 billion in annualized revenue against an $852 billion valuation while historical losses remain undisclosed. The public S-1 filing will force disclosure of compute spend, Microsoft partnership terms, and margin trajectory – data that will determine whether public market investors view OpenAI's valuation as justified or overpriced. That assessment directly affects Anthropic's October listing prospects and determines whether a "bubble" framing takes hold in media coverage of AI IPOs.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$852B–$1T</div>
+                  <div class="indicator-desc">Target valuation range for OpenAI IPO</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$25B</div>
+                  <div class="indicator-desc">Annualized revenue run rate as of May 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$13.1B</div>
+                  <div class="indicator-desc">Full-year 2025 actual revenue</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">85%</div>
+                  <div class="indicator-desc">Coinbase prediction market probability of OpenAI listing before Anthropic</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">September 2026</div>
+                  <div class="indicator-desc">Target listing month</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~2 months</div>
+                  <div class="indicator-desc">Typical timeline from confidential filing to public S-1 disclosure</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For corporate development and M&A teams at enterprise software companies</div>
+                <p>OpenAI's IPO filing makes it a publicly traded company within four months. Update your corporate development strategy to assume OpenAI's product portfolio (ChatGPT, API, enterprise offerings) will be managed with public-market shareholder expectations, not venture-style free spending. If you currently negotiate with OpenAI on API pricing, contract terms, or integration priority, expect those conversations to become more formal and less flexible post-September listing.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For institutional investors managing technology portfolios</div>
+                <p>OpenAI's S-1 will be the first complete disclosure of a frontier AI company's unit economics. The numbers will determine whether AI IPOs are the next generation of software platform value or a venture-subsidized arbitrage. Set aside time in July or August 2026 to thoroughly read the prospectus before the underwriter roadshow begins. The filing will contain more actionable information about AI industry structure than any analyst report.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For AI application startups considering Series A and B rounds</div>
+                <p>The OpenAI IPO filing will likely trigger enterprise customer conversations about "platform risk" – whether OpenAI's product decisions will be driven by shareholder returns rather than customer needs. Prepare your customers with communication explaining your architectural independence and contract terms that protect them from upstream platform changes.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/20/openai-ipo-filing.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">· 21 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="operations,hardware" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>SpaceX IPO prospectus discloses $1.25 billion monthly contract with Anthropic for GPU compute through May 2029, totaling $45 billion in committed infrastructure spending</h2>
+            <div class="plain-text">
+              <p>SpaceX's IPO prospectus, filed publicly with the SEC on May 20, 2026, disclosed a material Anthropic contract in the related-party transactions section: Anthropic will pay SpaceX $1.25 billion per month for GPU compute access through May 2029, totaling approximately $45 billion across the contract term. The deal covers SpaceX's Colossus 1 data center in Memphis, Tennessee (220,000+ Nvidia GPUs, 300 megawatts) and is expanding to Colossus 2 throughout June 2026. Anthropic president Daniela Amodei confirmed on X that the company is scaling to include Nvidia GB200 (Blackwell Ultra) capacity in Colossus 2. The $1.25 billion monthly payment is the full-rate contract price; May and June 2026 amounts are discounted as the deal ramps to capacity. Either party can terminate with 90 days' notice. The SpaceX deal is Anthropic's largest single publicly disclosed compute contract, though the company maintains separate agreements with Amazon, Google, Broadcom, Microsoft, Nvidia, and Fluidstack, indicating a deliberate multi-vendor compute strategy.</p>
+              <p>The scale of the SpaceX contract is extraordinary: at $1.25 billion monthly on compute alone, Anthropic's total infrastructure spend across all providers is at least $15 billion annually just for the SpaceX agreement. This figure must be understood in the context of Anthropic's $10.9 billion Q2 revenue projection – meaning the single SpaceX contract consumes compute budgets equivalent to Q2's total revenue. The improving 56-cent compute efficiency ratio disclosed by Anthropic includes all of these infrastructure costs, suggesting efficiency gains across its entire multi-vendor compute stack.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The SpaceX contract quantifies the true infrastructure cost structure behind frontier AI companies and establishes the business model dependency that neither Anthropic nor OpenAI has previously disclosed at this scale. Investors evaluating Anthropic's $900 billion IPO valuation and OpenAI's $852 billion–$1 trillion valuation now have concrete evidence that frontier AI revenue generation is tightly coupled to massive, long-term infrastructure commitments. The $45 billion SpaceX commitment through 2029 is a fixed obligation that Anthropic must service regardless of revenue fluctuations – a structural risk that public market investors will scrutinize. The contract also reveals that compute availability, not model capability, is the binding constraint on frontier AI revenue growth.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$1.25B/month</div>
+                  <div class="indicator-desc">Payment to SpaceX through May 2029</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$45B</div>
+                  <div class="indicator-desc">Total contract value through May 2029</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$15B</div>
+                  <div class="indicator-desc">Implied annual SpaceX compute commitment</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">220,000+</div>
+                  <div class="indicator-desc">Nvidia GPUs at Colossus 1 and 2 combined</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">300 MW</div>
+                  <div class="indicator-desc">Power consumption at Colossus facilities</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">90 days</div>
+                  <div class="indicator-desc">Notice period for either party to terminate contract</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For compute infrastructure investors and cloud operators</div>
+                <p>The $1.25 billion monthly rate is a market-clearing price for frontier AI-grade infrastructure. If you are building competing data center capacity, your business model must service customers who can commit to multi-year, multi-billion-dollar contracts at comparable per-GPU pricing. The SpaceX deal confirms that frontier AI infrastructure is not commoditized – it is venture-scale capex with long-term offtake agreements. Position your infrastructure offerings around 18–36 month commitments and build flexibility around GPU-type substitution (H100 vs H200 vs GB200) rather than scale.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise customers using Anthropic APIs</div>
+                <p>The $15 billion annual SpaceX commitment represents recurring compute obligations that Anthropic must monetize through API revenue. Understand that API pricing and rate limit policies will be driven partly by the need to service this infrastructure debt. Multi-year API contracts will likely improve your effective pricing by helping Anthropic project revenue stability.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For government infrastructure planners and CFIUS reviewers</div>
+                <p>The SpaceX–Anthropic contract is a critical dependency chain: US frontier AI capability depends on a private company's satellite infrastructure business, which depends on Musk-affiliated entities. Understand this linkage when evaluating national security implications of frontier AI compute capacity and consider whether single-vendor compute dependencies create unacceptable concentration risk.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://techjournal.org/spacex-openai-anthropic-ipo-2026" target="_blank" rel="noopener">Tech Journal</a>
+              <span class="source-meta">· 22 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="finance,hardware" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>SpaceX IPO targets $1.75 trillion valuation with combined Q1 2026 revenue of $4.69 billion against a net loss of $4.28 billion, driven by unprofitable xAI segment</h2>
+            <div class="plain-text">
+              <p>SpaceX filed its public IPO prospectus on May 20, 2026, targeting a Nasdaq listing under ticker SPCX at a reported valuation of $1.75 trillion. The filing reveals a combined entity that is substantially less profitable than SpaceX standalone was pre-merger with xAI in February 2026. Q1 2026 combined financials: $4.69 billion in revenue, $4.28 billion net loss. Full-year 2025 (retroactive, post-xAI merger): $18.7 billion in revenue, $4.9 billion net loss. The Connectivity segment (Starlink) was operationally profitable: $1.19 billion operating profit in Q1 2026 with 10.3 million subscribers in 164 countries. The Space segment (Starship R&D) posted a $662 million operating loss. The AI segment (SpaceXAI, formerly xAI) posted $818 million in Q1 2026 revenue but a $2.47 billion operating loss – a loss rate of approximately $3 for every $1 of revenue. Elon Musk will retain 85.1% combined voting power through dual-class share structure (Class B shares carry 10 votes per share versus 1 per Class A share). Musk has stated he will not sell shares in the IPO.</p>
+              <p>The xAI merger transformed SpaceX from a cash-generative business into a loss-making entity. However, the xAI segment's Q1 loss trajectory will improve materially when the Anthropic $1.25 billion monthly compute deal ramps to full rate in subsequent quarters. The prospectus reveals that SpaceX spent $7.7 billion on AI infrastructure in Q1 2026 alone – an implied $30+ billion annual run rate. As Anthropic's contract payments escalate through summer and fall 2026, SpaceX's AI segment revenue will rise, potentially driving the xAI segment toward breakeven on operating metrics.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>SpaceX's IPO filing establishes the financial model for AI infrastructure providers and sets a public-market precedent for how investors should evaluate companies that derive revenue from frontier AI customer relationships. The $1.75 trillion valuation for a company posting $4.28 billion Q1 losses implies that investors are pricing the merged company on Starlink's profitable connectivity business and the upside from ramp-up of compute monetization over 18–24 months. The filing also makes transparent that "AI company" financials at this scale are not yet profitable – SpaceX's xAI segment is a loss leader that depends on long-term offtake commitments from customers like Anthropic to justify continued investment.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$1.75T</div>
+                  <div class="indicator-desc">IPO valuation target</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$4.69B</div>
+                  <div class="indicator-desc">Q1 2026 combined revenue</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$4.28B</div>
+                  <div class="indicator-desc">Q1 2026 net loss</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$1.19B</div>
+                  <div class="indicator-desc">Starlink Q1 2026 operating profit</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="10" data-count-suffix="M">0M</div>
+                  <div class="indicator-desc">Starlink subscribers as of March 31, 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$2.47B</div>
+                  <div class="indicator-desc">xAI segment Q1 2026 operating loss</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$7.7B</div>
+                  <div class="indicator-desc">AI infrastructure capex in Q1 2026 alone</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For infrastructure-heavy AI companies planning to go public</div>
+                <p>The SpaceX filing demonstrates that public markets will fund losses at infrastructure scale if customers demonstrate willingness to commit to long-term capacity purchases. The Anthropic $45 billion contract is your proof point. If you are operating an AI infrastructure business at loss, establish a 24-month path to showing operating profit or a credible customer offtake schedule that crowds out skepticism. SpaceX's playbook: Starlink profits subsidize xAI losses until xAI can monetize via Anthropic and similar large customers.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs evaluating infrastructure capex decisions in 2026–2027</div>
+                <p>The $7.7 billion Q1 capex run rate at SpaceX suggests frontier AI infrastructure will require $25+ billion annual investment across the industry. Plan accordingly. Depreciation schedules will be stressed, and free cash flow will be negative even as revenue grows.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For customers evaluating long-term infrastructure partnerships</div>
+                <p>Multi-year commitments to single infrastructure providers (like Anthropic's SpaceX deal) lock in pricing but create leverage for the provider to dictate terms. Diversify infrastructure commitments across at least two major providers and reserve the right to shift workloads based on performance.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/20/spacex-ipo-live-updates.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">· 20 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="policy" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+            </div>
+            <h2>White House AI executive order postponed for the second time as administration remains divided over enforcement scope between national security hardliners and deregulation advocates</h2>
+            <div class="plain-text">
+              <p>The White House AI executive order, which would have established a voluntary 90-day pre-launch review framework for frontier AI models with NSA involvement in classified testing, was postponed on May 21, 2026, according to CNN and the Washington Post. Invitations had already been sent for the signing event before the postponement was announced. The order's delay reflects ongoing internal White House disagreements about the scope and enforceability of the voluntary framework. According to reporting from Axios and the Washington Post, the administration is torn between its default pro-innovation, anti-regulation posture and genuine national security concerns – particularly following Anthropic's Mythos model discovery of previously unknown zero-day vulnerabilities in legacy financial infrastructure.</p>
+              <p>The proposed voluntary framework would establish no legal penalty for non-compliance, creating the core disagreement: national security hardliners within the administration want binding rules with NSA classified access to frontier models, while deregulation advocates argue "voluntary" must mean exactly that. The delay is complicated by timing: both OpenAI and Anthropic are weeks away from confidential IPO filings. Forcing voluntary compliance from either company when both are preparing to list and want to avoid regulatory perception as burdensome is a delicate political calculation. The Mythos discovery – which found tens of thousands of legacy system vulnerabilities – originally forced the administration's hand and signaled legitimate national security risk. But converting that risk perception into binding policy while two $800 billion+ companies are preparing IPO filings is administratively complex.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The executive order delay signals that White House AI policy remains undefined and reactive rather than proactive. The postponement also indicates that the Mythos vulnerability discovery has not translated into enforceable policy momentum, suggesting that frontier AI cybersecurity risks will remain unaddressed by federal regulation for at least the next 6–12 months. For enterprise security leaders and compliance officers, this creates ambiguity: frontier AI cybersecurity standards are not being set by policy, leaving it to private market-driven standards to establish baseline controls.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">90 days</div>
+                  <div class="indicator-desc">Voluntary pre-launch review period proposed in executive order</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">No date set</div>
+                  <div class="indicator-desc">New execution date for the postponed executive order</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">Tens of thousands</div>
+                  <div class="indicator-desc">Legacy system zero-day vulnerabilities discovered by Anthropic's Mythos model</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For security and compliance officers at financial institutions</div>
+                <p>The Mythos discovery of zero-day vulnerabilities in legacy systems demonstrated that frontier AI cybersecurity capabilities have outpaced defensive capacity. Do not wait for federal policy to mandate AI security standards. In the next 60 days, conduct a zero-day vulnerability assessment of your critical legacy systems using available AI-assisted penetration testing tools. Document the findings and build a remediation roadmap. The absence of federal mandate does not eliminate the risk.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For policy affairs teams at AI companies</div>
+                <p>The executive order delay buys you time but does not eliminate regulatory risk. Prepare for the order to eventually be signed, but do not assume its current voluntary form will survive internal review. Develop detailed documentation of your internal model review processes, safety testing, and NSA engagement protocols now – as if binding compliance were imminent. Voluntary compliance today becomes mandatory compliance evidence tomorrow.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise customers of frontier AI models</div>
+                <p>Cybersecurity standards for AI will be set by private industry, not federal regulation. When evaluating Claude, ChatGPT, or other frontier models for sensitive use cases, ask vendors for evidence of adversarial testing, red-teaming results, and vulnerability disclosure timelines. Contracts should specify your right to audit these standards.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnn.com/2026/05/20/tech/ai-executive-order-trump-white-house" target="_blank" rel="noopener">CNN</a>
+              <span class="source-meta">· 21 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="operations" data-story-index="5">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">06</span> / 06</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Chinese AI models reach 60% of developer usage on OpenRouter, reflecting a 59-percentage-point shift from 1% in 2024 and signaling emerging pricing power erosion for frontier models</h2>
+            <div class="plain-text">
+              <p>Chinese AI models grew from approximately 1% of usage on OpenRouter in 2024 to over 60% by May 2026, according to Databricks CEO Ali Ghodsi citing OpenRouter marketplace data. OpenRouter is the most-used third-party AI model routing platform for developers, making its usage distribution one of the cleanest real-world signals of developer spending patterns. The specific models driving adoption: DeepSeek V3.2 (priced at $0.28/$0.42 per million tokens), Kimi K2.6 ($0.95 per million tokens, scoring 90.5% on GPQA benchmark), and Zhipu GLM-5.1. The cost benchmark gap is substantial: Artificial Analysis calculated that running a 10-evaluation benchmark workload costs $4,811 with Anthropic Claude, $3,357 with OpenAI ChatGPT, $1,071 with DeepSeek, $948 with Kimi, and $544 with Zhipu GLM. Claude costs approximately 9 times more than the cheapest Chinese alternative for the same workload. CNBC reported on May 20 that enterprise adoption patterns are shifting to an "advisor model" in which companies use cheap open-source or Chinese models as the default layer and call OpenAI or Anthropic only for tasks cheaper models cannot solve. That architecture immediately challenges frontier model pricing power and reduces the addressable market willing to pay premiums.</p>
+              <p>The 60% OpenRouter figure requires context: OpenRouter skews toward individual developers and price-sensitive startups, not the large enterprise accounts that comprise the majority of Anthropic's and OpenAI's revenue. However, developer adoption patterns translate to enterprise adoption in 12–18 months. Engineers choosing DeepSeek and Kimi for internal tools and side projects in 2026 are the same architects designing their company's AI infrastructure in 2027. The developer preference signal is a leading indicator of enterprise platform risk.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Chinese model adoption at 60% of developer platforms directly threatens the valuation thesis underlying both Anthropic's and OpenAI's IPO targets. Both companies are targeting $800 billion+ valuations on the assumption of sustained pricing power at the frontier. If Chinese models close the capability gap to within 5–10% in 12 months – a timeline Anthropic itself acknowledged as plausible – the addressable market willing to pay 9x premiums for incremental capability improvement shrinks rapidly. The "advisor model" adoption pattern suggests that enterprises are already segmenting workloads by cost–capability tradeoff, reducing frontier model revenue per deployed AI system. Public market investors will scrutinize OpenAI's and Anthropic's S-1 filings for evidence of pricing pressure and margin compression from Chinese competitive alternatives. If OpenRouter adoption continues trending toward 70%+ Chinese models, IPO valuations could face downward pressure regardless of how impressive each company's standalone numbers appear.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value">60%</div>
+                  <div class="indicator-desc">Chinese model share of OpenRouter usage by May 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">1%</div>
+                  <div class="indicator-desc">Chinese model share of OpenRouter usage in 2024</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$4,811</div>
+                  <div class="indicator-desc">Cost to run 10-evaluation benchmark on Claude</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$544</div>
+                  <div class="indicator-desc">Cost to run same benchmark on Zhipu GLM (cheapest alternative)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">9x</div>
+                  <div class="indicator-desc">Cost multiple: Claude versus cheapest Chinese alternative</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$0.28–$0.42</div>
+                  <div class="indicator-desc">DeepSeek V3.2 pricing per million tokens</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">90.5%</div>
+                  <div class="indicator-desc">Kimi K2.6 GPQA benchmark performance</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">12–18 months</div>
+                  <div class="indicator-desc">Timeline from developer adoption to enterprise platform adoption</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For product and strategy teams at frontier AI companies</div>
+                <p>Chinese model cost competition is real and trending in the direction of closing capability gaps. Do not assume benchmark score advantages alone will sustain pricing power. Build product differentiation around enterprise-grade performance guarantees (SLA-backed latency, availability, accuracy), industry-specific fine-tuning, and integration depth that cheap alternatives cannot match. The competitive moat shifts from "best model" to "best integration into customer workflow."</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise procurement and technology leaders</div>
+                <p>Establish a formal "AI cost of ownership" assessment by Q3 2026. Compare your current spending on Claude and ChatGPT APIs against equivalent workloads routed through cheaper alternatives (DeepSeek, Kimi). Identify workload categories where Chinese models meet your accuracy thresholds. Segment your usage: frontier models for high-stakes tasks, cheaper alternatives for routine work. This cost segmentation will become table stakes as public pressure on AI spend intensifies.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For investors evaluating AI company IPOs</div>
+                <p>The Chinese model adoption signal is the most material financial risk factor to OpenAI's and Anthropic's valuations that IPO prospectuses will not adequately address. Public companies face quarterly earnings pressure, making them less able to sustain premium pricing in the face of capable, cheap alternatives than private venture-backed companies. Analyze each company's forward revenue model assuming 10–20% annual price compression in competitive segments. If margin or growth targets depend on maintaining current prices, the IPO valuation may not survive 12–18 months of public market exposure.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/20/cheap-ai-could-derail-openai-and-anthropics-ipos.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">· 20 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>This week marks the moment when frontier AI transitions from venture-backed secrecy to <em>public market scrutiny and accountability</em> – and the financial contradictions of that transition become visible.</blockquote>
+      <p>SpaceX, OpenAI, and Anthropic have filed or are about to file IPO prospectuses that force public disclosure of the compute cost structure, customer concentration, and margin trajectory that have been opaque to investors until now. Anthropic's demonstrated path to profitability is a material advantage in this environment. OpenAI and SpaceX will face harder questions when their complete financial records become public. But the underlying structural tension is now impossible to ignore: Anthropic is profitable at $43.6 billion annualized run rate while OpenAI's path remains unclear, and both companies' growth depends on infrastructure commitments that are economically massive and strategically concentrated.</p>
+      <p>The most destabilizing signal comes from the developer preference data. Chinese models at 60% of OpenRouter usage represent a pricing pressure that neither Anthropic nor OpenAI has publicly addressed. If that adoption continues to shift toward 70%+ Chinese models, the pricing power assumptions embedded in both companies' IPO valuations become vulnerable within 12–18 months. The organizations most exposed by this week's combined stories are enterprise software companies that have built core products (coding assistants, enterprise search, knowledge management) on the assumption that frontier model pricing would remain stable and accessible. Pricing pressure from Chinese alternatives, combined with public market discipline, will likely compress margins for companies dependent on high-cost model APIs. Plan for 15–20% effective price increases through contract renegotiation or technical switching by 2027.</p>
+      <span class="editorial-date">22 May 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">22 May 2026 · Issue archived nightly</div>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>
