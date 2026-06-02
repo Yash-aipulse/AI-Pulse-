@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 01 June 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '\201C'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      <div class="nav-meta">
+  <span class="nav-date">1 JUNE 2026</span>
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+    <span>Back to archive</span>
+  </a>
+</div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get the key AI stories each morning, delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief &middot; 01 June 2026
+        </div>
+        <h1>Eight developments in AI <em>compute infrastructure</em>, developer tool economics, cybersecurity disclosure, and frontier valuations.</h1>
+        <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="8" data-count-suffix=" developments">8 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" verticals">4 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">14 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+          <button class="chip" data-sector-filter="cybersecurity">Cybersecurity</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">8</strong> of 8 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 &middot; NVIDIA Vera Rubin"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 &middot; NVIDIA RTX Spark PCs"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 &middot; Copilot token billing"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 &middot; Nightmare Eclipse zero-days"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 &middot; Microsoft MAI at Build"></button>
+    <button class="story-nav-dot" data-story-target="5" data-label="06 &middot; Anthropic $900B valuation"></button>
+    <button class="story-nav-dot" data-story-target="6" data-label="07 &middot; Vast $1B 3D AI unicorn"></button>
+    <button class="story-nav-dot" data-story-target="7" data-label="08 &middot; SpaceX IPO $1.75T"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <!-- STORY 1 -->
+      <article class="story" data-sectors="hardware,operations" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>NVIDIA announces the Vera Rubin platform in full production at Computex 2026, delivering 10x agent throughput over Blackwell across a supply chain spanning 350+ factories in 30 countries</h2>
+            <div class="plain-text">
+              <p>NVIDIA &#8211; the semiconductor company whose GPUs power the majority of AI data centers worldwide &#8211; used its Computex 2026 keynote in Taipei on 01 June to announce that the Vera Rubin platform, its next-generation AI factory architecture, has entered full production. The platform unifies five purpose-built rack types into a single POD-scale system: Vera Rubin NVL72 GPU racks, Vera CPU racks, Groq 3 LPX networking, Vera BlueField-4 STX storage, and Spectrum-6 SPX Ethernet racks. NVIDIA claims 10x agent throughput at scale compared with the previous-generation Grace Blackwell platform. The Rubin GPU features two reticle dies delivering 50 PFLOPs of NVFP4 inference and 35 PFLOPs of NVFP4 training performance &#8211; 5x and 3.5x increases over Blackwell, respectively &#8211; along with HBM4 memory (the latest generation of high-bandwidth memory used in AI accelerators) offering up to 22 TB/s bandwidth per chip, a 2.8x jump over Blackwell.</p>
+              <p>The production ramp involves hundreds of ecosystem partners &#8211; 150 in Taiwan alone &#8211; across more than 350 factories in 30 countries. Major system builders in full-scale production include Dell Technologies, HPE, Lenovo, Supermicro, ASUS, Foxconn, GIGABYTE, IBM, Inventec, MSI, and Wistron. NVIDIA also introduced Spectrum-X Ethernet Photonics &#8211; now in production &#8211; combining co-packaged optics with Spectrum-X switching to enable million-GPU AI factories. Vera Rubin NVL72 racks are 100% liquid cooled with cable-free modular tray designs, reducing installation time from two hours to five minutes compared with Blackwell equivalents. Early Vera CPU customers confirmed by CNBC include Anthropic (the company that makes the Claude AI assistant), OpenAI (the company behind ChatGPT), SpaceX&#8217;s xAI, Dell, Oracle, and CoreWeave.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Vera Rubin is NVIDIA&#8217;s answer to the compute demands of agentic AI workloads &#8211; systems where a single prompt can trigger thousands of sequential reasoning, retrieval, and tool-use steps. The 10x throughput improvement and the breadth of the manufacturing ramp signal that NVIDIA is scaling supply ahead of a demand cycle it expects to be driven by AI agents rather than chatbots. The $200 billion total addressable market NVIDIA has cited for Vera CPUs alone could reshape server economics across the industry.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="10" data-count-suffix="x">0x</div>
+                  <div class="indicator-desc">Agent throughput at scale vs. Grace Blackwell</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">50 PFLOPs</div>
+                  <div class="indicator-desc">NVFP4 inference performance per Rubin GPU (5x over Blackwell)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">35 PFLOPs</div>
+                  <div class="indicator-desc">NVFP4 training performance per Rubin GPU (3.5x over Blackwell)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">22 TB/s</div>
+                  <div class="indicator-desc">HBM4 memory bandwidth per chip (2.8x over Blackwell)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="150" data-count-suffix=" partners">0 partners</div>
+                  <div class="indicator-desc">NVIDIA supply chain partners in Taiwan alone</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">350+</div>
+                  <div class="indicator-desc">Factories across 30 countries ramping Vera Rubin production</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">5 minutes</div>
+                  <div class="indicator-desc">NVL72 rack assembly time (down from 2 hours for Blackwell)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$200B</div>
+                  <div class="indicator-desc">NVIDIA&#8217;s cited total addressable market for Vera CPUs</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and VP Infrastructure at cloud providers and hyperscalers (AWS, Azure, Google Cloud, Oracle Cloud)</div>
+                <p>Begin Vera Rubin capacity planning now. With Anthropic, OpenAI, and CoreWeave confirmed as early customers, procurement teams should finalize NVL72 rack orders by Q3 2026 to secure fall delivery windows and avoid being locked out of first-wave allocation. Contact your NVIDIA account team this week to confirm lead times.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs deploying agentic AI workflows at large enterprises</div>
+                <p>Benchmark current Blackwell workloads against the 10x throughput claims. If your agents require multi-step reasoning chains, Vera Rubin&#8217;s architecture is purpose-built for that pattern. Request proof-of-concept access from your OEM partner before committing to additional Blackwell infrastructure purchases.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For semiconductor investors and equity analysts</div>
+                <p>The breadth of the Vera Rubin supply chain ramp suggests NVIDIA is pre-positioning for a demand cycle comparable to or exceeding the Blackwell ramp. Monitor HBM4 supply constraints at SK hynix and Samsung &#8211; memory availability will likely be the bottleneck for NVL72 shipment volumes through H2 2026.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://nvidianews.nvidia.com/news/vera-rubin-full-production-agentic-ai-factory" target="_blank" rel="noopener">NVIDIA Newsroom</a>
+              <span class="source-meta">&middot; 31 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 2 -->
+      <article class="story" data-sectors="hardware" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>NVIDIA enters the PC processor market with RTX Spark &#8211; an Arm-based superchip with 128 GB unified memory targeting Windows laptops from Dell, HP, ASUS, Lenovo, and Microsoft</h2>
+            <div class="plain-text">
+              <p>At the same Computex keynote, NVIDIA CEO Jensen Huang unveiled RTX Spark, NVIDIA&#8217;s first-ever processor built specifically for Windows PCs. The Arm-based superchip packs a 20-core Grace CPU (developed alongside MediaTek, the Taiwanese chip design firm), a Blackwell-class RTX GPU with 6,144 CUDA cores, an NPU (neural processing unit &#8211; a dedicated chip for running AI tasks efficiently on-device), and up to 128 GB of unified LPDDR5X memory &#8211; all on a single TSMC 3 nm package. NVIDIA claims 1 petaFLOP of AI performance from the chip, which it also refers to internally as the N1X.</p>
+              <p>RTX Spark systems will debut in the fall of 2026, with over 30 laptops and 10 desktops announced from Microsoft (Surface Laptop Ultra), Dell, HP, ASUS, Lenovo, and MSI. NVIDIA says the chip&#8217;s GPU is &#8220;roughly equivalent&#8221; to the RTX 5070 laptop GPU. Alongside RTX Spark, NVIDIA announced DLSS 4.5 Ray Reconstruction, expected in August 2026, and confirmed it is working with all major game developers to bring popular anti-cheat software natively to Windows on Arm. The move marks NVIDIA&#8217;s first entry into the PC processor market in over a decade and represents a direct challenge to Apple&#8217;s M-series silicon, Qualcomm&#8217;s Snapdragon X platform, and the long-standing Intel/AMD x86 duopoly in Windows PCs.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>NVIDIA is leveraging its AI and GPU dominance to attempt what no chip designer has managed: breaking Apple&#8217;s grip on premium Arm-based personal computing and Qualcomm&#8217;s early lead in Windows on Arm. The 128 GB unified memory configuration &#8211; matching Apple&#8217;s highest-end MacBook Pro &#8211; positions RTX Spark for on-device AI workloads that most current Windows laptops cannot handle. If NVIDIA&#8217;s ecosystem play succeeds, it could reshape the PC supply chain, divert OEM roadmaps, and create a third axis of competition in a market Intel and AMD have owned for decades.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="20" data-count-suffix=" cores">0 cores</div>
+                  <div class="indicator-desc">Arm CPU cores in the RTX Spark superchip</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="6144" data-count-suffix=" CUDA cores">0 CUDA cores</div>
+                  <div class="indicator-desc">CUDA cores in the Blackwell-class GPU</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">128 GB</div>
+                  <div class="indicator-desc">Maximum unified LPDDR5X memory</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">1 petaFLOP</div>
+                  <div class="indicator-desc">Claimed AI performance from the chip</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">3 nm</div>
+                  <div class="indicator-desc">TSMC manufacturing process node</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="30" data-count-suffix="+ laptops">0+ laptops</div>
+                  <div class="indicator-desc">Laptops announced for fall 2026 launch</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">10+</div>
+                  <div class="indicator-desc">Desktops announced for fall 2026 launch</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For Heads of Product Strategy at PC OEMs and IT procurement leads</div>
+                <p>Evaluate RTX Spark against Qualcomm Snapdragon X and Apple M-series for fall 2026 lineups. The 128 GB memory ceiling and local AI inference capability may redefine &#8220;AI PC&#8221; from marketing label to genuine capability differentiator. Request engineering samples from NVIDIA partners by mid-Q3.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For engineering leads at software development firms</div>
+                <p>Prioritize Windows on Arm compatibility testing now. NVIDIA&#8217;s commitment to anti-cheat support and DLSS 4.5 signals that gaming and creative professional segments are primary targets &#8211; any application that has not been compiled for Arm will miss the launch window.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For Intel and AMD product teams</div>
+                <p>The competitive threat is existential for the premium Windows laptop segment. Accelerate AI-integrated processor roadmaps and consider aggressive pricing strategies to defend market share before RTX Spark reaches retail in fall 2026.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/31/nvidias-new-chip-to-power-fresh-line-of-windows-laptops-by-dell-hp.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">&middot; 31 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 3 -->
+      <article class="story" data-sectors="operations" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>GitHub Copilot switches to token-based billing on 01 June, ending flat-rate pricing &#8211; developers report projected cost increases of 10x to 50x</h2>
+            <div class="plain-text">
+              <p>GitHub Copilot&#8217;s new usage-based billing system took effect on 01 June 2026, replacing the flat subscription model with token-based &#8220;GitHub AI Credits.&#8221; Under the new model, monthly subscription prices remain nominally unchanged &#8211; Pro at $10/month, Pro+ at $39/month, Business at $19/user/month, Enterprise at $39/user/month &#8211; but each plan now purchases a fixed allotment of AI Credits (1 credit = $0.01) that are consumed based on actual token usage across inputs, outputs, and cached context. Code completions and Next Edit suggestions remain included at no credit cost, but chat, agentic coding (where the AI takes multi-step actions autonomously), and code review sessions now consume credits at model API rates.</p>
+              <p>The change has generated significant developer backlash. TechCrunch reported that developers have flooded Reddit and X with complaints, with some reporting projected cost increases from $29/month to $750/month and from $50/month to $3,000/month. The previous fallback mechanism &#8211; which switched users to a lower-cost model when premium requests were exhausted &#8211; has been eliminated. GitHub is offering promotional credits for June, July, and August to ease the transition and has introduced pooled usage for organizations. Annual plans are being retired; annual subscribers will remain on existing terms until expiration. GitHub CPO Mario Rodriguez wrote that the change was necessary because Copilot now powers &#8220;far more complex, agentic workflows that consume far more compute.&#8221; The timing is notable: it coincides with reports that Claude Code &#8211; Anthropic&#8217;s command-line coding tool &#8211; has overtaken Copilot as the dominant developer AI tool, per The Information.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>This is the first major AI developer tool to abandon unlimited-use pricing in favor of metered economics, and it exposes the unsustainable cost structure behind compute-intensive AI coding workflows. Microsoft&#8217;s simultaneous announcement of homegrown MAI coding models for Build 2026 (Story 5) suggests the company is hedging against Copilot revenue compression by building an in-house alternative. For the broader AI tools market, this signals that the subscription-to-metered transition may become the norm for compute-intensive AI products.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$10/month</div>
+                  <div class="indicator-desc">Copilot Pro plan (now purchasing AI Credits rather than unlimited access)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$39/month</div>
+                  <div class="indicator-desc">Copilot Pro+ plan</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$0.01</div>
+                  <div class="indicator-desc">Value of 1 GitHub AI Credit</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">10x&#8211;50x</div>
+                  <div class="indicator-desc">Range of projected cost increases reported by some developers</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="400" data-count-suffix="+ comments">0+ comments</div>
+                  <div class="indicator-desc">In the official GitHub community announcement thread</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="900" data-count-suffix=" downvotes">0 downvotes</div>
+                  <div class="indicator-desc">Approximate downvotes on the announcement</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For engineering leaders and CTOs at organizations using GitHub Copilot</div>
+                <p>Pull your organization&#8217;s Copilot usage data from GitHub&#8217;s admin console immediately. Identify your heaviest users and whether agentic features &#8211; chat, multi-file edits, code review &#8211; are part of their workflows. Set organizational spending caps before the promotional credit window closes in August. Evaluate Claude Code, Cursor, and other alternatives as hedges against metered cost escalation.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For individual developers and small teams</div>
+                <p>Monitor your personal credit consumption daily for the first two weeks. If you primarily use code completions (which remain free), the impact may be minimal. If you rely on agentic coding or extensive chat, budget for 3&#8211;5x your previous monthly cost and consider whether Pro+ at $39/month provides enough credits for your workflow.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For product leaders at AI tool companies still offering flat-rate pricing</div>
+                <p>Study this transition closely. GitHub&#8217;s move suggests that flat-rate AI subscriptions are economically unviable at scale when the underlying models become more capable and more expensive to run. Model your own unit economics before users adopt compute-heavy agentic workflows that erode margins.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/" target="_blank" rel="noopener">TechCrunch</a>
+              <span class="source-meta">&middot; 30 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 4 -->
+      <article class="story" data-sectors="cybersecurity" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Cybersecurity</span>
+            </div>
+            <h2>Microsoft clarifies it will not pursue legal action against security researchers after the Nightmare Eclipse zero-day controversy &#8211; patches for six exploited vulnerabilities remain pending until 09 June</h2>
+            <div class="plain-text">
+              <p>On 01 June 2026, Microsoft&#8217;s Security Response Center (MSRC) issued a public statement on X clarifying that it has &#8220;no intention to pursue action against individuals conducting or publishing their security research.&#8221; The statement was a direct response to widespread backlash triggered by Microsoft&#8217;s 28 May MSRC blog post, which condemned an anonymous researcher known as Nightmare Eclipse for releasing six unpatched Windows zero-day exploits &#8211; previously unknown vulnerabilities with no available fix &#8211; between April and mid-May 2026. The blog post was widely interpreted as a blanket legal threat against the security research community.</p>
+              <p>Nightmare Eclipse released working proof-of-concept exploit code for six vulnerabilities targeting Windows Defender (Microsoft&#8217;s built-in antivirus software) and BitLocker (Microsoft&#8217;s drive encryption tool): BlueHammer (CVE-2026-33825), RedSun (CVE-2026-41091), UnDefend (CVE-2026-45498), YellowKey (CVE-2026-45585), GreenPlasma, and MiniPlasma. At least three of these &#8211; BlueHammer, RedSun, and UnDefend &#8211; have been confirmed as actively exploited in real-world attacks, a fact corroborated by CISA&#8217;s (the Cybersecurity and Infrastructure Security Agency) addition to its Known Exploited Vulnerabilities catalog. Microsoft&#8217;s patches are not expected until the 09 June Patch Tuesday cycle; no out-of-band release has been committed. Nightmare Eclipse, who moved to GitLab after GitHub removed their account on 23 May, has threatened additional disclosures for 14 July.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>This controversy exposes a structural vulnerability in the coordinated disclosure model that underpins enterprise cybersecurity. When a researcher perceives that the vendor has acted in bad faith &#8211; in this case, allegedly revoking portal access and withholding bug bounty compensation &#8211; the incentive to cooperate collapses. The 18-day gap between the first public exploit and the expected patch date leaves every Windows enterprise exposed. More broadly, the incident demonstrates that productivity gains in exploit development have outpaced vendor patch velocity &#8211; six zero-days in six weeks is a cadence most security teams are not staffed to handle.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="6" data-count-suffix=" zero-days">0 zero-days</div>
+                  <div class="indicator-desc">Exploits released by Nightmare Eclipse since April 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="3" data-count-suffix=" confirmed">0 confirmed</div>
+                  <div class="indicator-desc">Actively exploited in the wild (BlueHammer, RedSun, UnDefend)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">09 June</div>
+                  <div class="indicator-desc">Expected Patch Tuesday date for fixes</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">23 May</div>
+                  <div class="indicator-desc">Date GitHub removed Nightmare Eclipse&#8217;s account</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">14 July</div>
+                  <div class="indicator-desc">Date Nightmare Eclipse has threatened additional disclosures</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CISOs and enterprise security teams</div>
+                <p>Implement compensating controls immediately for the three actively exploited CVEs. Restrict local admin privileges, enforce application whitelisting, and monitor for TOCTOU-pattern (time-of-check-to-time-of-use) file system manipulation targeting Windows Defender&#8217;s remediation workflow. Do not wait for 09 June &#8211; if your threat model includes ransomware actors, assume weaponized versions of these exploits are already circulating.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For Microsoft partners and managed security providers</div>
+                <p>Update customer advisories to reflect the 09 June patch timeline and recommend the specific mitigations in Microsoft&#8217;s ADV2026-001 advisory. Monitor Nightmare Eclipse&#8217;s GitLab presence for any pre-July disclosures and prepare rapid response playbooks accordingly.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For security researchers and bug bounty program operators</div>
+                <p>MSRC&#8217;s concession that its researcher relationships &#8220;have fallen short&#8221; creates an opening to push for structural reforms &#8211; guaranteed response timelines, transparent bounty criteria, and independent escalation channels. Advocate for these reforms now, while Microsoft&#8217;s credibility is in recovery mode.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://cybersecuritynews.com/microsoft-clarifies-nightmare-eclipse-controversy/" target="_blank" rel="noopener">Cyber Security News</a>
+              <span class="source-meta">&middot; 01 June 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 5 -->
+      <article class="story" data-sectors="operations" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Microsoft prepares to unveil homegrown MAI coding and multimodal AI models at Build 2026 on 02 June, signaling a move to reduce its dependency on OpenAI</h2>
+            <div class="plain-text">
+              <p>Microsoft is preparing to unveil a suite of in-house AI models at its Build developer conference opening 02 June in San Francisco, including a coding model designed to power GitHub Copilot and compete directly with Anthropic&#8217;s Claude Code, per reporting from The Information and Reuters. The homegrown models include MAI-Image-2.5 (text-to-image generation in standard and fast variants with image editing support), MAI-Voice-2 (multilingual text-to-speech across 15+ languages with expanded emotional range), and MAI-Transcribe-1.5 (upgraded speech-to-text claiming the lowest word error rate across 25 languages).</p>
+              <p>The models will target Azure AI Foundry, Copilot, Teams, and Windows integration. The coding model specifically is aimed at reclaiming GitHub Copilot&#8217;s competitive position after Claude Code reportedly overtook it as the dominant developer AI tool. Microsoft CEO Satya Nadella&#8217;s opening keynote on 02 June at 12:30 PM ET is expected to frame Windows as a platform for AI agents. The MAI model family was formed ~six months ago under Mustafa Suleyman&#8217;s AI division and has already released transcription, audio generation, and image generation models. Build 2026 marks the most significant public debut of the in-house stack.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>For three years, Microsoft&#8217;s AI strategy has relied on OpenAI&#8217;s models as the core intelligence layer across its products. The simultaneous launch of a coding model, image model, voice model, and transcription model signals a deliberate diversification away from single-vendor dependency. If Microsoft&#8217;s coding model proves competitive with Claude Code and GPT-based Copilot, it could reduce the company&#8217;s OpenAI compute costs and give it full control of the model-to-product pipeline &#8211; a strategic imperative ahead of OpenAI&#8217;s own Q4 2026 IPO.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="15" data-count-suffix="+ languages">0+ languages</div>
+                  <div class="indicator-desc">Supported by MAI-Voice-2 for multilingual text-to-speech</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="25" data-count-suffix=" languages">0 languages</div>
+                  <div class="indicator-desc">In which MAI-Transcribe-1.5 claims lowest word error rate</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2 variants</div>
+                  <div class="indicator-desc">MAI-Image-2.5 ships in standard and fast/efficient versions</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~6 months</div>
+                  <div class="indicator-desc">Age of Microsoft&#8217;s MAI model division under Mustafa Suleyman</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">02&#8211;03 June</div>
+                  <div class="indicator-desc">Build 2026 dates at Fort Mason Center, San Francisco</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and enterprise AI teams using Azure</div>
+                <p>Attend or stream the Build keynote on 02 June and evaluate whether MAI models can reduce reliance on third-party model providers for image, voice, and coding workloads. If MAI-Transcribe-1.5 delivers on its word error rate claims, it may be a drop-in replacement for current automatic speech recognition providers at lower cost. Request preview access through your Azure account team this week.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For OpenAI&#8217;s product and business development teams</div>
+                <p>The competitive dynamic has shifted. Microsoft building first-party models for its most revenue-critical products &#8211; particularly GitHub Copilot &#8211; means OpenAI can no longer assume its exclusive distribution partner will remain dependent. Accelerate direct enterprise distribution channels ahead of the Q4 IPO.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For developer tool companies (Cursor, Codeium, Replit)</div>
+                <p>The combination of Copilot&#8217;s billing change (Story 3) and Microsoft&#8217;s homegrown coding model creates a window of disruption. Emphasize pricing predictability and model flexibility in marketing campaigns launched this week &#8211; developer frustration with Copilot&#8217;s metered transition is at a peak.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.testingcatalog.com/microsoft-readies-new-mai-voice-and-image-models-for-build-2026/" target="_blank" rel="noopener">TestingCatalog</a>
+              <span class="source-meta">&middot; 29 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 6 -->
+      <article class="story" data-sectors="finance" data-story-index="5">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">06</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>Anthropic nears close of a $30 billion+ funding round at a valuation exceeding $900 billion, with Q2 revenue projected at $10.9 billion &#8211; more than doubling Q1</h2>
+            <div class="plain-text">
+              <p>Anthropic &#8211; the company that makes the Claude AI assistant &#8211; is expected to close a funding round of at least $30 billion at a pre-money valuation exceeding $900 billion, according to Bloomberg reporting from 22 May citing unnamed sources. If finalized at these terms, the round would make Anthropic the world&#8217;s most valuable AI startup, surpassing OpenAI&#8217;s $852 billion valuation from its March 2026 round. The company expects to more than double its quarterly revenue to $10.9 billion in Q2 2026 and projects its annualized run rate to top $50 billion by the end of June, per the same Bloomberg report.</p>
+              <p>The deal has not been finalized and no term sheet has been signed as of the most recent reporting. Anthropic was valued at $380 billion in its February 2026 Series G round, in which it raised $30 billion led by GIC (the Singaporean sovereign wealth fund) and Coatue (a technology-focused investment firm). Google has previously committed $10 billion at a $350 billion valuation, with an additional $30 billion contingent on specific technical milestones. The company is simultaneously exploring a potential IPO as early as October 2026.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>A $900 billion valuation would represent a 2.4x increase from Anthropic&#8217;s $380 billion mark just three months earlier &#8211; an extraordinary compression of valuation growth even by AI standards. The projected Q2 revenue of $10.9 billion, if achieved, would mark Anthropic&#8217;s first-ever quarterly operating profit according to some analyst estimates. The dual-track strategy of a massive private raise and early IPO preparations positions Anthropic to secure the compute capacity necessary to sustain its growth trajectory while giving existing shareholders liquidity options.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$900B+</div>
+                  <div class="indicator-desc">Targeted pre-money valuation (per Bloomberg sources)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$30B+</div>
+                  <div class="indicator-desc">Amount being raised in the current round</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$10.9B</div>
+                  <div class="indicator-desc">Projected Q2 2026 revenue (per Bloomberg sources)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$50B</div>
+                  <div class="indicator-desc">Projected annualized run rate by end of June 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$380B</div>
+                  <div class="indicator-desc">Post-money valuation in February 2026 Series G</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">2.4x</div>
+                  <div class="indicator-desc">Valuation increase in ~three months</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">October 2026</div>
+                  <div class="indicator-desc">Earliest potential IPO window</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For managing partners at venture capital and growth equity firms</div>
+                <p>Assess whether the $900 billion valuation represents a sustainable premium or a peak-of-cycle entry point. The key variable is whether the $10.9 billion Q2 revenue figure holds &#8211; if it does, the implied revenue multiple is ~20x annualized, which is rich but within range of frontier AI company precedent. If the IPO materializes in October, secondary market positions taken now could face a short holding period.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and Heads of AI at enterprise customers</div>
+                <p>Anthropic&#8217;s revenue doubling suggests rapid enterprise adoption. If your organization is evaluating Claude for production workloads, the company&#8217;s financial stability and compute capacity are no longer the concerns they were 12 months ago. Lock in enterprise pricing agreements before the anticipated IPO, when Anthropic&#8217;s commercial terms may tighten.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For competing AI labs (Mistral, Cohere, AI21)</div>
+                <p>The valuation gap between Anthropic ($900 billion) and the next-tier labs has widened to the point where talent acquisition and customer switching become existential threats. Differentiate on deployment flexibility, pricing, or domain-specific performance rather than attempting to compete on valuation narrative.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.pymnts.com/artificial-intelligence-2/2026/anthropic-eyes-900-billion-valuation-as-quarterly-revenue-doubles/" target="_blank" rel="noopener">PYMNTS</a>
+              <span class="source-meta">&middot; 24 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 7 -->
+      <article class="story" data-sectors="finance,operations" data-story-index="6">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">07</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Beijing-based Vast raises ~$200 million to become China&#8217;s latest AI unicorn, with 20 million users for its 3D asset generation tool and clients including NetEase and Sony</h2>
+            <div class="plain-text">
+              <p>Beijing-based startup Vast raised ~$200 million in a funding round that values the company at $1 billion or more, according to Bloomberg. Ince Capital and a venture fund backed by China Life Insurance Co. led the financing. Other participants included Genesis Capital and existing investors Eminence Ventures and Primavera Venture Partners. The company had previously raised a $50 million Series A in March 2026 led by Alibaba Group (the Chinese e-commerce and cloud computing conglomerate) alongside Hengxu Capital, with Baidu Ventures (the venture arm of China&#8217;s largest search engine company) also participating.</p>
+              <p>Vast specializes in AI-powered 3D modeling, offering a product called Tripo AI that converts text and image prompts into 3D objects. The company claims 20 million global users and counts NetEase (a major Chinese gaming company) and Sony among its clients. Founded in 2023 by a 29-year-old gamer, the startup&#8217;s rapid ascent to unicorn status reflects the intensifying competition in China&#8217;s generative AI sector, particularly in spatial computing and 3D asset creation for gaming, film, and e-commerce applications.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Vast&#8217;s unicorn round signals that Chinese AI investment is diversifying beyond large language models into the spatial computing stack &#8211; 3D generation, virtual environments, and digital assets. With Alibaba, Baidu, and China Life all participating across rounds, the startup has assembled a capital base spanning China&#8217;s technology, search, and insurance sectors. For Western 3D AI competitors like World Labs (which raised $1 billion with Autodesk backing), Vast&#8217;s 20-million-user base and its access to Asian gaming giants represent a formidable distribution advantage in the world&#8217;s largest gaming market.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">~$200M</div>
+                  <div class="indicator-desc">Amount raised in the latest round</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$1B+</div>
+                  <div class="indicator-desc">Post-money valuation (unicorn status)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$50M</div>
+                  <div class="indicator-desc">Series A raised in March 2026, led by Alibaba</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="20" data-count-prefix="" data-count-suffix="M users">0M users</div>
+                  <div class="indicator-desc">Global users of Tripo AI</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">29</div>
+                  <div class="indicator-desc">Age of the founder</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For Heads of Production at gaming and media companies</div>
+                <p>Evaluate Tripo AI&#8217;s 3D generation quality against Western alternatives (World Labs&#8217; Marble, OpenAI&#8217;s tools). If asset quality is sufficient for pre-production or rapid prototyping, the cost and speed advantages of AI-generated 3D models could compress production timelines by 30&#8211;50%. Run a side-by-side comparison within Q3 2026.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For product leads at Western 3D AI startups</div>
+                <p>Monitor Vast&#8217;s user growth and integration partnerships closely. A 20-million-user head start with NetEase and Sony distribution creates a data flywheel that will be difficult to replicate. Differentiate on enterprise reliability, IP safety, and integration with Western toolchains (Unity, Unreal, Blender).</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.bloomberg.com/news/articles/2026-06-01/gen-z-gamer-s-3d-model-startup-becomes-china-s-latest-ai-unicorn" target="_blank" rel="noopener">Bloomberg</a>
+              <span class="source-meta">&middot; 01 June 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STORY 8 -->
+      <article class="story" data-sectors="finance" data-story-index="7">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">08</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>SpaceX makes its S-1 public ahead of a record-breaking IPO at a $1.75 trillion target valuation &#8211; the filing reveals xAI lost $6.4 billion in 2025 as the roadshow targets 04&#8211;11 June</h2>
+            <div class="plain-text">
+              <p>SpaceX &#8211; the space launch and satellite company founded by Elon Musk &#8211; made its S-1 registration statement public on 20 May 2026, laying bare the financials of the combined SpaceX/xAI entity ahead of what would be the largest IPO in history. The company is targeting a listing on the Nasdaq under ticker SPCX as early as 12 June, with the investor roadshow planned to begin the week of 04 June and pricing expected on 11 June, per Reuters and the Wall Street Journal. The target valuation is $1.75 trillion &#8211; up from $1.25 trillion set when SpaceX merged with Musk&#8217;s xAI (the company behind the Grok AI models) in February 2026 &#8211; with a planned raise of more than $70 billion.</p>
+              <p>The S-1 reveals that SpaceX&#8217;s full-year 2025 revenue reached $18.67 billion, up 33% Y-o-Y. Starlink (SpaceX&#8217;s satellite broadband service) generated $4.4 billion in operating profit, but the xAI segment lost $6.4 billion in the same period, and the Space segment lost $619 million. Q1 2026 cash reserves declined to ~$16 billion from $25 billion, with total liabilities at $60.5 billion, primarily driven by the xAI merger. SpaceX plans to earmark a large share for retail investors and will host 1,500 retail investors at a dedicated event, with participants from the US, UK, EU, Australia, Canada, Japan, and South Korea. Morgan Stanley, Bank of America, Citigroup, JP Morgan, and Goldman Sachs are leading the deal.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The SpaceX IPO is the most significant public market event for AI in 2026, because it forces public investors to price xAI&#8217;s losses against Starlink&#8217;s profitability within a single vehicle. The $6.4 billion xAI loss in 2025 reveals the true cost of frontier model training at scale &#8211; a figure that investors in other AI companies can use as a benchmark. The $1.75 trillion target valuation implies that investors are pricing $1 trillion or more of future value from currently unprofitable businesses. The IPO&#8217;s success or failure will set the tone for OpenAI&#8217;s and Anthropic&#8217;s own planned listings later in 2026.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$1.75T</div>
+                  <div class="indicator-desc">Target IPO valuation</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$70B+</div>
+                  <div class="indicator-desc">Planned capital raise (would be the largest IPO ever)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$18.67B</div>
+                  <div class="indicator-desc">SpaceX full-year 2025 revenue (up 33% Y-o-Y)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$4.4B</div>
+                  <div class="indicator-desc">Starlink operating profit in 2025</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&#8211;$6.4B</div>
+                  <div class="indicator-desc">xAI operating loss in 2025</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$60.5B</div>
+                  <div class="indicator-desc">Total liabilities as of the S-1 filing</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="1500" data-count-suffix=" investors">0 investors</div>
+                  <div class="indicator-desc">Retail investors invited to a dedicated IPO event</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">12 June</div>
+                  <div class="indicator-desc">Target listing date on Nasdaq (ticker: SPCX)</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For institutional investors and public market portfolio managers</div>
+                <p>The roadshow begins this week (04 June). Prepare a segmented DCF model that separately values Starlink (recurring broadband revenue), SpaceX launch services (margin-and-moat), and xAI (optionality). The xAI segment&#8217;s $6.4 billion loss is the key risk &#8211; demand clear disclosure on xAI&#8217;s path to profitability, compute costs, and Grok model monetization before committing capital.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For AI companies preparing IPOs (OpenAI, Anthropic)</div>
+                <p>The SpaceX/xAI IPO will establish the public market&#8217;s appetite for AI-adjacent companies with large operating losses. If SpaceX prices successfully at $1.75 trillion, it validates aggressive AI valuations. If it prices below target, plan for more conservative valuation expectations in your own listings &#8211; recalibrate by end of June.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For retail investors who receive allocation</div>
+                <p>The 1,500-person retail event is unprecedented for an IPO of this scale. Be aware that the $1.75 trillion valuation prices in significant speculative value from xAI and Mars colonization. Starlink is the cash-flow engine; everything else is a long-duration bet. Size your position accordingly.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cnbc.com/2026/05/20/spacex-ipo-live-updates.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">&middot; 20 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>Eight stories, one structural theme: the collision between <em>AI capability scaling and economic reality</em> is now visible in every layer of the stack, from chip factories to developer billing pages to S-1 filings.</blockquote>
+      <p>NVIDIA&#8217;s Vera Rubin promises 10x performance and a $200 billion CPU total addressable market, but the supply chain required to deliver it spans 350 factories across 30 countries. GitHub Copilot&#8217;s switch to metered billing reveals that unlimited AI tool access was always a loss leader &#8211; and the developer backlash signals that the industry has not prepared its customers for the transition to consumption-based AI economics. SpaceX&#8217;s S-1 shows xAI losing $6.4 billion in a single year to train frontier models, while Anthropic&#8217;s $900 billion valuation is premised on revenue that has yet to be booked. Microsoft is building its own models precisely because depending on a single vendor for your core intelligence layer is a strategic risk it can no longer afford.</p>
+      <p>Even the Nightmare Eclipse controversy is about economics &#8211; when patch velocity cannot keep pace with exploit velocity, the coordinated disclosure model breaks down. The organizations most exposed by today&#8217;s stories are mid-market enterprises that have adopted AI tools at flat-rate prices, relied on third-party patch cycles for security, and assumed that the current cost structure of AI would persist. It will not.</p>
+      <span class="editorial-date">01 June 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <button id="footerSignupBtn" class="archive-link subscribe-btn">
+        <span>Subscribe</span>
+      </button>
+      <div class="footer-date">01 June 2026 &middot; Issue archived nightly</div>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>
