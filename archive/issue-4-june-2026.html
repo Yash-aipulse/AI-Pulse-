@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 04 June 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a><div class="nav-meta">
+  <span class="nav-date">4 JUNE 2026</span>
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+    <span>Back to archive</span>
+  </a>
+</div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get five key AI stories each morning, delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 04 June 2026
+        </div>
+        <h1>Five developments in <em>sovereign AI infrastructure</em>, national security frameworks, capital markets scale, and biodefense deployment.</h1>
+        <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" developments">5 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="3" data-count-suffix=" verticals">3 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="12" data-count-suffix=" minutes">12 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">5</strong> of 5 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Canada AI for All"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · IBM Google consulting"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · Trump AI cybersecurity"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · Anthropic S-1 $965B"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · GPT-Rosalind expansion"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" data-sectors="policy" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+            </div>
+            <h2>Canada launches "AI for All" strategy targeting $200 billion in economic growth and 250,000 jobs by 2031, backed by $700 million in direct SME compute funding</h2>
+            <div class="plain-text">
+              <p>Prime Minister Mark Carney officially unveiled Canada's national AI strategy – titled "AI for All" – on June 4, 2026, at a press conference in Toronto alongside newly appointed Artificial Intelligence Minister Evan Solomon. The strategy sets a target of $200 billion in additional economic growth and the creation of 250,000 new jobs over the next five years, anchored in three stated principles: building trust, creating opportunity, and reinforcing Canadian sovereignty. Additional headline commitments include up to 90,000 AI-related jobs and placement opportunities for young Canadians, AI literacy training for 1 million post-secondary students, and a National AI Literacy Initiative that will include free, sector-specific courses for all Canadians.</p>
+              <p>The strategy also addresses infrastructure and business adoption. The government announced $700 million through a Compute Access Fund to help small and medium-sized businesses enhance AI access, with further financing support through the Business Development Bank of Canada and the Regional Artificial Intelligence Initiative. Canada's AI adoption rate among businesses stood at only 12% between 2024 and 2025, rising to 14.5% by mid-2026, according to the strategy document; the government's stated target is to push that figure to 60% by 2034. A notable gap flagged by critics is that the strategy lacks specific detail on consumer protection mechanisms despite acknowledging risks such as deepfakes, AI-generated disinformation, and surveillance pricing, though Carney stated the government will modernize consumer privacy legislation and introduce online safety laws.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Canada's strategy marks the first G7 government in 2026 to publish a comprehensive, fully costed national AI adoption framework – moving the country from observer to active participant in a global race that now has governments on every continent committing sovereign infrastructure and job-creation targets. The 12%-to-60% business adoption gap is a structural demand signal for enterprise AI vendors, cloud providers, and education platforms operating in the Canadian market.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$200B</div>
+                  <div class="indicator-desc">Targeted additional economic growth from AI adoption over five years</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="250000" data-count-suffix=" jobs">0 jobs</div>
+                  <div class="indicator-desc">New AI-related jobs the strategy aims to create by 2031</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="700" data-count-prefix="$" data-count-suffix="M">$0M</div>
+                  <div class="indicator-desc">Compute Access Fund to support SME AI adoption</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="1000000" data-count-suffix=" students">0 students</div>
+                  <div class="indicator-desc">Post-secondary students targeted by the National AI Literacy Initiative</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">12%</div>
+                  <div class="indicator-desc">Current business AI adoption rate in Canada (2024–25 baseline)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">60%</div>
+                  <div class="indicator-desc">Target business AI adoption rate by 2034</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">44 of 47</div>
+                  <div class="indicator-desc">Canada's ranking on AI training and literacy per KPMG–University of Melbourne study</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise cloud and SaaS vendors targeting the Canadian market</div>
+                <p>The strategy's 12%-to-60% adoption gap is an explicit demand signal across the next eight years. VP of Sales or Head of Public Sector should map current Canadian enterprise pipeline against the Compute Access Fund eligibility criteria and begin government procurement pre-qualification before the Business Development Bank programs are fully defined – expected within 60–90 days of the June 4 announcement.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For Canadian post-secondary institutions and EdTech operators</div>
+                <p>The National AI Literacy Initiative creates an immediate procurement cycle. Chief Academic Officers and VP of Digital Learning should draft proposals for the AI learning kits program and sector-specific AI course modules within the next 30 days, ahead of funding allocation decisions.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For foreign AI companies considering Canadian market entry</div>
+                <p>The strategy explicitly aims to stop Canadian AI talent and startups from going abroad. Chief People Officers at firms with Canadian talent pipelines should accelerate hiring and partnership discussions before the Sovereign Technology Alliance creates preferential conditions for domestic players.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.pm.gc.ca/en/news/news-releases/2026/06/04/prime-minister-carney-launches-ai-all-canadas-new-national-artificial" target="_blank" rel="noopener">Office of the Prime Minister of Canada</a>
+              <span class="source-meta">· 4 June 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="operations" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>IBM and Google Cloud launch a multi-billion-dollar consulting practice combining thousands of IBM consultants with Gemini Enterprise, targeting banking, government, and life sciences</h2>
+            <div class="plain-text">
+              <p>IBM and Google Cloud jointly announced a new global Google Cloud Practice on June 4, 2026, via a joint press release. The practice combines IBM Consulting Advantage – IBM's AI-powered delivery platform – with Google Cloud's Gemini Enterprise Agent Platform, cybersecurity capabilities, and BigQuery data infrastructure. The announcement describes the arrangement as representing "a multi-billion-dollar opportunity in Google Cloud Services." IBM is creating a portfolio of industry-specific AI agents targeting banking, government, retail, telecommunications, energy, security, insurance, and life sciences, with IBM consultants now able to design, build, and govern enterprise-grade AI agents directly on Google Cloud. The two companies cited prior joint work with Airbus – helping transition two aerospace businesses into independent operations in under 18 months by updating more than 100 critical systems – as a reference deployment.</p>
+              <p>The deal extends an existing relationship between the two companies but is structurally significant because it creates a dedicated consulting practice channel for Gemini Enterprise at exactly the moment enterprise demand for AI deployment support has outpaced the availability of certified consultants. Red Hat OpenShift, IBM's enterprise Kubernetes platform, is now also available directly in the Google Cloud Console as part of the arrangement, addressing hybrid-cloud modernization workflows for regulated industries.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>A consulting channel of this scale – thousands of IBM consultants redirected to Gemini Enterprise deployment – shifts competitive dynamics in enterprise AI integration, where the bottleneck is no longer model capability but implementation capacity. For Google Cloud, this addresses a specific gap: Gemini's enterprise sales have been constrained by the number of partners who can take Gemini from pilot to production at regulated clients in banking, healthcare, and government.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">Multi-billion</div>
+                  <div class="indicator-desc">IBM's characterization of the Google Cloud practice revenue opportunity (exact figure undisclosed)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Thousands</div>
+                  <div class="indicator-desc">IBM consultants being deployed to the new Google Cloud Practice globally</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="8" data-count-suffix=" sectors">0 sectors</div>
+                  <div class="indicator-desc">Industries covered by IBM's industry-specific agent portfolio</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">18 months</div>
+                  <div class="indicator-desc">Time required for the prior IBM–Google–Airbus engagement to transition two aerospace businesses</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="100" data-count-suffix=" systems">0 systems</div>
+                  <div class="indicator-desc">Critical systems updated in the Airbus engagement</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise CIOs at regulated-sector organizations</div>
+                <p>The IBM–Google practice represents a new procurement channel for Gemini Enterprise deployments backed by IBM's certified consultants. CIOs should issue RFIs to both IBM Consulting and Google Cloud within 30 days to understand availability, pricing structure, and contractual protections for hybrid-cloud engagements, before demand compresses consultant availability.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For competing systems integrators (Accenture, Deloitte, Capgemini)</div>
+                <p>This partnership narrows the consulting landscape for Gemini Enterprise. Heads of Cloud Practice should assess whether their Google Cloud certified headcount is sufficient to compete, and begin certification expansion or co-bid strategies immediately.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.prnewswire.com/news-releases/ibm-and-google-cloud-announce-strategic-partnership-to-scale-ai-with-human-expertise-and-aipowered-delivery-302790899.html" target="_blank" rel="noopener">IBM / PR Newswire</a>
+              <span class="source-meta">· 4 June 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="policy" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+            </div>
+            <h2>Trump signs Executive Order establishing an AI cybersecurity clearinghouse with 30-day federal hardening deadlines for CISA and NSA, and a voluntary "covered frontier model" review framework</h2>
+            <div class="plain-text">
+              <p>President Trump signed an executive order titled "Promoting Advanced Artificial Intelligence Innovation and Security" on June 2, 2026. The order mandates that within 30 days, the Secretary of the Treasury – in consultation with NSA and CISA – establish an AI cybersecurity clearinghouse that will coordinate scanning for software vulnerabilities, validate discovered vulnerabilities, and prioritize remediation patches across government and critical infrastructure. Separately, CISA is required within 30 days to release Binding Operational Directives to expedite cyber defense of civilian federal government systems, expand AI-enabled defensive tools, and facilitate access to cybersecurity services for rural hospitals, community banks, and local utilities.</p>
+              <p>Within 60 days, the Secretary of Treasury, NSA Director, and CISA Director must jointly develop a voluntary framework through which AI developers can engage the federal government to determine whether their models qualify as "covered frontier models," and provide the government up to 30 days of early access to such models before broader release. The order explicitly prohibits interpreting any section as authorizing "a mandatory governmental licensing, preclearance, or permitting requirement" for AI models, a direct concession to industry concerns about regulatory overreach. It also instructs the Attorney General to prioritize enforcement of existing federal computer crime statutes against anyone who uses AI to commit computer fraud or data theft.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The creation of a voluntary "covered frontier model" framework – with early federal access periods of up to 30 days – represents the first structural mechanism in the US for government pre-deployment review of the most capable AI systems, even while the order prohibits mandatory licensing. This is the regulatory surface area that frontier labs will need to navigate ahead of any commercial release timelines, and it creates a new category of government relationship that did not formally exist before June 2.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="30" data-count-suffix=" days">0 days</div>
+                  <div class="indicator-desc">Deadline for CISA to release Binding Operational Directives for federal AI cyber defense</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="30" data-count-suffix=" days">0 days</div>
+                  <div class="indicator-desc">Deadline for Treasury, NSA, and CISA to establish the AI cybersecurity clearinghouse</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="30" data-count-suffix=" days">0 days</div>
+                  <div class="indicator-desc">Maximum period the government can require early access to a "covered frontier model"</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="60" data-count-suffix=" days">0 days</div>
+                  <div class="indicator-desc">Deadline for Treasury, NSA, and CISA to develop the voluntary covered frontier model framework</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="3" data-count-suffix=" statutes">0 statutes</div>
+                  <div class="indicator-desc">Federal criminal statutes (18 U.S.C. 1028, 1030, 1343) named for prioritized AI-related enforcement</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For frontier AI labs (Anthropic, OpenAI, Google DeepMind, xAI)</div>
+                <p>The voluntary framework for "covered frontier model" designation gives labs the option to engage federal government reviewers ahead of release. General Counsel and VP of Policy should begin internal assessment now – before the 60-day framework is published – to determine which upcoming model releases may qualify and what confidentiality and IP protections they will require before any government early-access arrangement.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For critical infrastructure operators (hospitals, community banks, utilities)</div>
+                <p>CISA's 30-day directive will expand access to federal cybersecurity tools and AI-enabled defensive services for these sectors. CISOs and IT Directors should contact their CISA regional representative within the next two to three weeks to ensure their organizations are positioned to receive support.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/" target="_blank" rel="noopener">The White House</a>
+              <span class="source-meta">· 2 June 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="finance" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>Anthropic files confidential S-1 with SEC at $965 billion post-money valuation, with ~$47 billion annual revenue run rate, entering a three-way AI IPO race with OpenAI and SpaceX</h2>
+            <div class="plain-text">
+              <p>Anthropic, the AI safety-focused company that makes the Claude assistant, confirmed on June 1, 2026, that it had confidentially submitted a draft registration statement on Form S-1 to the US Securities and Exchange Commission for a proposed initial public offering of its common stock. The announcement was published under Securities Act Rule 135 and stated explicitly that the number of shares and offering price have not been set, and that the IPO remains subject to market conditions and SEC review. The filing followed a Series H funding round – confirmed by both Anthropic and TechCrunch on June 1 – that valued the company at $965 billion post-money. The company's revenue run rate reached approximately $47 billion in May 2026, per CNBC, up from approximately $10 billion in annual revenue in 2025.</p>
+              <p>Anthropic is competing in what secondary coverage describes as a three-way AI IPO race alongside OpenAI and SpaceX. OpenAI is reported by CNBC to have confidentially filed around May 22 and is targeting a September 2026 debut, while SpaceX filed its public prospectus on May 20 and is in roadshow preparation. No firm timeline for Anthropic's roadshow has been disclosed; under Securities Act rules, Anthropic must provide investors with a public prospectus at least 15 days before any roadshow begins. Anthropic's $965 billion valuation places it above OpenAI's $852 billion valuation reported in late March 2026, and the $47 billion revenue run rate – if it holds through the roadshow – would represent the fastest single-year revenue ramp in technology history.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Three simultaneous $1 trillion-class AI and space technology listings in a single calendar year would be unprecedented and would collectively define public-market appetite for frontier technology investments for the next cycle. Anthropic's filing transforms the company from a private capital absorber into a publicly accountable entity at precisely the moment its enterprise revenue concentration and its pre-IPO customer economics are under scrutiny.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$965B</div>
+                  <div class="indicator-desc">Anthropic's post-money valuation following the Series H round</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="65" data-count-prefix="$" data-count-suffix="B">$0B</div>
+                  <div class="indicator-desc">Series H funding round amount</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$47B</div>
+                  <div class="indicator-desc">Anthropic's annual revenue run rate as of May 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$10B</div>
+                  <div class="indicator-desc">Anthropic's annual revenue in 2025 (prior year comparative)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$852B</div>
+                  <div class="indicator-desc">OpenAI's most recently reported valuation (March 2026)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="15" data-count-suffix=" days">0 days</div>
+                  <div class="indicator-desc">Minimum required prospectus delivery window before IPO roadshow</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For institutional investors and limited partners in AI-focused funds</div>
+                <p>Anthropic's filing opens the clock on a potential public debut. LPs at venture funds with Anthropic exposure should begin modeling lock-up expiration scenarios and secondary market positioning strategies for a 180-day lock-up period post-IPO, likely placing meaningful liquidity events in H1 2027 if the IPO occurs by end of 2026.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise customers of Anthropic products (Claude API, Claude Code)</div>
+                <p>A pending IPO means Anthropic will be under increasing pressure to demonstrate revenue durability and contract renewals before the roadshow. Heads of Procurement negotiating multi-year Claude API agreements in the next 90 days are likely operating in an environment where Anthropic's sales team has strong incentives to offer favorable terms to demonstrate enterprise retention.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.anthropic.com/news/confidential-draft-s1-sec" target="_blank" rel="noopener">Anthropic</a>
+              <span class="source-meta">· 1 June 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.cnbc.com/2026/06/01/anthropic-ipo-s1-prospectus.html" target="_blank" rel="noopener">CNBC</a>
+              <span class="source-meta">· 1 June 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="operations" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>OpenAI expands GPT-Rosalind to global life sciences organizations with a 31% genomics token reduction and access for Lawrence Livermore, CEPI, and Novo Nordisk through a new Biodefense programme</h2>
+            <div class="plain-text">
+              <p>OpenAI published a major capability update to GPT-Rosalind on June 3, 2026, expanding the model's availability from a US-only research preview to eligible organizations worldwide for the first time. The update includes three new benchmarks: a 31% reduction in genomics token consumption compared to GPT-5.5, new Codex plugins connecting researchers to more than 50 scientific databases, and the addition of Novo Nordisk as a new launch partner. The updated model was assessed by OpenAI on LABBench2 – a benchmark for real-world bioinformatics tasks – where GPT-Rosalind outperforms GPT-5.4 on 6 out of 11 tasks, with the most notable improvement on CloningQA, which requires end-to-end design of DNA and enzyme reagents for molecular cloning protocols.</p>
+              <p>OpenAI separately announced the Rosalind Biodefense programme on May 29, 2026 – expanded in the June 3 update – through which vetted developers and select US government and allied partners gain free, sponsored access to GPT-Rosalind for pandemic preparedness and biodefense applications. Confirmed participating institutions include Lawrence Livermore National Laboratory (pairing the model with supercomputer simulation for medical countermeasure design), Johns Hopkins Applied Physics Laboratory (protein-engineering applications), the Coalition for Epidemic Preparedness Innovations (CEPI, vaccine development), and Fourth Eon Biosecurity (DNA synthesis screening). An independent evaluation by SecureBio found that safeguard robustness to circumvention by "highly motivated expert actors" remained uncertain – a finding OpenAI publicly disclosed.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>GPT-Rosalind's global expansion is the first time a frontier AI lab has deployed a domain-specific reasoning model simultaneously into commercial life sciences research and national biodefense infrastructure, with the same model underlying both. The 31% genomics token reduction is a direct cost-reduction mechanism for pharmaceutical and genomics companies whose inference bills are one of the primary barriers to scaling AI in drug discovery workflows. The dual-use disclosure from SecureBio – flagging uncertainty about safeguard robustness against expert actors – creates a disclosed but unresolved biosecurity risk at exactly the moment the model becomes globally accessible.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value">31%</div>
+                  <div class="indicator-desc">Reduction in genomics token consumption of the updated GPT-Rosalind vs. GPT-5.5</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="6" data-count-suffix=" of 11">0 of 11</div>
+                  <div class="indicator-desc">LABBench2 tasks on which GPT-Rosalind outperforms GPT-5.4</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="50" data-count-suffix=" databases">0 databases</div>
+                  <div class="indicator-desc">Scientific databases accessible via the new Codex life sciences research plugins</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">95%</div>
+                  <div class="indicator-desc">GPT-Rosalind's percentile ranking vs. human experts on RNA sequence-to-function prediction</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="10" data-count-suffix=" years">0 years</div>
+                  <div class="indicator-desc">Typical US drug discovery-to-approval timeline that GPT-Rosalind is designed to compress</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="4" data-count-suffix=" institutions">0 institutions</div>
+                  <div class="indicator-desc">Confirmed participants in the Rosalind Biodefense programme</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For pharmaceutical and genomics R&amp;D organizations</div>
+                <p>The 31% genomics token reduction directly affects inference costs for organizations running high-volume GPT-Rosalind workflows. Head of AI Research or VP of Computational Biology should apply for global access via OpenAI's trusted access programme now – the review queue will lengthen as global access opens – and benchmark actual cost reduction against current token spend before the quarter ends.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For public health institutions and biosafety organizations</div>
+                <p>The Rosalind Biodefense programme offers free, sponsored access to GPT-Rosalind for qualified organizations. Chief Scientific Officers at epidemiology institutes, national public health agencies, and biosafety research centers should apply to the Rosalind Biodefense programme within 30 days while launch-cohort access capacity remains available.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For AI biosafety regulators and national biosecurity agencies</div>
+                <p>The SecureBio disclosure that safeguard robustness against expert actors is "uncertain" is a documented, flagged risk. Heads of AI Risk Policy should request OpenAI's Preparedness Framework documentation and engage the company's policy team to understand what evaluation thresholds governed the global expansion decision.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://openai.com/index/introducing-gpt-rosalind/" target="_blank" rel="noopener">OpenAI</a>
+              <span class="source-meta">· 3 June 2026</span>
+              &nbsp;&middot;&nbsp;
+              <a href="https://www.axios.com/2026/05/29/openai-biodefense-program" target="_blank" rel="noopener">Axios</a>
+              <span class="source-meta">· 29 May 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>The five stories in this issue are not independent events – they are successive moves in a single structural race to determine which institutions will <em>control the infrastructure, governance, and economics of AI at national scale.</em></blockquote>
+      <p>Canada and the US federal government are both asserting sovereign frameworks for AI adoption and security within 72 hours of each other, while Anthropic's S-1 filing simultaneously shifts the industry's largest AI lab from privately governed to publicly accountable. The IBM–Google consulting partnership and OpenAI's GPT-Rosalind expansion reflect the same underlying dynamic from the private sector side: the bottleneck in AI value creation has shifted from model capability to deployment infrastructure, and the organizations that control the consulting channels, the national security relationships, and the compliance frameworks will determine who captures AI's economic surplus.</p>
+      <p>The most exposed organization type by this issue's combined stories is the mid-size enterprise that has not yet mapped its AI vendor relationships to sovereign infrastructure requirements, imminent IPO pricing dynamics, and the escalating federal expectations embedded in the Trump executive order's 30-day deadlines.</p>
+      <span class="editorial-date">04 June 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">04 June 2026 · Issue archived nightly</div>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>
