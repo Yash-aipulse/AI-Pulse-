@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Pulse – 06 June 2026</title>
+  <title>AI Pulse – 7 June 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -109,26 +109,8 @@
     .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
     .signup-submit:active { transform: translateY(0); }
     .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
-    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
-    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
-    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
-    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
-    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
-    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
-    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
-    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
-    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
-    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
-    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
-    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
-    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
-    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
-    .stories { padding: 80px 0 32px; }
     .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
     .story.in-view { opacity: 1; transform: translateY(0); }
-    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
     .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
     .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
     .story-num .num-current { color: var(--accent); }
@@ -189,19 +171,16 @@
     .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
     .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
     .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
-    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
-    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
-    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
-    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    a, button, .indicator, .why-matters, .impact-card { cursor: none; }
+    @media (max-width: 720px) { a, button, .indicator, .why-matters, .impact-card { cursor: pointer; } }
     @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
     @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
     @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @media (max-width: 1100px) { .story-nav { display: none; } }
     @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
-    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
@@ -218,7 +197,7 @@
         <div class="brand-name">AI Pulse</div>
       </a>
       <div class="nav-meta">
-        <span class="nav-date">06 June 2026</span>
+        <span class="nav-date">7 June 2026</span>
         <a href="archive/index.html" class="archive-link">
           <span>View archive</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -235,7 +214,7 @@
       <button class="signup-close" id="closeSignup">&#215;</button>
       <div class="signup-header">
         <h2>Subscribe to AI Pulse</h2>
-        <p>Get five key AI stories each morning, delivered to your inbox.</p>
+        <p>Get key AI stories delivered to your inbox.</p>
       </div>
       <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
         <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
@@ -252,194 +231,87 @@
       <div>
         <div class="hero-eyebrow">
           <span class="live-dot"></span>
-          Today's brief · 06 June 2026
+          Today's brief · 7 June 2026
         </div>
-        <h1>Two developments in AI <em>workforce measurement</em> and federal governance, from a 24–hour June 5–6 follow-on edition.</h1>
-        <p class="hero-sub">Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
+        <h1>OpenAI plans to rebuild ChatGPT into a <em>revenue-focused superapp</em> ahead of its planned listing.</h1>
+        <p class="hero-sub">A single verified story of OpenAI's largest ChatGPT overhaul to date, aiming to fold in coding tools and AI agents to lift revenue ahead of a planned share listing. Based on sourced reporting from the Financial Times, carried by Reuters on the publication date.</p>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-label">Stories in this brief</div>
-          <div class="hero-stat-value" data-count-to="2" data-count-suffix=" developments">2 developments</div>
+          <div class="hero-stat-label">Story in this brief</div>
+          <div class="hero-stat-value">1 development</div>
         </div>
         <div class="hero-stat">
           <div class="hero-stat-label">Sectors covered</div>
-          <div class="hero-stat-value" data-count-to="2" data-count-suffix=" verticals">2 verticals</div>
+          <div class="hero-stat-value">Enterprise AI</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-label">Read time</div>
-          <div class="hero-stat-value" data-count-to="7" data-count-suffix=" minutes">7 minutes</div>
+          <div class="hero-stat-label">Source</div>
+          <div class="hero-stat-value">Financial Times</div>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="filter-band">
-    <div class="container filter-inner">
-      <div class="filter-group">
-        <span class="filter-label">Filter by sector</span>
-        <div class="filter-chips" id="filterChips">
-          <button class="chip active" data-sector-filter="all">All sectors</button>
-          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
-          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
-        </div>
-      </div>
-      <div class="filter-count"><strong id="visibleCount">2</strong> of 2 stories visible</div>
-    </div>
-  </div>
-
-  <div class="story-nav" id="storyNav">
-    <button class="story-nav-dot" data-story-target="0" data-label="01 · Job cuts 38.5K"></button>
-    <button class="story-nav-dot" data-story-target="1" data-label="02 · Great American AI Act"></button>
-  </div>
-
   <main class="stories">
     <div class="container">
 
-      <article class="story" data-sectors="operations" data-story-index="0">
+      <article class="story in-view" data-story-index="0">
         <div class="story-header">
-          <div class="story-num"><span class="num-current">01</span> / 02</div>
+          <div class="story-num"><span class="num-current">01</span> / 01</div>
           <div>
             <div class="story-meta">
-              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Enterprise AI</span>
+              <span class="tag">Capital Markets</span>
             </div>
-            <h2>AI was the cited reason for 38,579 US job cuts in May – 40% of all layoffs and the highest monthly AI total on record</h2>
+            <h2>OpenAI plans to rebuild ChatGPT into a revenue-focused superapp ahead of its planned listing, folding in coding tools and AI agents to compete directly with Anthropic for enterprise budgets</h2>
             <div class="plain-text">
-              <p>US-based employers announced 97,006 job cuts in May 2026, and Challenger, Gray & Christmas – a consulting firm that tracks corporate layoff announcements – attributed 38,579 of them to artificial intelligence, representing 40% of the monthly total and the highest monthly figure for that reason since the firm began tracking it in 2023. The attribution crossed 40% for the first time, marking the third consecutive month that AI led all cited reasons for cuts. The originating report was released Thursday, June 4; through June 5–6 it dominated workforce policy discussions as the clearest quantification yet of employer-stated AI impact.</p>
-              <p>The monthly total of 97,006 cuts was itself the highest May figure since 2020, when pandemic-era job losses peaked at 397,016. May's layoffs brought the year-to-date total to 397,755 – down 43% Y-o-Y, a drop the firm attributes to the absence of 2025's federal-workforce reductions rather than to a healthier private market. The technology sector announced 38,242 cuts in May, its steepest month since August 2024, and 123,653 year-to-date, up 66% Y-o-Y. Challenger's chief revenue officer Andy Challenger framed the trend as companies "restructuring aggressively as they reposition for an AI-driven economy," and noted explicitly that the data reflects self-reported reasons given by employers, not an independently audited causal measure – a distinction that matters when the 40% figure enters policy discussions.</p>
+              <p>OpenAI is preparing its largest ChatGPT overhaul to date, aiming to turn the product into a superapp – a bundled platform that combines chat, coding tools, and autonomous AI agents – ahead of a planned share listing, according to a Financial Times report published on 7 June 2026. Reuters carried the same story the same day, noting it could not immediately verify the reporting and that OpenAI has not issued a formal announcement. The account is based on interviews with more than a dozen current and former OpenAI employees, and is explicitly unverified by OpenAI itself.</p>
+              <p>The plan is described as part of a broader internal reorganisation at OpenAI, with the company shifting resources toward higher-value enterprise customers and sharpening its competition with rival Anthropic. The timing – a major restructuring tied to a public listing – signals that OpenAI intends to demonstrate a credible enterprise revenue engine before entering public markets. A superapp bundle would allow OpenAI to present a unified platform competing directly with Anthropic's own enterprise positioning, and to extract higher revenue per customer by bundling capabilities that might otherwise be sold separately or sourced from competitors.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>A self-reported reason crossing 40% turns "AI restructuring" from narrative into a line item employers are willing to document and disclose, which changes how boards, regulators, and the Bureau of Labor Statistics will treat workforce-disruption claims. It also hands ammunition to both sides of the emerging federal preemption fight outlined in Story 2: workforce harm is now a quantified, monthly, employer-attested figure rather than an economist's projection.
+              <strong>Why it matters</strong>The shift from a single consumer chat assistant to a bundled enterprise platform is a strategic pivot, not a minor product update. It reframes ChatGPT from a consumer product into revenue infrastructure that IPO investors will scrutinise. For enterprise customers evaluating OpenAI versus Anthropic, this signals that OpenAI intends to compete on depth and bundling, not just base chat capability. For OpenAI itself, the move exposes a tension: a superapp that consolidates chat, coding, and agents under one roof may optimise for revenue and margin, but fragments the company's technical roadmap across three product areas simultaneously.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value" data-count-to="38579" data-count-suffix=" jobs">0 jobs</div>
-                  <div class="indicator-desc">May cuts attributed to AI (highest monthly AI total since tracking began in 2023)</div>
+                  <div class="indicator-value mono">&gt;12</div>
+                  <div class="indicator-desc">Current and former employees cited as sources for the Financial Times report</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value">40%</div>
-                  <div class="indicator-desc">AI's share of May cuts, up from 7% in January and 26% in April</div>
+                  <div class="indicator-value mono">1</div>
+                  <div class="indicator-desc">Company restructuring underpinning the shift toward enterprise revenue bundling</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">97,006</div>
-                  <div class="indicator-desc">Total US job cuts announced in May 2026</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value" data-count-to="87714" data-count-suffix=" jobs">0 jobs</div>
-                  <div class="indicator-desc">AI-attributed cuts year-to-date in 2026 (22% of all layoffs)</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">~54,836</div>
-                  <div class="indicator-desc">AI-attributed cuts in all of 2025 (already surpassed by June 2026)</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">123,653</div>
-                  <div class="indicator-desc">Technology-sector cuts year-to-date (up 66% Y-o-Y)</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">397,755</div>
-                  <div class="indicator-desc">Total 2026 cuts year-to-date (down 43% Y-o-Y)</div>
+                  <div class="indicator-value mono">2</div>
+                  <div class="indicator-desc">Named competitors (Anthropic) explicitly mentioned in the report as the target of repositioning</div>
                 </div>
               </div>
             </div>
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
-                <div class="impact-audience">For enterprise HR and people operations leaders</div>
-                <p>The Chief Human Resources Officer should, before the next board cycle, separate genuine AI-driven role elimination from AI-labeled cost-cutting in internal reporting. The two are being conflated in public attribution and will be scrutinized differently by regulators and litigators within the year.</p>
+                <div class="impact-audience">For enterprise CIOs and heads of platform strategy</div>
+                <p>Treat this sourced report as a planning signal, not a buying trigger. Over the next quarter, reach out to your OpenAI and Anthropic account teams directly. Ask them how a ChatGPT superapp bundle – combining chat, coding, and agents – would change your licensing terms, data governance rules, and seat pricing. Do not wait for an official launch announcement; the competitive signaling is already live.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For workforce policy and government affairs teams</div>
-                <p>The Head of Government Affairs should map this monthly figure against the federal bill's proposed Census Bureau and Bureau of Labor Statistics survey changes (see Story 2) this month, because employer-attested AI-cut data is about to become a federal data-collection question, not a private-vendor statistic.</p>
+                <div class="impact-audience">For product leaders at competitors (including Anthropic-aligned teams)</div>
+                <p>Pressure-test where a bundled OpenAI suite undercuts your standalone coding or agent products. Decide now whether to counter on bundling – rolling your own superapp – or on best-of-breed differentiation, where you commit to excellence in one capability rather than adequacy across three. This choice will dominate your roadmap for the next 12 months.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For institutional investors in labor-exposed sectors</div>
-                <p>Portfolio analysts covering tech and fintech should treat the 66% Y-o-Y rise in technology cuts as a margin signal, not a distress signal. The same firms announcing layoffs also led May hiring announcements, indicating reallocation rather than contraction.</p>
+                <div class="impact-audience">For equity investors tracking the OpenAI listing</div>
+                <p>Read this as a pre-IPO revenue-narrative move. A single unverified sourced report is not a buying signal, but it is a directional signal about OpenAI's strategy heading into public markets. Watch for an official OpenAI confirmation, and flag any disclosed monetisation metrics in earnings guidance when they arrive. Unverified FT reporting is not a basis for repricing, but it is a basis for updating your checklist of questions for management.</p>
               </div>
             </div>
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="https://www.challengergray.com/blog/challenger-report-may-job-cuts-rise-16-from-april-highest-may-total-since-2020/" target="_blank" rel="noopener">Challenger, Gray & Christmas</a>
-              <span class="source-meta">· 04 June 2026 (dominant across 05–06 June)</span>
+              <a href="https://finance.yahoo.com/news/openai-plans-chatgpt-superapp-overhaul-042143777.html" target="_blank" rel="noopener">Reuters (via Financial Times)</a>
+              <span class="source-meta">· 7 June 2026</span>
             </div>
           </div>
         </div>
       </article>
-
-      <article class="story" data-sectors="policy" data-story-index="1">
-        <div class="story-header">
-          <div class="story-num"><span class="num-current">02</span> / 02</div>
-          <div>
-            <div class="story-meta">
-              <span class="tag">Policy &amp; Regulation</span>
-            </div>
-            <h2>Bipartisan House draft would authorize $100 million a year for a federal AI standards center and preempt state laws on frontier-model development</h2>
-            <div class="plain-text">
-              <p>A six-member bipartisan House group led by Representatives Lori Trahan (D-MA) and Jay Obernolte (R-CA) released a discussion draft of the Great American Artificial Intelligence Act – a roughly 270-page framework that would codify the Commerce Department's Center for AI Standards and Innovation and authorize $100 million per year for it across fiscal years 2027–2029. The draft was issued Thursday, June 4, two days after the White House's frontier-AI executive order. Its public-feedback period and political fallout ran through June 5–6, the window this edition covers.</p>
-              <p>Beyond funding the standards center, the draft would preempt states from regulating the development of frontier AI models – a layer of governance that has not yet been tested – while preserving state authority to pass laws of "general applicability" and to regulate models after deployment. It would also add penalties for using AI to impersonate government officials, require large frontier developers to report critical safety incidents to the government, and direct the Census Bureau and Bureau of Labor Statistics to revise federal surveys to capture AI use and adoption. A separate testbed program would pull in the Energy Department, NIST, and the National Science Foundation. As a discussion draft, the text has not been formally introduced and carries no floor-vote timeline; the sponsors say it is circulated to solicit stakeholder feedback first. The development-versus-deployment preemption line is the load-bearing political fault line and the part critics argue matters most – the same structural objection that sank earlier federal preemption attempts.</p>
-            </div>
-            <div class="why-matters">
-              <strong>Why it matters</strong>Codifying the AI standards center would give it the congressional authorization it has lacked since being established by executive action, converting a rebrandable executive-branch entity into a statutory one. The development-stage preemption, if it survives political scrutiny, would relocate the binding rules for how frontier models are built from statehouses to a single federal regime – the most consequential structural shift in US AI governance under active legislative text. The survey-revision language directly operationalizes the monthly layoff-attribution data from Story 1 into official federal statistics.
-            </div>
-            <div class="indicators-block">
-              <div class="section-label">Key numbers</div>
-              <div class="indicators">
-                <div class="indicator">
-                  <div class="indicator-value mono">~270</div>
-                  <div class="indicator-desc">Pages in the discussion draft</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">$100M/year</div>
-                  <div class="indicator-desc">Annual authorization for the Center for AI Standards and Innovation</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">FY2027–2029</div>
-                  <div class="indicator-desc">The three fiscal years the authorization covers</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value">6</div>
-                  <div class="indicator-desc">Bipartisan House sponsors on the discussion draft</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value mono">2 days</div>
-                  <div class="indicator-desc">Gap between the June 2 White House AI executive order and this June 4 draft</div>
-                </div>
-                <div class="indicator">
-                  <div class="indicator-value">2</div>
-                  <div class="indicator-desc">Federal agencies (Census Bureau, BLS) directed to add AI-adoption questions to surveys</div>
-                </div>
-              </div>
-            </div>
-            <div class="impact-block">
-              <div class="section-label">Sector impact and what to actually do</div>
-              <div class="impact-card">
-                <div class="impact-audience">For frontier AI developers' government affairs teams</div>
-                <p>The Head of Public Policy should file written feedback during the discussion-draft comment period this month. The development-stage preemption and incident-reporting obligations are still editable text, and the feedback window is the only leverage point before formal introduction to the House floor.</p>
-              </div>
-              <div class="impact-card">
-                <div class="impact-audience">For enterprise General Counsels operating across multiple US states</div>
-                <p>The GC should commission a one-page exposure memo this quarter that distinguishes obligations tied to model development (potentially preempted) from those tied to deployment and use (explicitly preserved for states), because compliance roadmaps built on a single federal standard would be premature while the draft remains unintroduced.</p>
-              </div>
-              <div class="impact-card">
-                <div class="impact-audience">For state-level regulators and attorneys general</div>
-                <p>State technology-policy advisors should document specific in-state AI-development rules at risk now, while the preemption scope is being defined in public comment, rather than after formal introduction, to ensure the state record is visible to federal drafters and congressional staff.</p>
-              </div>
-            </div>
-            <div class="source-block">
-              <span class="source-label">Source</span>
-              <a href="https://fedscoop.com/bipartisan-great-american-ai-act-draft-proposes-new-federal-ai-governance-framework/" target="_blank" rel="noopener">FedScoop</a>
-              <span class="source-meta">· 04 June 2026 (feedback period and fallout across 05–06 June)</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <div class="empty-state" id="emptyState">
-        <h3>No stories tagged for this sector today.</h3>
-        <p>Try another sector or return to the full view.</p>
-      </div>
 
     </div>
   </main>
@@ -447,9 +319,9 @@
   <section class="editorial">
     <div class="container editorial-inner">
       <div class="editorial-eyebrow">Editor's note</div>
-      <blockquote>June 5–6 was a <em>measurement-and-rules week</em>, not an announcement week – the news was about how AI's effects get counted and governed, not about new capability.</blockquote>
-      <p>One thread quantifies AI's labor footprint as a monthly, employer-attested figure; the other tries to fix where the authority to govern AI sits. They converge on the same instrument: federal surveys that would turn today's private layoff-attribution data into an official statistic. The elite narrative on AI and jobs has shifted – OpenAI's Sam Altman spent the same window publicly walking back his earlier "jobs apocalypse" framing – while the layoff data moves in the opposite direction. The organizations most exposed by these stories are large frontier AI developers, who now face simultaneous pressure on the labor-impact numbers being attributed to their tools and on the federal rules that would govern how those tools are built and reported.</p>
-      <span class="editorial-date">06 June 2026</span>
+      <blockquote>The leading AI labs are converting consumer reach into <em>enterprise revenue</em> ahead of public listings. Capability is now assumed; the contest has moved to distribution, bundling, and margin.</blockquote>
+      <p>A single June 7 sourced story – OpenAI reshaping ChatGPT into a monetisable superapp – does not make a comprehensive issue. But it does express the dominant structural theme of mid-2026: each of the major AI labs is now under pressure from capital markets to prove it can sustain enterprise revenue at scale. OpenAI is signaling this through a superapp bundle. Anthropic is signaling it through direct enterprise partnerships. Meta is signaling it through infrastructure spend. The organisation most exposed by this story is OpenAI itself: it must now demonstrate that an internal restructuring can deliver a credible enterprise revenue engine in time for a public listing, while a single sourced report – unverified and unconfirmed – already attracts the investor scrutiny a public company faces.</p>
+      <span class="editorial-date">7 June 2026</span>
     </div>
   </section>
 
@@ -462,7 +334,7 @@
       <button id="footerSignupBtn" class="archive-link subscribe-btn">
         <span>Subscribe</span>
       </button>
-      <div class="footer-date">06 June 2026 · Issue archived nightly</div>
+      <div class="footer-date">7 June 2026 · Issue archived nightly</div>
     </div>
   </footer>
 
@@ -485,7 +357,7 @@
         requestAnimationFrame(animateTrail);
       }
       animateTrail();
-      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      const interactiveSelectors = 'a, button, .indicator, .why-matters, .impact-card, .hero-stat';
       document.querySelectorAll(interactiveSelectors).forEach(el => {
         el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
         el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
@@ -529,72 +401,6 @@
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
     document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
-
-    const countObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseFloat(el.dataset.countTo);
-          const prefix = el.dataset.countPrefix || '';
-          const suffix = el.dataset.countSuffix || '';
-          const duration = 1400;
-          const start = performance.now();
-          function tick(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
-            if (progress < 1) requestAnimationFrame(tick);
-            else el.textContent = prefix + target.toLocaleString() + suffix;
-          }
-          requestAnimationFrame(tick);
-          countObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.4 });
-    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
-
-    const navDots = document.querySelectorAll('.story-nav-dot');
-    const stories = document.querySelectorAll('.story');
-    const storyNavObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const idx = entry.target.dataset.storyIndex;
-          navDots.forEach(d => d.classList.remove('active'));
-          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
-          if (dot) dot.classList.add('active');
-        }
-      });
-    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
-    stories.forEach(s => storyNavObserver.observe(s));
-    navDots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const target = stories[parseInt(dot.dataset.storyTarget)];
-        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
-      });
-    });
-
-    const chips = document.querySelectorAll('[data-sector-filter]');
-    const emptyState = document.getElementById('emptyState');
-    const visibleCount = document.getElementById('visibleCount');
-    function applyFilter(sector) {
-      let visible = 0;
-      stories.forEach(story => {
-        const sectors = (story.dataset.sectors || '').split(',');
-        const matches = sector === 'all' || sectors.includes(sector);
-        story.classList.toggle('filter-hidden', !matches);
-        if (matches) visible++;
-      });
-      visibleCount.textContent = visible;
-      emptyState.style.display = visible === 0 ? 'block' : 'none';
-    }
-    chips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        chips.forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        applyFilter(chip.dataset.sectorFilter);
-      });
-    });
 
     const signupBtn = document.getElementById('signupBtn');
     const footerSignupBtn = document.getElementById('footerSignupBtn');
