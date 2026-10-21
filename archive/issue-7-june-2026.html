@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 7 June 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    a, button, .indicator, .why-matters, .impact-card { cursor: none; }
+    @media (max-width: 720px) { a, button, .indicator, .why-matters, .impact-card { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+<div class="nav-meta">
+  <span class="nav-date">7 June 2026</span>
+  <a href="index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+    <span>Back to archive</span>
+  </a>
+</div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get key AI stories delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 7 June 2026
+        </div>
+        <h1>OpenAI plans to rebuild ChatGPT into a <em>revenue-focused superapp</em> ahead of its planned listing.</h1>
+        <p class="hero-sub">A single verified story of OpenAI's largest ChatGPT overhaul to date, aiming to fold in coding tools and AI agents to lift revenue ahead of a planned share listing. Based on sourced reporting from the Financial Times, carried by Reuters on the publication date.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Story in this brief</div>
+          <div class="hero-stat-value">1 development</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value">Enterprise AI</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Source</div>
+          <div class="hero-stat-value">Financial Times</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story in-view" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 01</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Enterprise AI</span>
+              <span class="tag">Capital Markets</span>
+            </div>
+            <h2>OpenAI plans to rebuild ChatGPT into a revenue-focused superapp ahead of its planned listing, folding in coding tools and AI agents to compete directly with Anthropic for enterprise budgets</h2>
+            <div class="plain-text">
+              <p>OpenAI is preparing its largest ChatGPT overhaul to date, aiming to turn the product into a superapp – a bundled platform that combines chat, coding tools, and autonomous AI agents – ahead of a planned share listing, according to a Financial Times report published on 7 June 2026. Reuters carried the same story the same day, noting it could not immediately verify the reporting and that OpenAI has not issued a formal announcement. The account is based on interviews with more than a dozen current and former OpenAI employees, and is explicitly unverified by OpenAI itself.</p>
+              <p>The plan is described as part of a broader internal reorganisation at OpenAI, with the company shifting resources toward higher-value enterprise customers and sharpening its competition with rival Anthropic. The timing – a major restructuring tied to a public listing – signals that OpenAI intends to demonstrate a credible enterprise revenue engine before entering public markets. A superapp bundle would allow OpenAI to present a unified platform competing directly with Anthropic's own enterprise positioning, and to extract higher revenue per customer by bundling capabilities that might otherwise be sold separately or sourced from competitors.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The shift from a single consumer chat assistant to a bundled enterprise platform is a strategic pivot, not a minor product update. It reframes ChatGPT from a consumer product into revenue infrastructure that IPO investors will scrutinise. For enterprise customers evaluating OpenAI versus Anthropic, this signals that OpenAI intends to compete on depth and bundling, not just base chat capability. For OpenAI itself, the move exposes a tension: a superapp that consolidates chat, coding, and agents under one roof may optimise for revenue and margin, but fragments the company's technical roadmap across three product areas simultaneously.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;12</div>
+                  <div class="indicator-desc">Current and former employees cited as sources for the Financial Times report</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">1</div>
+                  <div class="indicator-desc">Company restructuring underpinning the shift toward enterprise revenue bundling</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2</div>
+                  <div class="indicator-desc">Named competitors (Anthropic) explicitly mentioned in the report as the target of repositioning</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For enterprise CIOs and heads of platform strategy</div>
+                <p>Treat this sourced report as a planning signal, not a buying trigger. Over the next quarter, reach out to your OpenAI and Anthropic account teams directly. Ask them how a ChatGPT superapp bundle – combining chat, coding, and agents – would change your licensing terms, data governance rules, and seat pricing. Do not wait for an official launch announcement; the competitive signaling is already live.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For product leaders at competitors (including Anthropic-aligned teams)</div>
+                <p>Pressure-test where a bundled OpenAI suite undercuts your standalone coding or agent products. Decide now whether to counter on bundling – rolling your own superapp – or on best-of-breed differentiation, where you commit to excellence in one capability rather than adequacy across three. This choice will dominate your roadmap for the next 12 months.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For equity investors tracking the OpenAI listing</div>
+                <p>Read this as a pre-IPO revenue-narrative move. A single unverified sourced report is not a buying signal, but it is a directional signal about OpenAI's strategy heading into public markets. Watch for an official OpenAI confirmation, and flag any disclosed monetisation metrics in earnings guidance when they arrive. Unverified FT reporting is not a basis for repricing, but it is a basis for updating your checklist of questions for management.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://finance.yahoo.com/news/openai-plans-chatgpt-superapp-overhaul-042143777.html" target="_blank" rel="noopener">Reuters (via Financial Times)</a>
+              <span class="source-meta">· 7 June 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>The leading AI labs are converting consumer reach into <em>enterprise revenue</em> ahead of public listings. Capability is now assumed; the contest has moved to distribution, bundling, and margin.</blockquote>
+      <p>A single June 7 sourced story – OpenAI reshaping ChatGPT into a monetisable superapp – does not make a comprehensive issue. But it does express the dominant structural theme of mid-2026: each of the major AI labs is now under pressure from capital markets to prove it can sustain enterprise revenue at scale. OpenAI is signaling this through a superapp bundle. Anthropic is signaling it through direct enterprise partnerships. Meta is signaling it through infrastructure spend. The organisation most exposed by this story is OpenAI itself: it must now demonstrate that an internal restructuring can deliver a credible enterprise revenue engine in time for a public listing, while a single sourced report – unverified and unconfirmed – already attracts the investor scrutiny a public company faces.</p>
+      <span class="editorial-date">7 June 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">7 June 2026 · Issue archived nightly</div>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .indicator, .why-matters, .impact-card, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>

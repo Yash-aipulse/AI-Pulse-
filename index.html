@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Pulse – 7 June 2026</title>
+  <title>AI Pulse – 21 October 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -109,9 +109,28 @@
     .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
     .signup-submit:active { transform: translateY(0); }
     .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
     .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
     .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
     .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-header > div { min-width: 0; }
     .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
     .story-num .num-current { color: var(--accent); }
     .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
@@ -171,16 +190,20 @@
     .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
     .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
     .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
-    a, button, .indicator, .why-matters, .impact-card { cursor: none; }
-    @media (max-width: 720px) { a, button, .indicator, .why-matters, .impact-card { cursor: pointer; } }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
     @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
     @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
     @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
     @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
-    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (max-width: 720px) { .nav-meta { gap: 8px; } .nav-date { font-size: 10px; letter-spacing: 0.04em; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
@@ -197,7 +220,7 @@
         <div class="brand-name">AI Pulse</div>
       </a>
       <div class="nav-meta">
-        <span class="nav-date">7 June 2026</span>
+        <span class="nav-date">21 October 2026</span>
         <a href="archive/index.html" class="archive-link">
           <span>View archive</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -231,87 +254,396 @@
       <div>
         <div class="hero-eyebrow">
           <span class="live-dot"></span>
-          Today's brief · 7 June 2026
+          Today's brief · 21 October 2026
         </div>
-        <h1>OpenAI plans to rebuild ChatGPT into a <em>revenue-focused superapp</em> ahead of its planned listing.</h1>
-        <p class="hero-sub">A single verified story of OpenAI's largest ChatGPT overhaul to date, aiming to fold in coding tools and AI agents to lift revenue ahead of a planned share listing. Based on sourced reporting from the Financial Times, carried by Reuters on the publication date.</p>
+        <h1>Frontier AI's <em>economics go on the record</em> as the race shifts to distribution, build speed, and vertical agents.</h1>
+        <p class="hero-sub">Five developments from the 24 hours to 21 October 2026. Each story is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Filter by sector below to see only the stories relevant to your industry.</p>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-label">Story in this brief</div>
-          <div class="hero-stat-value">1 development</div>
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" developments">5 developments</div>
         </div>
         <div class="hero-stat">
           <div class="hero-stat-label">Sectors covered</div>
-          <div class="hero-stat-value">Enterprise AI</div>
+          <div class="hero-stat-value" data-count-to="6" data-count-suffix=" verticals">6 verticals</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-label">Source</div>
-          <div class="hero-stat-value">Financial Times</div>
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="13" data-count-suffix=" minutes">13 minutes</div>
         </div>
       </div>
     </div>
   </header>
 
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="energy">Energy &amp; Utilities</button>
+          <button class="chip" data-sector-filter="pharma">Pharma &amp; Health</button>
+          <button class="chip" data-sector-filter="legal">Legal &amp; Professional Services</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">5</strong> of 5 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Anthropic draft S-1"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · OpenAI on Google Cloud"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · Nvidia DSX POD"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · OpenAI buys Orchestra Bio"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · Legora $550M"></button>
+  </div>
+
   <main class="stories">
     <div class="container">
 
-      <article class="story in-view" data-story-index="0">
+      <article class="story" data-sectors="finance,operations" data-story-index="0">
         <div class="story-header">
-          <div class="story-num"><span class="num-current">01</span> / 01</div>
+          <div class="story-num"><span class="num-current">01</span> / 05</div>
           <div>
             <div class="story-meta">
-              <span class="tag">Enterprise AI</span>
-              <span class="tag">Capital Markets</span>
+              <span class="tag">Financial Services</span>
+              <span class="tag">Operations &amp; Enterprise</span>
             </div>
-            <h2>OpenAI plans to rebuild ChatGPT into a revenue-focused superapp ahead of its planned listing, folding in coding tools and AI agents to compete directly with Anthropic for enterprise budgets</h2>
+            <h2>Anthropic's draft IPO filing shows $16.3 billion in first-half revenue – and compute commitments that could reach $750 billion</h2>
             <div class="plain-text">
-              <p>OpenAI is preparing its largest ChatGPT overhaul to date, aiming to turn the product into a superapp – a bundled platform that combines chat, coding tools, and autonomous AI agents – ahead of a planned share listing, according to a Financial Times report published on 7 June 2026. Reuters carried the same story the same day, noting it could not immediately verify the reporting and that OpenAI has not issued a formal announcement. The account is based on interviews with more than a dozen current and former OpenAI employees, and is explicitly unverified by OpenAI itself.</p>
-              <p>The plan is described as part of a broader internal reorganisation at OpenAI, with the company shifting resources toward higher-value enterprise customers and sharpening its competition with rival Anthropic. The timing – a major restructuring tied to a public listing – signals that OpenAI intends to demonstrate a credible enterprise revenue engine before entering public markets. A superapp bundle would allow OpenAI to present a unified platform competing directly with Anthropic's own enterprise positioning, and to extract higher revenue per customer by bundling capabilities that might otherwise be sold separately or sourced from competitors.</p>
+              <p>Anthropic's preliminary IPO prospectus – a draft S-1 filing – shows first-half 2026 revenue of $16.3 billion, up from $1.1 billion in the same period of 2025, according to The Wall Street Journal, which reviewed the document. The report was carried by Investing.com on 20 October. About 20% of first-half revenue came from just two customers. Over the same six months, the company spent nearly $9 billion on computing capacity and infrastructure, more than its $7.3 billion total for all of 2025.</p>
+              <p>The filing puts the scale of frontier AI's cost base in writing. Anthropic has about $450 billion in cloud compute agreements over the next decade, including $111 billion with Google Cloud, $110 billion with Amazon Web Services, and $31 billion with Microsoft, and indicated it could spend up to $750 billion on compute in coming years, counting deals still under negotiation. It says it has sought more capacity than the hyperscalers were willing to supply and is pursuing third-party data center developments. The first-half net loss was $80.7 billion, but about $72 billion of that stems from non-cash accounting adjustments tied to convertible notes and other financing instruments. Risk factors flag customer concentration, compute constraints, and the possibility that damages from a severe AI-related incident could exceed insurance coverage. The Journal reports the listing could value the company at about $2 trillion; no timing has been disclosed.</p>
             </div>
             <div class="why-matters">
-              <strong>Why it matters</strong>The shift from a single consumer chat assistant to a bundled enterprise platform is a strategic pivot, not a minor product update. It reframes ChatGPT from a consumer product into revenue infrastructure that IPO investors will scrutinise. For enterprise customers evaluating OpenAI versus Anthropic, this signals that OpenAI intends to compete on depth and bundling, not just base chat capability. For OpenAI itself, the move exposes a tension: a superapp that consolidates chat, coding, and agents under one roof may optimise for revenue and margin, but fragments the company's technical roadmap across three product areas simultaneously.
+              <strong>Why it matters</strong>The filing puts a frontier lab's unit economics on the record in unusual detail. In the half, revenue exceeded compute spend – but forward commitments of roughly $450 billion contracted, and up to $750 billion in total, dwarf current revenue, so the investment case depends on revenue continuing to compound for years. For enterprise buyers, two customers accounting for a fifth of revenue and self-declared capacity limits are supplier-risk facts, not just investor facts.
             </div>
             <div class="indicators-block">
               <div class="section-label">Key numbers</div>
               <div class="indicators">
                 <div class="indicator">
-                  <div class="indicator-value mono">&gt;12</div>
-                  <div class="indicator-desc">Current and former employees cited as sources for the Financial Times report</div>
+                  <div class="indicator-value">$16.3B</div>
+                  <div class="indicator-desc">First-half 2026 revenue, up from $1.1B in the first half of 2025</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">1</div>
-                  <div class="indicator-desc">Company restructuring underpinning the shift toward enterprise revenue bundling</div>
+                  <div class="indicator-value mono">~$9B</div>
+                  <div class="indicator-desc">Spent on compute and infrastructure in the half, versus $7.3B in all of 2025</div>
                 </div>
                 <div class="indicator">
-                  <div class="indicator-value mono">2</div>
-                  <div class="indicator-desc">Named competitors (Anthropic) explicitly mentioned in the report as the target of repositioning</div>
+                  <div class="indicator-value mono">~$450B</div>
+                  <div class="indicator-desc">Cloud compute agreements over the next decade, including $111B with Google Cloud and $110B with AWS</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Up to $750B</div>
+                  <div class="indicator-desc">Potential compute spend in coming years, including deals still under negotiation</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="20" data-count-suffix="%">20%</div>
+                  <div class="indicator-desc">Share of first-half revenue that came from two customers</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$80.7B</div>
+                  <div class="indicator-desc">First-half net loss, of which about $72B was non-cash accounting adjustments</div>
                 </div>
               </div>
             </div>
             <div class="impact-block">
               <div class="section-label">Sector impact and what to actually do</div>
               <div class="impact-card">
-                <div class="impact-audience">For enterprise CIOs and heads of platform strategy</div>
-                <p>Treat this sourced report as a planning signal, not a buying trigger. Over the next quarter, reach out to your OpenAI and Anthropic account teams directly. Ask them how a ChatGPT superapp bundle – combining chat, coding, and agents – would change your licensing terms, data governance rules, and seat pricing. Do not wait for an official launch announcement; the competitive signaling is already live.</p>
+                <div class="impact-audience">For Chief Procurement Officers and enterprise AI buyers</div>
+                <p>Within the next quarter, the Chief Procurement Officer should add capacity and continuity terms to frontier-model contracts – priority access commitments, remedies for capacity shortfalls, and minimum notice periods for model deprecation. The supplier's own filing names compute constraints as a growth risk, which makes these clauses a reasonable ask rather than an unusual one.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For product leaders at competitors (including Anthropic-aligned teams)</div>
-                <p>Pressure-test where a bundled OpenAI suite undercuts your standalone coding or agent products. Decide now whether to counter on bundling – rolling your own superapp – or on best-of-breed differentiation, where you commit to excellence in one capability rather than adequacy across three. This choice will dominate your roadmap for the next 12 months.</p>
+                <div class="impact-audience">For portfolio managers and IPO allocators</div>
+                <p>Portfolio managers should model the listing on cash economics before the public S-1 lands. Strip out the roughly $72 billion in non-cash adjustments from the $80.7 billion headline loss, then stress-test the ratio of contracted compute to revenue under slower growth scenarios – that ratio, not the loss, is the variable that decides the valuation.</p>
               </div>
               <div class="impact-card">
-                <div class="impact-audience">For equity investors tracking the OpenAI listing</div>
-                <p>Read this as a pre-IPO revenue-narrative move. A single unverified sourced report is not a buying signal, but it is a directional signal about OpenAI's strategy heading into public markets. Watch for an official OpenAI confirmation, and flag any disclosed monetisation metrics in earnings guidance when they arrive. Unverified FT reporting is not a basis for repricing, but it is a basis for updating your checklist of questions for management.</p>
+                <div class="impact-audience">For strategic finance teams at cloud providers and data center developers</div>
+                <p>Heads of strategic finance should treat the disclosed commitments as a public demand signal and revisit 2027–2028 capacity plans this quarter. The filing states that Anthropic sought more capacity than hyperscalers would supply and is turning to third-party developments, which is an open invitation to developers with powered sites.</p>
               </div>
             </div>
             <div class="source-block">
               <span class="source-label">Source</span>
-              <a href="https://finance.yahoo.com/news/openai-plans-chatgpt-superapp-overhaul-042143777.html" target="_blank" rel="noopener">Reuters (via Financial Times)</a>
-              <span class="source-meta">· 7 June 2026</span>
+              <a href="https://www.investing.com/news/stock-market-news/anthropic-revenue-hits-163-billion-as-preliminary-s1-outlines-ipo-risks--wsj-4960928" target="_blank" rel="noopener">The Wall Street Journal (via Investing.com)</a>
+              <span class="source-meta">· 20 October 2026</span>
             </div>
           </div>
         </div>
       </article>
+
+      <article class="story" data-sectors="operations" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>OpenAI will sell GPT-6 Astra and Codex through Google Cloud, putting its models on all three major US cloud platforms</h2>
+            <div class="plain-text">
+              <p>OpenAI and Google announced on 21 October that OpenAI's latest models, including GPT-6 Astra, and its Codex coding agent will be available through Google Cloud's Model Garden and Marketplace in the coming weeks. Customers will be able to pay for OpenAI technology out of their existing Google Cloud spending commitments, and developers will also be able to reach the models through Antigravity, Google's coding tool. Companies in regulated industries can deploy the models under Google Cloud's security controls and data governance tools.</p>
+              <p>The deal follows the April expiry of OpenAI's exclusive distribution arrangement with Microsoft, after which Amazon Web Services began offering OpenAI models. With Google Cloud added, OpenAI's models are now sold through all three major US cloud providers. OpenAI already runs ChatGPT and its API partly on Google Cloud infrastructure; this agreement adds a sales channel on top of the compute relationship. For Google, it means selling a direct rival's models alongside its own Gemini line – a bet that owning the customer's cloud budget is worth more than exclusivity for its own models. Investing.com, citing CNBC data, puts Google Cloud's annualized revenue growth at about 82% in the second quarter, against reported cloud growth of 37% at Amazon and 42% at Microsoft.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Model access is decoupling from cloud choice. Enterprises can increasingly buy frontier models from either leading lab through whichever hyperscaler holds their committed spend, which shifts negotiating leverage toward buyers and turns cloud commitments into the main procurement channel for AI. The stakes for the labs are visible in Story 1's filing: Anthropic generated 47% of its 2025 revenue through Amazon's and Google's cloud platforms.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="3" data-count-suffix=" clouds">3 clouds</div>
+                  <div class="indicator-desc">Major US cloud providers now distributing OpenAI models: Microsoft, AWS, and Google Cloud</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">April</div>
+                  <div class="indicator-desc">Month OpenAI's exclusive distribution arrangement with Microsoft expired</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="82" data-count-prefix="~" data-count-suffix="%">~82%</div>
+                  <div class="indicator-desc">Google Cloud's annualized revenue growth in the second quarter, up from 63% in the first (CNBC data)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">37% / 42%</div>
+                  <div class="indicator-desc">Cloud growth reported by Amazon and Microsoft, respectively</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="47" data-count-suffix="%">47%</div>
+                  <div class="indicator-desc">Share of Anthropic's 2025 revenue that came through Amazon and Google cloud platforms, per its IPO filing</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs with Google Cloud commitments</div>
+                <p>Before the next renewal, the CIO should get written confirmation from the Google Cloud account team that OpenAI model consumption draws down existing committed spend. Once the Model Garden listing goes live, run a 30-day bake-off of GPT-6 Astra against Gemini on one production workflow, measured on cost per completed task rather than benchmark scores.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CISOs and compliance leads in regulated industries</div>
+                <p>The Chief Information Security Officer should document, this quarter, which Google Cloud controls – data residency, access management, logging – apply to OpenAI models hosted there and how they differ from direct OpenAI API access. Approve use cases against that comparison, not against the vendor's marketing claims.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For category managers sourcing AI software</div>
+                <p>Category managers should restructure AI sourcing from per-vendor to per-channel in the current budget cycle. With frontier models available through several hyperscalers, run a structured price-and-terms comparison across channels and use committed cloud spend as negotiating leverage with both the lab and the cloud provider.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.investing.com/news/stock-market-news/openai-expands-google-cloud-access-as-ai-rivals-deepen-ties-4962939" target="_blank" rel="noopener">Investing.com</a>
+              <span class="source-meta">· 21 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="hardware,energy" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Energy &amp; Utilities</span>
+            </div>
+            <h2>Nvidia unveils DSX POD, a containerized Vera Rubin data center design it says cuts deployment from six months to 14 days</h2>
+            <div class="plain-text">
+              <p>At GTC Berlin on 21 October, Nvidia launched DSX POD, a modular version of its DSX reference design for AI data centers built on its Vera Rubin platform. The units are assembled in containers, integrated and validated before delivery, and then connected to a prepared site's power, cooling, and networking. Nvidia says this cuts deployment time from six months to 14 days. Worldwide deliveries are planned for early 2027 with 17 named partners, including Dell Technologies, HPE, Lenovo, Foxconn, Schneider Electric, Vertiv, Eaton, and Crusoe.</p>
+              <p>Nvidia paired the launch with energy and water claims. It says the DSX platform can eliminate up to 100% of the water consumed by cooling, using closed-loop liquid cooling with outdoor dry coolers, which it estimates saves 54 million liters a day at 2-gigawatt scale compared with cooling towers. Its DSX MaxLPS software allocates power within a site's provisioned budget and, according to Nvidia, delivers the same token output on 30% less power. A third product, DSX Flex, lets a data center adjust workload power to utility needs, grid spikes, and energy prices. Nvidia acknowledges that some climates may still need additional mechanical cooling during extreme heat. Pricing and per-unit capacity were not disclosed.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The constraint on AI infrastructure has moved from chips to sites, power, and construction time. A factory-built, pre-validated module turns a six-month build into a two-week installation – provided the site's power and cooling are ready – which moves the critical path to utility interconnects and permitting. The water and grid-flexibility claims target the two objections local regulators most often raise against new data centers.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="14" data-count-suffix=" days">14 days</div>
+                  <div class="indicator-desc">Deployment time Nvidia claims for DSX POD, down from six months</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">54M liters/day</div>
+                  <div class="indicator-desc">Water saved at 2-gigawatt scale versus conventional cooling towers, per Nvidia</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Up to 100%</div>
+                  <div class="indicator-desc">Reduction in water consumed by cooling with closed-loop dry coolers</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="30" data-count-suffix="%">30%</div>
+                  <div class="indicator-desc">Less power for the same token output with DSX MaxLPS, per Nvidia</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="17" data-count-suffix=" partners">17 partners</div>
+                  <div class="indicator-desc">Named launch partners, spanning server makers, power and cooling suppliers, and AI cloud builders</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Early 2027</div>
+                  <div class="indicator-desc">Start of worldwide DSX POD deliveries</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For heads of data center infrastructure</div>
+                <p>The VP of Data Center Infrastructure should start site-readiness work now – utility interconnect applications, liquid-cooling distribution, and permitting – for any capacity planned for 2027. With a 14-day install and deliveries from early 2027, the prepared site rather than the hardware will set the go-live date.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For utility key-account teams and Chief Sustainability Officers</div>
+                <p>Utility account managers should ask data center customers this quarter whether new builds will use grid-responsive power management such as DSX Flex, and price demand-response terms into new interconnect agreements. Chief Sustainability Officers should request site-specific water and power figures rather than relying on headline maximums.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For category managers sourcing AI and colocation capacity</div>
+                <p>Category managers running 2027 capacity RFPs should add modular delivery as an evaluated option and require bidders to provide validated cooling and power performance under local climate conditions, since Nvidia itself notes that extreme heat may require extra mechanical cooling.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.datacenterdynamics.com/en/news/nvidia-launches-dsx-pod-claims-the-vera-rubin-reference-architecture-will-make-ai-data-centers-more-water-and-energy-efficient/" target="_blank" rel="noopener">Data Center Dynamics</a>
+              <span class="source-meta">· 21 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="pharma" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Pharma &amp; Health</span>
+            </div>
+            <h2>OpenAI acquires Orchestra Bio to add drug-program management agents to its Rosalind life sciences platform</h2>
+            <div class="plain-text">
+              <p>OpenAI announced on 20 October that it has acquired Orchestra Bio, a San Francisco startup whose AI agents help pharmaceutical teams keep drug development programs on schedule. The agents monitor studies and timelines, flag problems, identify which activities and deadlines are affected, gather the relevant information, and compare response options, while scientists and program leaders make the final decisions. Financial terms were not disclosed. Orchestra, founded in fall 2022, raised a seed round of about $20 million from investors including Andreessen Horowitz, Insight Partners, and 8VC, according to Caplight data.</p>
+              <p>Orchestra's team and technology will be folded into Rosalind, OpenAI's family of life sciences models and tools. GPT-Rosalind, launched in April and restricted to vetted US enterprise customers such as Amgen and Moderna, reasons through biology and chemistry questions, and Rosalind Workbench connects it to scientific tools and data. The acquisition extends OpenAI from scientific analysis into the operational layer of drug development – the scheduling, dependencies, and decisions that determine how fast a candidate moves. It follows Anthropic's purchase of Coefficient Bio in April for a reported $400 million, and comes five days after OpenAI opened a free Rosalind plan for US university labs.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Bringing a drug from first idea to US approval can take up to 15 years and more than $2.6 billion, and fewer than 10% of candidates that enter human testing reach patients. A large share of that time is lost to coordination rather than science. By buying a program-management layer, OpenAI is positioning to sell AI against the cost of delay – which pharma can measure in patent life and revenue – rather than against research productivity, which is far harder to price.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="15" data-count-suffix=" years">15 years</div>
+                  <div class="indicator-desc">Upper end of the time from first idea to US approval for a new drug</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;$2.6B</div>
+                  <div class="indicator-desc">Cost to bring one approved drug to market</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&lt;10%</div>
+                  <div class="indicator-desc">Share of candidates entering human testing that reach pharmacies</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$20M</div>
+                  <div class="indicator-desc">Orchestra Bio's seed funding before the acquisition (Caplight data)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$400M</div>
+                  <div class="indicator-desc">Anthropic's reported price for Coefficient Bio in April – the closest comparable deal</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For heads of R&amp;D and clinical operations</div>
+                <p>The Head of R&amp;D Operations should pick one late-stage program this quarter where cross-functional delays are still tracked manually and pilot agent-based monitoring – from OpenAI or a competitor – against a documented baseline of current cycle times. That makes any vendor's acceleration claims testable on your own data before an enterprise-wide commitment.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For pharma CIOs and Chief Data Officers</div>
+                <p>Before Orchestra's capabilities appear inside Rosalind, the CIO and Chief Data Officer should agree within 60 days which program data – trial timelines, manufacturing schedules, regulatory submission plans – may flow to a third-party agent platform, and under what audit and access controls.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For biotech AI founders and their investors</div>
+                <p>Founders building AI for drug development operations should now treat frontier labs as both likely acquirers and direct competitors. Over the next six months, concentrate defensibility in proprietary data integrations and regulatory validation work that a horizontal platform cannot replicate quickly.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://decrypt.co/381467/openai-buys-orchestra-bio-ai-agents-drug-development" target="_blank" rel="noopener">Decrypt</a>
+              <span class="source-meta">· 20 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" data-sectors="legal,finance" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Legal &amp; Professional Services</span>
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>Legal AI company Legora raises $550 million at an $8.8 billion valuation after doubling recurring revenue to $200 million in under six months</h2>
+            <div class="plain-text">
+              <p>Stockholm-based Legora, which builds AI tools that law firms, professional services firms, and in-house legal teams use to draft and review documents, raised $550 million in a Series E round at an $8.8 billion post-money valuation, City AM reported on 21 October. Atreides Management led the round, joined by new investors Baron Capital, Capital Research, Fidelity Management &amp; Research Company, and Glade Brook Capital Partners. The valuation is up from $5.6 billion in its April Series D, which brought in Nvidia's venture arm NVentures and Atlassian as corporate investors, though below the $10 billion the company was reported to be seeking in August.</p>
+              <p>Legora's annual recurring revenue grew from $1 million to $100 million in 18 months, and the next $100 million took less than six months, taking it past $200 million, according to its CFO. The company plans to use the funds to expand across North America, where it has seven offices including New York, Chicago, and Toronto, as well as in Europe and Asia-Pacific, and to invest further in Legora aOS, its agentic operating system for legal work.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Legal is becoming the first professional-services vertical where AI application vendors are reaching the scale of established software companies. The investor mix – large mutual fund managers such as Fidelity and Capital Research alongside growth investors – suggests late-stage, crossover-style pricing. For law firms and corporate legal departments, the vendor chosen now is likely to become embedded infrastructure, which raises the stakes on data terms and exit rights.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="550" data-count-prefix="$" data-count-suffix="M">$550M</div>
+                  <div class="indicator-desc">Series E raised, led by Atreides Management</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value">$8.8B</div>
+                  <div class="indicator-desc">Post-money valuation, up from $5.6B in the April Series D</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$200M+</div>
+                  <div class="indicator-desc">Annual recurring revenue, per the company's CFO</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value" data-count-to="18" data-count-suffix=" months">18 months</div>
+                  <div class="indicator-desc">Time taken to grow ARR from $1M to $100M</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&lt;6 months</div>
+                  <div class="indicator-desc">Time taken to add the next $100M of ARR</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~44x</div>
+                  <div class="indicator-desc">Valuation as a multiple of ARR ($8.8B on roughly $200M)</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For General Counsels and legal operations leaders</div>
+                <p>The Head of Legal Operations should negotiate data-use limits, model-training opt-outs, and export rights for prompts and work product into any legal AI contract signed or renewed this quarter. Vendors growing at this pace may change ownership or structure within a typical contract term, and those terms are far harder to add later.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For managing partners at law and professional services firms</div>
+                <p>Managing partners should commission a pricing review this quarter for matter types where AI drafting and review compress billable hours, and decide on fixed-fee or outcome-based offers before clients start demanding them in panel reviews.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For growth-equity and crossover investors</div>
+                <p>At roughly 44 times ARR, the price assumes sustained hypergrowth. Investors weighing follow-on or competing legal-AI positions should require cohort-level evidence – net revenue retention and seat expansion within existing firms – before the next round, rather than relying on headline ARR milestones.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.cityam.com/legora-raises-550-in-funding-to-lead-global-expansion/" target="_blank" rel="noopener">City AM</a>
+              <span class="source-meta">· 21 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
 
     </div>
   </main>
@@ -319,9 +651,9 @@
   <section class="editorial">
     <div class="container editorial-inner">
       <div class="editorial-eyebrow">Editor's note</div>
-      <blockquote>The leading AI labs are converting consumer reach into <em>enterprise revenue</em> ahead of public listings. Capability is now assumed; the contest has moved to distribution, bundling, and margin.</blockquote>
-      <p>A single June 7 sourced story – OpenAI reshaping ChatGPT into a monetisable superapp – does not make a comprehensive issue. But it does express the dominant structural theme of mid-2026: each of the major AI labs is now under pressure from capital markets to prove it can sustain enterprise revenue at scale. OpenAI is signaling this through a superapp bundle. Anthropic is signaling it through direct enterprise partnerships. Meta is signaling it through infrastructure spend. The organisation most exposed by this story is OpenAI itself: it must now demonstrate that an internal restructuring can deliver a credible enterprise revenue engine in time for a public listing, while a single sourced report – unverified and unconfirmed – already attracts the investor scrutiny a public company faces.</p>
-      <span class="editorial-date">7 June 2026</span>
+      <blockquote>The frontier labs are no longer selling capability alone. They are buying <em>distribution, operations, and capacity</em> – and the bill is now on the record.</blockquote>
+      <p>Read together, the five stories trace a single shift. Anthropic's draft filing shows $16.3 billion of revenue in a half against compute commitments that could reach $750 billion, which explains the urgency behind everything else in this issue. OpenAI is widening the channels through which enterprises can buy its models and buying into the operational layer of drug development, where delay has a measurable price. Nvidia is compressing the time it takes to turn capital into running capacity. Legora shows the application side of the same market, with a single-vertical company raising late-stage capital on revenue growth measured in months rather than years. The organizations most exposed are enterprises that still treat AI as a software line item: on this evidence it is becoming a capacity, channel, and supplier-concentration question for procurement and finance as much as for IT.</p>
+      <span class="editorial-date">21 October 2026</span>
     </div>
   </section>
 
@@ -334,7 +666,7 @@
       <button id="footerSignupBtn" class="archive-link subscribe-btn">
         <span>Subscribe</span>
       </button>
-      <div class="footer-date">7 June 2026 · Issue archived nightly</div>
+      <div class="footer-date">21 October 2026 · Issue archived nightly</div>
     </div>
   </footer>
 
@@ -357,7 +689,7 @@
         requestAnimationFrame(animateTrail);
       }
       animateTrail();
-      const interactiveSelectors = 'a, button, .indicator, .why-matters, .impact-card, .hero-stat';
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
       document.querySelectorAll(interactiveSelectors).forEach(el => {
         el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
         el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
@@ -401,6 +733,72 @@
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
     document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
 
     const signupBtn = document.getElementById('signupBtn');
     const footerSignupBtn = document.getElementById('footerSignupBtn');
