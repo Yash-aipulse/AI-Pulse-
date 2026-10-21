@@ -39,7 +39,17 @@
   .aip-suggest{display:flex;flex-wrap:wrap;gap:6px}
   .aip-suggest button{font-family:inherit;font-size:13px;font-weight:700;padding:7px 12px;border-radius:100px;border:1px solid var(--border-strong,#2A2F36);background:transparent;color:var(--text-secondary,#B8BEC3)}
   .aip-suggest button:hover{border-color:var(--accent,#5EEAD4);color:var(--accent,#5EEAD4)}
-  .aip-chat-form{display:flex;gap:8px;padding:12px 14px 8px;border-top:1px solid var(--border,#1E2227)}
+  .aip-stories{display:flex;flex-direction:column;gap:6px}
+  .aip-story{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--border-strong,#2A2F36);background:transparent;color:var(--text-secondary,#B8BEC3);font-family:inherit;font-size:14px;line-height:1.4;font-weight:700;transition:border-color .2s,color .2s,background .2s}
+  .aip-story:hover{border-color:var(--accent,#5EEAD4);color:var(--text,#F4F6F7);background:rgba(94,234,212,0.06)}
+  .aip-story .aip-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent,#5EEAD4);padding-top:2px;min-width:22px}
+  .aip-story .aip-t{flex:1;min-width:0}
+  .aip-story .aip-now{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent,#5EEAD4);border:1px solid rgba(94,234,212,0.5);border-radius:100px;padding:2px 8px;margin-top:1px}
+  .aip-context{display:none;align-items:center;gap:8px;padding:10px 16px 0;font-size:12.5px;color:var(--text-muted,#7A8189);border-top:1px solid var(--border,#1E2227)}
+  .aip-context.on{display:flex}
+  .aip-context b{flex:1;min-width:0;color:var(--text,#F4F6F7);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .aip-context button{flex-shrink:0;border:none;background:transparent;color:var(--accent,#5EEAD4);font-family:inherit;font-size:12.5px;font-weight:700;text-decoration:underline;text-underline-offset:2px;padding:0}
+  .aip-chat-form{display:flex;gap:8px;padding:10px 14px 8px}
   .aip-chat-input{flex:1;min-width:0;padding:11px 14px;background:var(--bg-elev,#181B1F);border:1px solid var(--border,#1E2227);border-radius:10px;color:var(--text,#F4F6F7);font-family:inherit;font-size:15px}
   .aip-chat-input:focus{outline:none;border-color:var(--accent,#5EEAD4);box-shadow:0 0 14px rgba(94,234,212,0.2)}
   .aip-chat-send{padding:0 16px;border-radius:10px;border:1px solid var(--accent,#5EEAD4);background:var(--accent,#5EEAD4);color:var(--bg,#08090A);font-family:inherit;font-weight:700;font-size:14px}
@@ -78,7 +88,8 @@
     '<div class="aip-chat-head"><div class="aip-chat-mark"></div><div class="aip-chat-titles"><div class="aip-chat-title">Ask AI Pulse</div><div class="aip-chat-sub">Questions about this issue&#39;s stories</div></div>' +
     '<button type="button" class="aip-chat-close" aria-label="Close">&#215;</button></div>' +
     '<div class="aip-chat-log" aria-live="polite"></div>' +
-    '<form class="aip-chat-form"><input class="aip-chat-input" type="text" maxlength="500" placeholder="Ask about a story…" aria-label="Your question" autocomplete="off">' +
+    '<div class="aip-context"><span>Asking about:</span><b></b><button type="button" class="aip-change">Change</button></div>' +
+    '<form class="aip-chat-form"><input class="aip-chat-input" type="text" maxlength="280" placeholder="Ask a question…" aria-label="Your question" autocomplete="off">' +
     '<button class="aip-chat-send" type="submit">Ask</button></form>' +
     '<div class="aip-chat-note">AI-generated answers can be wrong – check the source links. Questions are processed by Google Gemini or Cloudflare; please don\'t share personal information.</div>';
 
@@ -91,6 +102,28 @@
   var send = panel.querySelector(".aip-chat-send");
   var history = [];
   var started = false;
+  var context = panel.querySelector(".aip-context");
+  var focus = null; // the story being asked about (null = whole issue)
+
+  function shorten(t, n) { return t.length > n ? t.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : t; }
+  var stories = [].slice.call(document.querySelectorAll("article.story")).map(function (a, i) {
+    var h = a.querySelector("h2");
+    var title = h ? h.textContent.replace(/\s+/g, " ").trim() : "Story " + (i + 1);
+    var dot = document.querySelector('.story-nav-dot[data-story-target="' + i + '"]');
+    var lbl = dot && dot.getAttribute("data-label");
+    return { i: i, el: a, title: title, label: lbl ? lbl.replace(/^\s*\d+\s*·\s*/, "") : shorten(title, 52) };
+  });
+  function storyInView() {
+    var mid = window.innerHeight / 2, best = null, bestD = Infinity;
+    stories.forEach(function (st) {
+      var r = st.el.getBoundingClientRect();
+      if (r.height > 0 && r.bottom > 80 && r.top < window.innerHeight) {
+        var d = Math.abs((r.top + r.bottom) / 2 - mid);
+        if (d < bestD) { bestD = d; best = st; }
+      }
+    });
+    return best;
+  }
 
   function escapeHtml(s) {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -127,17 +160,67 @@
     log.scrollTop = log.scrollHeight;
     return el;
   }
-  function welcome() {
-    add("bot", "Ask me about the stories in this issue, or what any term in them means. News facts come straight from the issue, with links to the original sources.");
-    var s = document.createElement("div");
-    s.className = "aip-suggest";
-    ["Summarize this issue in 3 points", "Explain the lead story simply", "What should procurement teams take from this?"].forEach(function (q) {
+  function clearPrompts() {
+    [].slice.call(log.querySelectorAll(".aip-suggest, .aip-stories")).forEach(function (el) { el.remove(); });
+  }
+  function setFocus(st) {
+    focus = st;
+    context.querySelector("b").textContent = st ? st.label : "The whole issue";
+    context.querySelector(".aip-change").style.display = stories.length > 1 ? "" : "none";
+    context.classList.add("on");
+    input.placeholder = st ? "Ask about this story…" : "Ask about this issue…";
+  }
+  function suggestions() {
+    clearPrompts();
+    var qs = focus
+      ? ["Explain this story simply", "Why does this matter?", "What should my team do about it?"]
+      : ["Summarize this issue in 3 points", "What's the biggest story today?", "Which industries are most affected?"];
+    var wrap = document.createElement("div");
+    wrap.className = "aip-suggest";
+    qs.forEach(function (q) {
       var b = document.createElement("button");
       b.type = "button"; b.textContent = q;
-      b.addEventListener("click", function () { s.remove(); ask(q); });
-      s.appendChild(b);
+      b.addEventListener("click", function () { ask(q); });
+      wrap.appendChild(b);
     });
-    log.appendChild(s);
+    log.appendChild(wrap);
+    log.scrollTop = log.scrollHeight;
+  }
+  function choose(st) {
+    clearPrompts();
+    setFocus(st);
+    add("bot", st ? "Got it. Ask me anything about **" + st.label + "**." : "Got it. Ask me anything about this issue.");
+    suggestions();
+    input.focus();
+  }
+  function picker(intro) {
+    clearPrompts();
+    if (stories.length <= 1) { setFocus(stories[0] || null); suggestions(); return; }
+    add("bot", intro || "Which story would you like to ask about?");
+    var now = storyInView();
+    var ordered = now ? [now].concat(stories.filter(function (x) { return x !== now; })) : stories;
+    var wrap = document.createElement("div");
+    wrap.className = "aip-stories";
+    ordered.concat([null]).forEach(function (st) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "aip-story";
+      b.innerHTML = '<span class="aip-n">' + (st ? ("0" + (st.i + 1)).slice(-2) : "All") + '</span><span class="aip-t"></span>' +
+        (st && st === now ? '<span class="aip-now">Reading now</span>' : "");
+      b.querySelector(".aip-t").textContent = st ? st.label : "The whole issue";
+      b.title = st ? st.title : "Ask about all stories in this issue";
+      b.addEventListener("click", function () { choose(st); });
+      wrap.appendChild(b);
+    });
+    log.appendChild(wrap);
+    log.scrollTop = log.scrollHeight;
+  }
+  function welcome() {
+    if (stories.length <= 1) {
+      add("bot", "Ask me about this story, or what any term in it means. News facts come straight from the issue, with links to the original sources.");
+      picker();
+    } else {
+      picker("Which story would you like to ask about? I can also explain any term – news facts always come straight from the issue, with links to the sources.");
+    }
   }
   function open() {
     panel.classList.add("open");
@@ -155,9 +238,10 @@
   function ask(q) {
     q = (q || "").trim();
     if (!q) return;
-    var sug = log.querySelector(".aip-suggest");
-    if (sug) sug.remove();
+    clearPrompts();
+    if (!context.classList.contains("on")) setFocus(null);
     add("user", q);
+    var sent = focus ? 'About the story "' + shorten(focus.title, 180) + '": ' + q : "About this whole issue: " + q;
     input.value = "";
     send.disabled = true; input.disabled = true;
     var typing = document.createElement("div");
@@ -168,14 +252,14 @@
     fetch(CHAT_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question: q, page: page, history: history.slice(-6) })
+      body: JSON.stringify({ question: sent, page: page, history: history.slice(-6) })
     })
       .then(function (r) { return r.json().catch(function () { return {}; }); })
       .then(function (data) {
         typing.remove();
         if (data && data.answer) {
           add("bot", data.answer);
-          history.push({ role: "user", text: q }, { role: "assistant", text: data.answer });
+          history.push({ role: "user", text: sent }, { role: "assistant", text: data.answer });
         } else {
           add("bot", (data && data.error) || "Sorry – the assistant is busy right now. Please try again in a little while.", true);
         }
@@ -189,15 +273,17 @@
 
   btn.addEventListener("click", open);
   panel.querySelector(".aip-chat-close").addEventListener("click", close);
+  context.querySelector(".aip-change").addEventListener("click", function () { picker(); });
   form.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && panel.classList.contains("open")) close(); });
 
   // Hook into the site's custom cursor, if present
   var dot = document.getElementById("cursorDot"), trail = document.getElementById("cursorTrail");
   if (dot && trail) {
-    [btn].concat([].slice.call(panel.querySelectorAll("button"))).forEach(function (el) {
-      el.addEventListener("mouseenter", function () { dot.classList.add("expanded"); trail.classList.add("expanded"); });
-      el.addEventListener("mouseleave", function () { dot.classList.remove("expanded"); trail.classList.remove("expanded"); });
-    });
+    var on = function () { dot.classList.add("expanded"); trail.classList.add("expanded"); };
+    var off = function () { dot.classList.remove("expanded"); trail.classList.remove("expanded"); };
+    btn.addEventListener("mouseenter", on); btn.addEventListener("mouseleave", off);
+    panel.addEventListener("mouseover", function (e) { if (e.target.closest("button")) on(); });
+    panel.addEventListener("mouseout", function (e) { if (e.target.closest("button")) off(); });
   }
 })();
