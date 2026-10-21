@@ -1,7 +1,7 @@
 /* AI Pulse – "Ask AI Pulse" chat box.
    Loaded on every page. Stays hidden until CHAT_ENDPOINT is set to the Cloudflare Worker URL. */
 (function () {
-  var CHAT_ENDPOINT = ""; // e.g. "https://ai-pulse-chat.<your-subdomain>.workers.dev"
+  var CHAT_ENDPOINT = "https://ai-pulse-chat.yash-jain-workspace.workers.dev/";
   if (!CHAT_ENDPOINT || window.__aipChat) return;
   window.__aipChat = true;
 
