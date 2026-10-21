@@ -50,7 +50,15 @@
     .aip-chat-panel{right:8px;left:8px;bottom:8px;width:auto;max-width:none;height:calc(100vh - 80px);height:calc(100dvh - 80px)}
     .aip-chat-panel button,.aip-chat-btn{cursor:pointer}
   }
-  @media (prefers-reduced-motion:reduce){.aip-chat-panel{animation:none}.aip-typing i{animation:none;opacity:.8}}
+  @media (min-width:1100px){
+    body{transition:padding-right .35s cubic-bezier(.16,1,.3,1)}
+    body.aip-chat-open{padding-right:400px}
+    body.aip-chat-open .story-nav{right:428px}
+    .aip-chat-panel{top:0;right:0;bottom:0;width:400px;max-width:none;height:auto;border:none;border-left:1px solid var(--border-strong,#2A2F36);border-radius:0;box-shadow:-24px 0 60px rgba(0,0,0,0.45);animation:aipSlide .35s cubic-bezier(.16,1,.3,1)}
+    .aip-chat-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,#5EEAD4),transparent)}
+  }
+  @keyframes aipSlide{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.aip-chat-panel{animation:none}body{transition:none}.aip-typing i{animation:none;opacity:.8}}
   `;
   var style = document.createElement("style");
   style.textContent = css;
@@ -134,12 +142,14 @@
   function open() {
     panel.classList.add("open");
     btn.hidden = true;
+    document.body.classList.add("aip-chat-open");
     if (!started) { started = true; welcome(); }
     setTimeout(function () { input.focus(); }, 50);
   }
   function close() {
     panel.classList.remove("open");
     btn.hidden = false;
+    document.body.classList.remove("aip-chat-open");
     btn.focus();
   }
   function ask(q) {
