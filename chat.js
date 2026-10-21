@@ -17,11 +17,14 @@
   .aip-chat-panel{position:fixed;right:24px;bottom:24px;z-index:150;width:400px;max-width:calc(100vw - 32px);height:min(600px,calc(100vh - 120px));display:none;flex-direction:column;background:var(--bg-card,#14171A);border:1px solid var(--border-strong,#2A2F36);border-top:2px solid var(--accent,#5EEAD4);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 40px rgba(94,234,212,0.08);font-family:'Carlito','Calibri','Segoe UI',sans-serif;color:var(--text,#F4F6F7);overflow:hidden;animation:aipUp .35s cubic-bezier(.16,1,.3,1)}
   .aip-chat-panel.open{display:flex}
   @keyframes aipUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-  .aip-chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border,#1E2227)}
-  .aip-chat-title{font-weight:700;font-size:17px}
-  .aip-chat-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent,#5EEAD4);margin-top:3px}
-  .aip-chat-close{width:32px;height:32px;border:none;background:transparent;color:var(--text,#F4F6F7);font-size:22px;line-height:1;border-radius:8px}
-  .aip-chat-close:hover{color:var(--accent,#5EEAD4);background:var(--bg-elev,#181B1F)}
+  .aip-chat-head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 18px;border-bottom:1px solid var(--border,#1E2227)}
+  .aip-chat-mark{width:26px;height:26px;flex-shrink:0;background:var(--accent,#5EEAD4);position:relative;box-shadow:0 0 16px rgba(94,234,212,0.3)}
+  .aip-chat-mark::after{content:'';position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:var(--bg,#08090A);transform:translate(-50%,-50%)}
+  .aip-chat-titles{flex:1;min-width:0}
+  .aip-chat-title{font-weight:700;font-size:17px;line-height:1.2}
+  .aip-chat-sub{font-size:13px;line-height:1.3;color:var(--text-muted,#7A8189);margin-top:2px}
+  .aip-chat-close{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-strong,#2A2F36);background:transparent;color:var(--text-secondary,#B8BEC3);font-size:20px;line-height:1;border-radius:50%;padding:0}
+  .aip-chat-close:hover{color:var(--bg,#08090A);background:var(--accent,#5EEAD4);border-color:var(--accent,#5EEAD4)}
   .aip-chat-log{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
   .aip-msg{max-width:92%;padding:11px 14px;border-radius:12px;font-size:15px;line-height:1.6;word-wrap:break-word;overflow-wrap:anywhere}
   .aip-msg p{margin:0 0 8px}.aip-msg p:last-child{margin:0}
@@ -64,7 +67,7 @@
   panel.setAttribute("role", "dialog");
   panel.setAttribute("aria-label", "Ask AI Pulse");
   panel.innerHTML =
-    '<div class="aip-chat-head"><div><div class="aip-chat-title">Ask about this issue</div><div class="aip-chat-sub">Answers from this issue, with sources</div></div>' +
+    '<div class="aip-chat-head"><div class="aip-chat-mark"></div><div class="aip-chat-titles"><div class="aip-chat-title">Ask AI Pulse</div><div class="aip-chat-sub">Questions about this issue&#39;s stories</div></div>' +
     '<button type="button" class="aip-chat-close" aria-label="Close">&#215;</button></div>' +
     '<div class="aip-chat-log" aria-live="polite"></div>' +
     '<form class="aip-chat-form"><input class="aip-chat-input" type="text" maxlength="500" placeholder="Ask about a story…" aria-label="Your question" autocomplete="off">' +
@@ -117,7 +120,7 @@
     return el;
   }
   function welcome() {
-    add("bot", "Ask me anything about the stories in this issue. I answer only from the issue and link to the original sources.");
+    add("bot", "Ask me about the stories in this issue, or what any term in them means. News facts come straight from the issue, with links to the original sources.");
     var s = document.createElement("div");
     s.className = "aip-suggest";
     ["Summarize this issue in 3 points", "Explain the lead story simply", "What should procurement teams take from this?"].forEach(function (q) {
