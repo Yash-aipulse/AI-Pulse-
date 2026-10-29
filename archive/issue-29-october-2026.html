@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 29 October 2026: Google Cloud revenue more than doubles to $30.7 billion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-header > div { min-width: 0; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .nav-meta { gap: 8px; } .nav-date { font-size: 10px; letter-spacing: 0.04em; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    .footer-note { flex-basis: 100%; font-family: 'Carlito', sans-serif; font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-top: 4px; }
+  </style>
+  <link rel="icon" href="https://ai-pulse.in/favicon.ico" sizes="32x32">
+  <link rel="icon" href="https://ai-pulse.in/assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="https://ai-pulse.in/assets/icons/apple-touch-icon.png">
+  <meta property="og:site_name" content="AI Pulse">
+  <meta property="og:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <script src="https://ai-pulse.in/assets/js/chat.js?v=5" defer></script>
+  <!-- AIPULSE-SEO:START (generated by tools/seo_build.py; do not edit by hand) -->
+  <meta name="description" content="Google Cloud revenue doubles on TPU sales, Microsoft&#x27;s Azure grows 48% and Samsung posts a record 107.4 trillion won operating profit on AI memory, while Google opens Gemini 4 Carbon to cyber defenders first, US antitrust officials ask about Nvidia&#x27;s Hugging Face deal…">
+  <link rel="canonical" href="https://ai-pulse.in/archive/issue-29-october-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ai-pulse.in/archive/issue-29-october-2026.html">
+  <meta property="og:title" content="AI Pulse – 29 October 2026: Google Cloud revenue more than doubles to $30.7 billion">
+  <meta property="og:description" content="Google Cloud revenue doubles on TPU sales, Microsoft&#x27;s Azure grows 48% and Samsung posts a record 107.4 trillion won operating profit on AI memory, while Google opens Gemini 4 Carbon to cyber defenders first, US antitrust officials ask about Nvidia&#x27;s Hugging Face deal…">
+  <meta name="twitter:title" content="AI Pulse – 29 October 2026: Google Cloud revenue more than doubles to $30.7 billion">
+  <meta name="twitter:description" content="Google Cloud revenue doubles on TPU sales, Microsoft&#x27;s Azure grows 48% and Samsung posts a record 107.4 trillion won operating profit on AI memory, while Google opens Gemini 4 Carbon to cyber defenders first, US antitrust officials ask about Nvidia&#x27;s Hugging Face deal…">
+  <style>.story{scroll-margin-top:96px}.footer-byline{flex-basis:100%;font-family:'Carlito',sans-serif;font-size:13px;line-height:1.6;color:var(--text-muted);margin-top:-16px}.footer-byline a{color:var(--text-secondary);text-decoration:underline;text-decoration-color:var(--border-strong);text-underline-offset:3px;transition:color .2s ease}.footer-byline a:hover{color:var(--accent)}</style>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"NewsMediaOrganization","@id":"https://ai-pulse.in/#org","name":"AI Pulse","url":"https://ai-pulse.in/","logo":{"@type":"ImageObject","url":"https://ai-pulse.in/assets/icons/icon-512.png","width":512,"height":512},"description":"Daily AI market intelligence: the stories that matter, the numbers behind them, and what to do next.","founder":{"@id":"https://ai-pulse.in/about.html#publisher"},"publishingPrinciples":"https://ai-pulse.in/about.html#how-each-brief-is-made","correctionsPolicy":"https://ai-pulse.in/about.html#corrections"},{"@type":"Person","@id":"https://ai-pulse.in/about.html#publisher","name":"Yash Jain","jobTitle":"Procurement intelligence analyst","url":"https://ai-pulse.in/about.html","sameAs":["https://www.linkedin.com/in/yashjain14/"]},{"@type":"WebSite","@id":"https://ai-pulse.in/#website","url":"https://ai-pulse.in/","name":"AI Pulse","inLanguage":"en","publisher":{"@id":"https://ai-pulse.in/#org"}},{"@type":"WebPage","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html","url":"https://ai-pulse.in/archive/issue-29-october-2026.html","name":"AI Pulse – 29 October 2026: Google Cloud revenue more than doubles to $30.7 billion","description":"Google Cloud revenue doubles on TPU sales, Microsoft's Azure grows 48% and Samsung posts a record 107.4 trillion won operating profit on AI memory, while Google opens Gemini 4 Carbon to cyber defenders first, US antitrust officials ask about Nvidia's Hugging Face deal…","inLanguage":"en","isPartOf":{"@id":"https://ai-pulse.in/#website"},"publisher":{"@id":"https://ai-pulse.in/#org"},"datePublished":"2026-10-29","primaryImageOfPage":"https://ai-pulse.in/assets/images/og-image.png","mainEntity":{"@type":"ItemList","numberOfItems":8,"itemListElement":[{"@type":"ListItem","position":1,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#google-cloud-revenue-more-than-doubles-to-30-7-billion","name":"Google Cloud revenue more than doubles to $30.7 billion as Alphabet sells its TPU AI chip systems to outside customers and spends about $51.4 billion on property and equipment in a quarter"},{"@type":"ListItem","position":2,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#microsofts-azure-grows-48-and-its-contracted-future","name":"Microsoft's Azure grows 48% and its contracted future commercial revenue rises 73% to $677 billion, while quarterly spending on property and equipment roughly doubles"},{"@type":"ListItem","position":3,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#samsungs-quarterly-operating-profit-reaches-107-4-trillion","name":"Samsung's quarterly operating profit reaches 107.4 trillion won on AI memory sales, and the company expects memory shortages to get worse next year"},{"@type":"ListItem","position":4,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#google-launches-gemini-4-carbon-which-it-calls-its-most","name":"Google launches Gemini 4 Carbon, which it calls its most powerful model, giving cyber defenders first access and pricing it at $2 per million input tokens"},{"@type":"ListItem","position":5,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#the-us-justice-department-is-asking-how-nvidias-12-93","name":"The US Justice Department is asking how Nvidia's $12.93 billion purchase of Hugging Face would affect competition in AI, Reuters reports"},{"@type":"ListItem","position":6,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#anthropic-tells-california-governor-gavin-newsom","name":"Anthropic tells California Governor Gavin Newsom that officials should be able to ask a court to block the release of AI models that pose a serious risk"},{"@type":"ListItem","position":7,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#microsoft-booked-10-billion-of-revenue-from-its-openai","name":"Microsoft booked $10 billion of revenue from its OpenAI arrangements in a single quarter, close to 11% of its total, its regulatory filing shows"},{"@type":"ListItem","position":8,"url":"https://ai-pulse.in/archive/issue-29-october-2026.html#marvell-is-in-advanced-talks-to-buy-data-center-optics","name":"Marvell is in advanced talks to buy data center optics maker Lumentum, whose shares rose about 11% after hours to a value of roughly $91 billion, Reuters reports"}]},"dateModified":"2026-10-29T02:55:46Z"},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#google-cloud-revenue-more-than-doubles-to-30-7-billion","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#google-cloud-revenue-more-than-doubles-to-30-7-billion","headline":"Google Cloud revenue more than doubles to $30.7 billion as Alphabet sells its TPU AI chip systems to outside customers and spends about $51.4 billion on property and equipment in a quarter","description":"Alphabet reported third-quarter results after the US market closed on Wednesday, with total revenue of $127.6 billion, up 25% from a year earlier, according to its earnings release. Google Cloud was the standout: revenue rose 103% to $30.7 billion…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Hardware & Devices","Operations & Enterprise"],"isBasedOn":{"@type":"CreativeWork","name":"Alphabet Q3 2026 earnings release (via MarketScreener)","url":"https://www.marketscreener.com/news/alphabet-2026-q3-earnings-press-release-ce785cd3d981f42c"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#microsofts-azure-grows-48-and-its-contracted-future","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#microsofts-azure-grows-48-and-its-contracted-future","headline":"Microsoft's Azure grows 48% and its contracted future commercial revenue rises 73% to $677 billion, while quarterly spending on property and equipment roughly doubles","description":"Microsoft reported results for the July to September quarter, the first of its 2027 fiscal year, on Wednesday afternoon, according to its earnings release. Revenue rose 19% to $92.3 billion and revenue from Azure, its cloud platform, grew 48%. Microsoft Cloud revenue reached $63.9 billion…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Operations & Enterprise","Financial Services"],"isBasedOn":{"@type":"CreativeWork","name":"Microsoft Q1 FY2027 earnings release (via Stock Titan)","url":"https://www.stocktitan.net/news/MSFT/microsoft-earnings-press-release-available-on-investor-relations-gbxihy2xxeu8.html"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#samsungs-quarterly-operating-profit-reaches-107-4-trillion","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#samsungs-quarterly-operating-profit-reaches-107-4-trillion","headline":"Samsung's quarterly operating profit reaches 107.4 trillion won on AI memory sales, and the company expects memory shortages to get worse next year","description":"Samsung Electronics reported third-quarter operating profit of 107.4 trillion won on Thursday, up 783% from a year earlier, on revenue of 195.3 trillion won, according to DigitalToday. Samsung says it is the first global technology company to pass 100 trillion won of operating profit in a single…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Hardware & Devices","Operations & Enterprise"],"isBasedOn":{"@type":"CreativeWork","name":"DigitalToday","url":"https://www.digitaltoday.co.kr/en/view/121131/samsung-electronics-q3-operating-profit-107-4-trillion-won-up-783-percent"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#google-launches-gemini-4-carbon-which-it-calls-its-most","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#google-launches-gemini-4-carbon-which-it-calls-its-most","headline":"Google launches Gemini 4 Carbon, which it calls its most powerful model, giving cyber defenders first access and pricing it at $2 per million input tokens","description":"On Wednesday, two weeks after releasing Gemini 4 Argon, Google announced Gemini 4 Carbon, according to Investing.com. Google presents it as its strongest model so far, with a particular edge in cybersecurity and in tasks that run over long periods. Google says Carbon ranks first on version 5.0 of…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Cybersecurity & Infrastructure","Research & Science"],"isBasedOn":{"@type":"CreativeWork","name":"Investing.com","url":"https://www.investing.com/news/stock-market-news/google-unveils-gemini-4-carbon-with-advanced-cybersecurity-features-4980345"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#the-us-justice-department-is-asking-how-nvidias-12-93","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#the-us-justice-department-is-asking-how-nvidias-12-93","headline":"The US Justice Department is asking how Nvidia's $12.93 billion purchase of Hugging Face would affect competition in AI, Reuters reports","description":"The US Department of Justice has been asking questions about how Nvidia's planned $12.93 billion acquisition of Hugging Face, the open-source platform where developers share AI models and datasets, could affect competition, Reuters reported in an exclusive…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Policy & Regulation","Hardware & Devices"],"isBasedOn":{"@type":"CreativeWork","name":"Reuters (via Investing.com)","url":"https://www.investing.com/news/stock-market-news/exclusiveus-doj-is-inquiring-about-nvidias-purchase-of-hugging-face-sources-say-4980450"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#anthropic-tells-california-governor-gavin-newsom","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#anthropic-tells-california-governor-gavin-newsom","headline":"Anthropic tells California Governor Gavin Newsom that officials should be able to ask a court to block the release of AI models that pose a serious risk","description":"In a letter dated 15 October to California Governor Gavin Newsom, Anthropic proposed that government officials be able to seek court orders stopping the release of AI models found to pose a \"serious risk\" to the public…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Policy & Regulation","Legal & Professional Services"],"isBasedOn":{"@type":"CreativeWork","name":"Reuters (via Yahoo News)","url":"https://www.yahoo.com/news/articles/anthropic-tells-california-governor-courts-160847541.html"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#microsoft-booked-10-billion-of-revenue-from-its-openai","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#microsoft-booked-10-billion-of-revenue-from-its-openai","headline":"Microsoft booked $10 billion of revenue from its OpenAI arrangements in a single quarter, close to 11% of its total, its regulatory filing shows","description":"Microsoft's quarterly regulatory filing shows it recorded $10 billion of revenue from its commercial arrangements with OpenAI, including revenue-sharing payments, in the July to September quarter…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Financial Services","Operations & Enterprise"],"isBasedOn":{"@type":"CreativeWork","name":"TechCrunch","url":"https://techcrunch.com/2026/10/28/microsoft-recorded-10-billion-in-revenue-from-openai/"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-29-october-2026.html#marvell-is-in-advanced-talks-to-buy-data-center-optics","url":"https://ai-pulse.in/archive/issue-29-october-2026.html#marvell-is-in-advanced-talks-to-buy-data-center-optics","headline":"Marvell is in advanced talks to buy data center optics maker Lumentum, whose shares rose about 11% after hours to a value of roughly $91 billion, Reuters reports","description":"Chipmaker Marvell Technology is in advanced discussions to acquire Lumentum Holdings, which makes optical components for data centers, Reuters reported on Wednesday, citing a Bloomberg News report based on people familiar with the matter. According to that report…","datePublished":"2026-10-29","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-29-october-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-29-october-2026.html","dateModified":"2026-10-29T02:55:46Z","articleSection":["Hardware & Devices","Financial Services"],"isBasedOn":{"@type":"CreativeWork","name":"Reuters (via MarketScreener)","url":"https://www.marketscreener.com/news/marvell-in-advanced-talks-to-buy-lumentum-bloomberg-news-reports-ce785cd3db8af523"}}]}
+  </script>
+  <!-- AIPULSE-SEO:END -->
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+      <div class="nav-meta">
+        <span class="nav-date">29 October 2026</span>
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+          <span>Back to archive</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get key AI stories delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 29 October 2026
+        </div>
+        <h1>Google Cloud revenue doubles on TPU sales, Microsoft's Azure grows 48% and Samsung posts a record 107.4 trillion won operating profit on AI memory, while Google opens Gemini 4 Carbon to cyber defenders first, US antitrust officials ask about Nvidia's Hugging Face deal, Anthropic tells California courts should be able to block risky models, Microsoft's filing shows $10 billion of quarterly revenue from OpenAI and Marvell is reported to be near a deal for optics maker Lumentum, as <em>AI demand shows up in the numbers and scrutiny keeps pace</em>.</h1>
+        <p class="hero-sub">Developments reported between 2:30 PM IST on 28 October and 8:25 AM IST on 29 October 2026. Eight verified stories on what Alphabet's and Microsoft's quarterly results show about AI demand and spending, why Samsung expects AI memory shortages to worsen after a record quarter, what Google's Gemini 4 Carbon model does and who gets it first, why US antitrust officials are asking questions about Nvidia's purchase of Hugging Face, what Anthropic has proposed to California on stopping the release of dangerous models, how much revenue Microsoft now earns from OpenAI, and what a reported Marvell bid for optics maker Lumentum would mean for AI data center supply. Each is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on it.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="8" data-count-suffix=" developments">8 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="7" data-count-suffix=" verticals">7 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="20" data-count-suffix=" minutes">20 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="security">Cybersecurity &amp; Infrastructure</button>
+          <button class="chip" data-sector-filter="research">Research &amp; Science</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="legal">Legal &amp; Professional Services</button>
+          <button class="chip" data-sector-filter="finance">Financial Services</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">8</strong> of 8 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Alphabet: Google Cloud doubles"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Microsoft: Azure up 48%"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · Samsung: ₩107.4T profit"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · Google Gemini 4 Carbon"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · DOJ asks about Nvidia-Hugging Face"></button>
+    <button class="story-nav-dot" data-story-target="5" data-label="06 · Anthropic letter to Newsom"></button>
+    <button class="story-nav-dot" data-story-target="6" data-label="07 · Microsoft's $10B from OpenAI"></button>
+    <button class="story-nav-dot" data-story-target="7" data-label="08 · Marvell in talks for Lumentum"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" id="google-cloud-revenue-more-than-doubles-to-30-7-billion" data-sectors="hardware,operations" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Google Cloud revenue more than doubles to $30.7 billion as Alphabet sells its TPU AI chip systems to outside customers and spends about $51.4 billion on property and equipment in a quarter</h2>
+            <div class="plain-text">
+              <p>Alphabet reported third-quarter results after the US market closed on Wednesday, with total revenue of $127.6 billion, up 25% from a year earlier, according to its <a href="https://www.marketscreener.com/news/alphabet-2026-q3-earnings-press-release-ce785cd3d981f42c" target="_blank" rel="noopener">earnings release</a>. Google Cloud was the standout: revenue rose 103% to $30.7 billion, and the unit's operating income climbed to $11,121 million from $3,594 million a year earlier. Alphabet says sales of its TPU systems, the AI chips it designs in-house, were a meaningful contributor to that growth, and that Cloud's product revenue comes mainly from selling those systems. CEO Sundar Pichai credited demand for Google's AI infrastructure and AI products.</p>
+              <p>Spending kept pace. Alphabet's purchases of property and equipment reached $51,355 million in the quarter, against $23,953 million a year earlier, and $131,953 million so far this year. Pichai said the Gemini app has reached one billion users and that Google's own model APIs now process nearly 32 billion tokens a minute, more than four times the level of a year ago. He also said the company is "now on a half-trillion dollar revenue run rate." Net income available to shareholders fell to $26.2 billion from $35.0 billion, which the release mainly attributes to an $8.7 billion loss on equity securities.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Google is no longer just renting out computing time; it is selling its own AI chip systems to other companies, and that is now a large part of why its cloud business doubled. For buyers, this widens the choice beyond Nvidia-based capacity and gives more leverage in negotiations. For investors and finance teams, the quarter shows both sides of the AI build-out: strong revenue and profit growth in cloud, alongside a quarterly equipment bill that has more than doubled.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$30.7B</div>
+                  <div class="indicator-desc">Google Cloud revenue in the third quarter, up 103% from $15,157 million</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$11.1B</div>
+                  <div class="indicator-desc">Google Cloud operating income ($11,121 million), up from $3,594 million a year earlier</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$127.6B</div>
+                  <div class="indicator-desc">Alphabet total revenue, up 25%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$51.4B</div>
+                  <div class="indicator-desc">Purchases of property and equipment in the quarter ($51,355 million), versus $23,953 million a year earlier (about 2.1 times, calculated)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">1 billion</div>
+                  <div class="indicator-desc">Users of the Gemini app, according to Pichai</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~32B</div>
+                  <div class="indicator-desc">Tokens per minute processed by Google's own model APIs, more than four times a year ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs and AI infrastructure leads</div>
+                <p>In your next capacity planning cycle this quarter, ask Google Cloud for pricing on TPU-based capacity for one inference workload and compare it with your current GPU cost per task.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For procurement and vendor managers</div>
+                <p>Before any cloud commitment renewal in the next six months, get competing quotes for AI capacity on at least two chip platforms and use the comparison to negotiate price and supply guarantees.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs and investor relations teams</div>
+                <p>This quarter, update the AI spending benchmarks you share with your board using Alphabet's figures, setting cloud profit growth against the doubling of its equipment purchases.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.marketscreener.com/news/alphabet-2026-q3-earnings-press-release-ce785cd3d981f42c" target="_blank" rel="noopener">Alphabet Q3 2026 earnings release (via MarketScreener)</a>
+              <span class="source-meta">· 28 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="microsofts-azure-grows-48-and-its-contracted-future" data-sectors="operations,finance" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>Microsoft's Azure grows 48% and its contracted future commercial revenue rises 73% to $677 billion, while quarterly spending on property and equipment roughly doubles</h2>
+            <div class="plain-text">
+              <p>Microsoft reported results for the July to September quarter, the first of its 2027 fiscal year, on Wednesday afternoon, according to its <a href="https://www.stocktitan.net/news/MSFT/microsoft-earnings-press-release-available-on-investor-relations-gbxihy2xxeu8.html" target="_blank" rel="noopener">earnings release</a>. Revenue rose 19% to $92.3 billion and revenue from Azure, its cloud platform, grew 48%. Microsoft Cloud revenue reached $63.9 billion, up 30%. Operating income rose 21% to $45.9 billion, and net income rose 32% to $36.6 billion, or $4.92 per share; gains linked to its OpenAI investment added $207 million to net income. Microsoft now reports under new segments, and the larger one, Agents and Infra, brought in $76,795 million of revenue, up 25%.</p>
+              <p>Two figures show how much future AI demand Microsoft is lining up and paying for. Commercial remaining performance obligation, the value of contracted revenue not yet recognized, grew 73% to $677 billion. Additions to property and equipment came to $39,367 million, compared with $19,394 million a year earlier, roughly double (calculated). CEO Satya Nadella said Microsoft is offering customers "greater capability, choice, control, and cost efficiency" across its technology stack.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Azure's growth rate and the $677 billion of signed-but-unbilled commercial business indicate that large customers are committing to multi-year AI and cloud spending, not just experimenting. That supports Microsoft's continued heavy investment, but it also means capacity is being reserved well in advance. Enterprises that have not secured their own AI capacity and pricing may find less room to negotiate as backlogs grow.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">48%</div>
+                  <div class="indicator-desc">Azure revenue growth in the quarter</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$677B</div>
+                  <div class="indicator-desc">Commercial remaining performance obligation, up 73%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$92.3B</div>
+                  <div class="indicator-desc">Total revenue, up 19%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$63.9B</div>
+                  <div class="indicator-desc">Microsoft Cloud revenue, up 30%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~2x</div>
+                  <div class="indicator-desc">Additions to property and equipment, $39,367 million versus $19,394 million a year earlier (calculated)</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs with large Microsoft estates</div>
+                <p>Before your next Enterprise Agreement or Azure commitment renewal, map which AI workloads you will run over the next two years and lock in capacity and price protection for them in the contract.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For equity analysts and portfolio managers at financial firms</div>
+                <p>This week, compare Microsoft's 73% growth in contracted backlog with its roughly doubled equipment spending, and update your model's assumptions on when AI capital spending turns into revenue.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For FinOps and cloud cost managers</div>
+                <p>Within 30 days, break out Azure AI spending from general cloud spending in your monthly reports so you can track its growth separately and flag overruns early.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.stocktitan.net/news/MSFT/microsoft-earnings-press-release-available-on-investor-relations-gbxihy2xxeu8.html" target="_blank" rel="noopener">Microsoft Q1 FY2027 earnings release (via Stock Titan)</a>
+              <span class="source-meta">· 28 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="samsungs-quarterly-operating-profit-reaches-107-4-trillion" data-sectors="hardware,operations" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Samsung's quarterly operating profit reaches 107.4 trillion won on AI memory sales, and the company expects memory shortages to get worse next year</h2>
+            <div class="plain-text">
+              <p>Samsung Electronics reported third-quarter operating profit of 107.4 trillion won on Thursday, up 783% from a year earlier, on revenue of 195.3 trillion won, according to <a href="https://www.digitaltoday.co.kr/en/view/121131/samsung-electronics-q3-operating-profit-107-4-trillion-won-up-783-percent" target="_blank" rel="noopener">DigitalToday</a>. Samsung says it is the first global technology company to pass 100 trillion won of operating profit in a single quarter. Almost all of the profit came from its chip division, which earned 106.5 trillion won on revenue of 147.1 trillion won as sales of HBM4, the high-bandwidth memory used in AI accelerators, grew and demand for server SSDs hit a record. Its devices division, which includes phones and TVs, made an operating loss of 800 billion won.</p>
+              <p>Looking ahead, Samsung expects demand for memory used in new GPUs and CPUs to rise in the fourth quarter, and it plans to sell a larger share of HBM, server DRAM and server SSDs. It also expects memory supply shortages to worsen next year as spending on AI servers speeds up, and sees demand for high-capacity QLC NAND storage jumping as personal AI agents spread. According to <a href="https://news.sbs.co.kr/english/article.do?news_id=N1008820565" target="_blank" rel="noopener">SBS News</a>, Samsung plans facility investment of 84.4 trillion won this year, 76.8 trillion won of it in the chip division, and intends to begin mass production of the next-generation HBM4E.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Memory has become one of the tightest links in the AI supply chain, and the world's largest memory maker is now telling customers that the squeeze will intensify in 2027 rather than ease. That points to higher prices and longer lead times not only for AI servers but for ordinary servers, storage and PCs that use the same chips. The loss in Samsung's own devices business is an early sign of how rising component costs are hitting companies that buy memory rather than make it.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">₩107.4T</div>
+                  <div class="indicator-desc">Third-quarter operating profit, up 783% from a year earlier</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">₩195.3T</div>
+                  <div class="indicator-desc">Third-quarter revenue, up 127% from a year earlier</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">₩106.5T</div>
+                  <div class="indicator-desc">Chip division operating profit, about 99% of the company total (calculated)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">55.0%</div>
+                  <div class="indicator-desc">Operating margin, up from 52.2% in the prior quarter and 14.1% a year earlier</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">₩84.4T</div>
+                  <div class="indicator-desc">Planned 2026 facility investment, per SBS News</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For IT procurement and category managers</div>
+                <p>Before year-end, lock in 2027 volumes and price terms for servers, storage and laptops with your hardware suppliers, and ask each how much of its memory supply is already contracted.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs and FP&amp;A teams</div>
+                <p>In the 2027 budget now being set, add a contingency for higher hardware and cloud prices driven by memory costs, and flag which product margins depend on memory-heavy components.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For infrastructure and data center leads</div>
+                <p>Over the next quarter, review storage growth plans for AI workloads and test whether high-capacity QLC drives can meet your needs, so you can order early while supply is still available.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.digitaltoday.co.kr/en/view/121131/samsung-electronics-q3-operating-profit-107-4-trillion-won-up-783-percent" target="_blank" rel="noopener">DigitalToday</a>
+              <span class="source-meta">· 29 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="google-launches-gemini-4-carbon-which-it-calls-its-most" data-sectors="security,research" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Cybersecurity &amp; Infrastructure</span>
+              <span class="tag">Research &amp; Science</span>
+            </div>
+            <h2>Google launches Gemini 4 Carbon, which it calls its most powerful model, giving cyber defenders first access and pricing it at $2 per million input tokens</h2>
+            <div class="plain-text">
+              <p>On Wednesday, two weeks after releasing Gemini 4 Argon, Google announced Gemini 4 Carbon, according to <a href="https://www.investing.com/news/stock-market-news/google-unveils-gemini-4-carbon-with-advanced-cybersecurity-features-4980345" target="_blank" rel="noopener">Investing.com</a>. Google presents it as its strongest model so far, with a particular edge in cybersecurity and in tasks that run over long periods. Google says Carbon ranks first on version 5.0 of the Artificial Analysis Intelligence Index, with a score of 59. On Google's cybersecurity tests, it scored 88.2% on SEC-bench Pro for finding vulnerabilities, 54.8% on ExploitGym for exploiting them and 71.0% on CWE-bench for patching them. Google also says its Chrome team found Carbon more than 10 times better than another lab's large frontier model at producing high-quality patches.</p>
+              <p>The rollout is staged. Selected cyber defenders get access from this week, followed by more partners through Google's Fairwind Program, and only then developers, businesses and consumers. Google says it is taking part in the US government's voluntary process for testing models before release, and reports a 0.0% attack success rate on Gray Swan's indirect prompt injection benchmark. Pricing is $2 per million input tokens and $10 per million output tokens, the same as Argon's introductory price, with cached input tokens 95% cheaper than standard input. All benchmark figures are Google's own and have not been independently checked.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Google is the latest frontier lab to treat cyber capability as something to release to defenders before anyone else. That gives security teams a window to use the model on their own code and systems before the same capability is widely available. For buyers, the pricing matters as much as the benchmarks: a top-ranked model at Argon's introductory price, with steep discounts for cached input, puts pressure on what rival labs can charge for comparable work.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$2</div>
+                  <div class="indicator-desc">Price per million input tokens ($10 per million output tokens)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono" data-count-to="59" data-count-suffix="">59</div>
+                  <div class="indicator-desc">Score on version 5.0 of the Artificial Analysis Intelligence Index, ranked first, Google says</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">88.2%</div>
+                  <div class="indicator-desc">Score on SEC-bench Pro for vulnerability detection, per Google</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">71.0%</div>
+                  <div class="indicator-desc">Score on CWE-bench for patching, per Google</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">95%</div>
+                  <div class="indicator-desc">Discount on cached input tokens versus the standard input price</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CISOs and heads of application security</div>
+                <p>This month, ask your Google Cloud account team whether your organization qualifies for early access through the Fairwind Program, and name the codebases you would test first if accepted.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For AI platform leads and procurement managers</div>
+                <p>Over the next 60 days, run Carbon on two or three of your own coding or security tasks once access opens, and compare cost per completed task against your current model rather than relying on published benchmarks.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For risk and compliance officers</div>
+                <p>This quarter, update your AI use policy to say who may run models with exploit-writing ability against company systems, and require written authorization for each test.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.investing.com/news/stock-market-news/google-unveils-gemini-4-carbon-with-advanced-cybersecurity-features-4980345" target="_blank" rel="noopener">Investing.com</a>
+              <span class="source-meta">· 28 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="the-us-justice-department-is-asking-how-nvidias-12-93" data-sectors="policy,hardware" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>The US Justice Department is asking how Nvidia's $12.93 billion purchase of Hugging Face would affect competition in AI, Reuters reports</h2>
+            <div class="plain-text">
+              <p>The US Department of Justice has been asking questions about how Nvidia's planned $12.93 billion acquisition of Hugging Face, the open-source platform where developers share AI models and datasets, could affect competition, <a href="https://www.investing.com/news/stock-market-news/exclusiveus-doj-is-inquiring-about-nvidias-purchase-of-hugging-face-sources-say-4980450" target="_blank" rel="noopener">Reuters</a> reported in an exclusive, citing two people familiar with the matter. According to Reuters, officials want to know whether the deal would hand Nvidia control of an important channel for distributing AI, and whether Nvidia could use the platform to hurt rivals. Nvidia expects the purchase to close in the first half of 2027.</p>
+              <p>Reuters says the questions are part of a longer-running antitrust investigation into Nvidia's conduct, covering its acquisitions, investments and sales practices, and whether it pressures customers. Officials have also looked at Nvidia's December 2025 purchase of SchedMD, its 2025 licensing and hiring deal with Groq, including whether Nvidia favored customers that bought its networking equipment and Groq processors, and its acquisition of Run:ai. The probe began under President Joe Biden and has continued under President Donald Trump, and may not lead to any action. The Justice Department declined to comment on specific matters, Nvidia and Groq declined to comment or did not respond, and Hugging Face did not respond.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Hugging Face is where many companies find, test and download open models. If the world's largest AI chip supplier owns that hub, regulators want to know whether it could tilt the field toward its own hardware. Any conditions or delay attached to the deal would affect companies that rely on the platform, and a wider case on Nvidia's sales practices would matter to everyone buying AI infrastructure.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$12.93B</div>
+                  <div class="indicator-desc">Value of Nvidia's planned acquisition of Hugging Face</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">H1 2027</div>
+                  <div class="indicator-desc">When Nvidia expects the deal to close</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono" data-count-to="4" data-count-suffix="">4</div>
+                  <div class="indicator-desc">Nvidia deals Reuters says officials have examined: Hugging Face, SchedMD, Groq and Run:ai (counted)</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono" data-count-to="2" data-count-suffix="">2</div>
+                  <div class="indicator-desc">People familiar with the matter cited by Reuters</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For heads of AI engineering and ML platform owners</div>
+                <p>Within 30 days, list the models, datasets and private repositories your teams keep on Hugging Face, and confirm you can mirror or move the critical ones if the platform's terms change after the deal.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For general counsel and competition lawyers</div>
+                <p>This quarter, review any bundled hardware, networking or software terms in your Nvidia agreements, since sales practices are part of the wider inquiry, and keep records of how those terms were negotiated.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For infrastructure procurement leads</div>
+                <p>Before your next GPU purchase cycle, make sure contracts do not tie the price of chips to buying networking equipment from the same vendor, and get quotes for alternatives to keep leverage.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.investing.com/news/stock-market-news/exclusiveus-doj-is-inquiring-about-nvidias-purchase-of-hugging-face-sources-say-4980450" target="_blank" rel="noopener">Reuters (via Investing.com)</a>
+              <span class="source-meta">· 28 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="anthropic-tells-california-governor-gavin-newsom" data-sectors="policy,legal" data-story-index="5">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">06</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Legal &amp; Professional Services</span>
+            </div>
+            <h2>Anthropic tells California Governor Gavin Newsom that officials should be able to ask a court to block the release of AI models that pose a serious risk</h2>
+            <div class="plain-text">
+              <p>In a letter dated 15 October to California Governor Gavin Newsom, Anthropic proposed that government officials be able to seek court orders stopping the release of AI models found to pose a "serious risk" to the public, <a href="https://www.yahoo.com/news/articles/anthropic-tells-california-governor-courts-160847541.html" target="_blank" rel="noopener">Reuters</a> reported on Wednesday. An Anthropic spokesperson confirmed the letter is genuine. Newsom set up a panel of AI experts in September to draw up safety proposals, and Anthropic sent its recommendations after that. Politico first reported the letter's contents, according to Reuters.</p>
+              <p>Anthropic argues against rules that would make developers build kill switches able to shut down an entire model. It prefers narrower steps, such as disabling a single AI agent that is causing problems or cutting off one customer's access, which it says would work better. Reuters notes that in September a bipartisan group of US senators debated a bill that would let the government block unsafe models, with companies able to challenge decisions in federal court, but it has not advanced; in July, House lawmakers proposed an "AI Kill Switch Act." The letter comes as Anthropic prepares for its US stock market listing.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>A leading AI developer is backing a legal route for blocking a model before launch, while arguing against blanket shutdown powers. If California adopts something similar, model releases could face review and possible court challenge, which would affect launch timelines for vendors and the planning of companies that depend on them. Anthropic's preference for targeted measures, such as disabling one agent or one customer, also points to the kinds of controls enterprise users should expect in their contracts.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">15 Oct</div>
+                  <div class="indicator-desc">Date of Anthropic's letter to Governor Newsom</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">September</div>
+                  <div class="indicator-desc">When Newsom convened his panel of AI experts on safety proposals</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">July</div>
+                  <div class="indicator-desc">When House lawmakers proposed the "AI Kill Switch Act"</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Not advanced</div>
+                  <div class="indicator-desc">Status of the Senate proposal debated in September to let the government block unsafe models</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For government affairs and public policy leads</div>
+                <p>Over the next 60 days, follow the California panel's work and decide whether your company will comment on any proposal to let courts block model releases.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For general counsel and technology contract lawyers</div>
+                <p>When negotiating or renewing AI vendor contracts this quarter, add terms on what happens if a model you rely on is withdrawn or blocked by regulators, including notice periods and a fallback model.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For heads of AI risk and governance</div>
+                <p>This quarter, confirm that you can switch off a single AI agent or a single user's access in your own deployments, the kind of targeted control Anthropic describes, and test that it works.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.yahoo.com/news/articles/anthropic-tells-california-governor-courts-160847541.html" target="_blank" rel="noopener">Reuters (via Yahoo News)</a>
+              <span class="source-meta">· 28 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="microsoft-booked-10-billion-of-revenue-from-its-openai" data-sectors="finance,operations" data-story-index="6">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">07</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Financial Services</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Microsoft booked $10 billion of revenue from its OpenAI arrangements in a single quarter, close to 11% of its total, its regulatory filing shows</h2>
+            <div class="plain-text">
+              <p>Microsoft's quarterly regulatory filing shows it recorded $10 billion of revenue from its commercial arrangements with OpenAI, including revenue-sharing payments, in the July to September quarter, <a href="https://techcrunch.com/2026/10/28/microsoft-recorded-10-billion-in-revenue-from-openai/" target="_blank" rel="noopener">TechCrunch</a> reported on Wednesday. TechCrunch puts that at nearly 11% of Microsoft's $92.3 billion of revenue for the quarter, the first of its 2027 fiscal year. For the whole of fiscal 2026, Microsoft's revenue from OpenAI was $24.1 billion, and TechCrunch estimates that the latest quarterly pace would add up to about $40 billion a year.</p>
+              <p>The filing also shows OpenAI owed Microsoft $7.2 billion at the end of September, up from $6 billion at the end of June. Microsoft's ownership stake in OpenAI slipped to 24% in September from about 25% in June, and Microsoft did not explain the dilution, according to TechCrunch. Under an agreement reached in April 2026, OpenAI will keep sharing revenue with Microsoft through 2030, subject to a cap.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>This is one of the clearest disclosures yet of how much money flows between the largest AI lab and its biggest backer. It shows Microsoft's results now depend to a meaningful degree on a single AI partner, and the rising amount OpenAI owes adds a credit dimension to that link. For enterprise buyers of both companies' products, it underlines how closely their commercial interests, pricing and capacity plans are tied together.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$10B</div>
+                  <div class="indicator-desc">Revenue Microsoft recorded from OpenAI arrangements in the July to September quarter</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~11%</div>
+                  <div class="indicator-desc">Share of Microsoft's $92.3 billion quarterly revenue, per TechCrunch</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$24.1B</div>
+                  <div class="indicator-desc">Microsoft's revenue from OpenAI in fiscal 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$7.2B</div>
+                  <div class="indicator-desc">Receivables owed by OpenAI at end of September, up from $6 billion at end of June</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">24%</div>
+                  <div class="indicator-desc">Microsoft's stake in OpenAI in September, down from about 25% in June</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For equity and credit analysts covering Microsoft</div>
+                <p>This week, add OpenAI-related revenue and receivables as separate lines in your Microsoft model and test how results change if that revenue grows more slowly or the cap on revenue sharing is reached.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs buying both Azure and OpenAI services</div>
+                <p>Before your next renewal, check where you pay for the same OpenAI models twice, through Azure and directly, and consolidate spending on whichever channel gives better price and service terms.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For procurement and vendor risk managers</div>
+                <p>Within 60 days, record in your vendor risk register how dependent your key AI suppliers are on one another, and confirm you have a fallback if one partner's terms or capacity change.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://techcrunch.com/2026/10/28/microsoft-recorded-10-billion-in-revenue-from-openai/" target="_blank" rel="noopener">TechCrunch</a>
+              <span class="source-meta">· 28 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="marvell-is-in-advanced-talks-to-buy-data-center-optics" data-sectors="hardware,finance" data-story-index="7">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">08</span> / 08</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Financial Services</span>
+            </div>
+            <h2>Marvell is in advanced talks to buy data center optics maker Lumentum, whose shares rose about 11% after hours to a value of roughly $91 billion, Reuters reports</h2>
+            <div class="plain-text">
+              <p>Chipmaker Marvell Technology is in advanced discussions to acquire Lumentum Holdings, which makes optical components for data centers, <a href="https://www.marketscreener.com/news/marvell-in-advanced-talks-to-buy-lumentum-bloomberg-news-reports-ce785cd3db8af523" target="_blank" rel="noopener">Reuters</a> reported on Wednesday, citing a Bloomberg News report based on people familiar with the matter. According to that report, a deal could be announced as soon as next week. Neither company immediately responded to Reuters' requests for comment. Investor interest in Lumentum's products has grown as AI workloads push demand for faster data transmission between chips and servers.</p>
+              <p>Lumentum's shares climbed about 11% in extended trading after the report, giving the company a value of roughly $91 billion, while Marvell's shares fell more than 8%. Reuters noted that Marvell held about $3.92 billion of cash and cash equivalents as of its latest quarter, and Bernstein analysts said a purchase of this size would likely be impossible to pay for entirely in cash. Marvell has already been building up its optical technology, agreeing late last year to buy photonics company Celestial AI in a $3.25 billion deal, and earlier this month it raised its fiscal 2028 revenue forecast to $20 billion from $15 billion.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Moving data quickly between AI chips is becoming as important as the chips themselves, and optical links are a growing share of AI data center cost. A combined Marvell and Lumentum would control more of that supply chain, which could change pricing, lead times and supplier choice for companies building or renting AI capacity. Because the deal is not confirmed and would likely need significant stock or debt financing, its terms and any regulatory review are still open questions.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">~$91B</div>
+                  <div class="indicator-desc">Lumentum's approximate value after its after-hours share rise, per Reuters</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~11%</div>
+                  <div class="indicator-desc">Rise in Lumentum's shares in extended trading after the report</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">&gt;8%</div>
+                  <div class="indicator-desc">Fall in Marvell's shares after the report</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$3.92B</div>
+                  <div class="indicator-desc">Marvell's cash and cash equivalents as of its latest quarter</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$20B</div>
+                  <div class="indicator-desc">Marvell's raised fiscal 2028 revenue forecast, up from $15 billion</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For data center and network infrastructure buyers</div>
+                <p>Within 30 days, list which optical transceivers and components in your AI build plans come from Lumentum or Marvell, and qualify at least one alternative supplier for each before any deal changes pricing or allocation.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For equity analysts and portfolio managers covering semiconductors</div>
+                <p>Before any announcement, model how a mostly stock-funded deal of this size would dilute Marvell shareholders and how combined optics revenue would change its fiscal 2028 forecast.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For corporate development teams at optical and networking suppliers</div>
+                <p>Over the next quarter, review which customers would be exposed to a combined Marvell and Lumentum and prepare offers aimed at buyers who want to keep more than one source of supply.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.marketscreener.com/news/marvell-in-advanced-talks-to-buy-lumentum-bloomberg-news-reports-ce785cd3db8af523" target="_blank" rel="noopener">Reuters (via MarketScreener)</a>
+              <span class="source-meta">· 28 October 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>AI is now visible in the results as well as the rules: <em>Google's cloud doubles, Microsoft's contracted backlog jumps and Samsung's memory profits hit a record, while defenders get the newest cyber model first, antitrust officials question a major deal, and a leading lab proposes that courts be able to stop a dangerous release</em>.</blockquote>
+      <p>Alphabet said Google Cloud revenue rose 103% to $30.7 billion in the third quarter, helped by sales of its own TPU chip systems, while its quarterly purchases of property and equipment more than doubled. Microsoft reported 48% growth in Azure and a 73% rise in commercial remaining performance obligation to $677 billion, with its own equipment spending roughly doubling. On Thursday, Samsung Electronics reported third-quarter operating profit of 107.4 trillion won, nearly all of it from its chip division, and said it expects memory shortages to worsen next year as AI server spending accelerates. Separately, Google released Gemini 4 Carbon on Wednesday to selected cyber defenders first, saying it ranks first on the Artificial Analysis Intelligence Index with a score of 59 and pricing it at $2 per million input tokens. Reuters reported that the US Justice Department has been asking how Nvidia's $12.93 billion purchase of Hugging Face would affect competition, as part of a wider look at Nvidia's deals and sales practices. And Anthropic told California's governor that officials should be able to ask a court to block a model that poses a serious risk, while arguing against blanket kill switches. Microsoft's quarterly filing, reported by TechCrunch, shows it booked $10 billion of revenue from its OpenAI arrangements in the quarter, with OpenAI owing it $7.2 billion at the end of September. Late on Wednesday, Reuters reported that Marvell is in advanced talks to buy data center optics maker Lumentum, whose shares rose about 11% after hours to a value of roughly $91 billion. Taken together, the day's stories show AI demand now turning into large, contracted revenue for the biggest cloud providers, while growth comes with more conditions attached, from staged access and regulatory review to tighter cost control. For executives, the practical steps are to secure AI capacity and price protection before backlogs tighten further, to seek early access to defensive tools while setting rules for their use, to lock in 2027 hardware volumes and prices before memory gets tighter, to make sure critical models and data are not locked into one platform, to write model withdrawal and fallback terms into vendor contracts, and to keep more than one supplier for the optical parts that connect AI chips.</p>
+      <span class="editorial-date">29 October 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">29 October 2026 · Issue archived nightly</div>
+      <p class="footer-note">AI Pulse summarizes publicly reported news with links to the original sources; all analysis is our own.</p>
+      <p class="footer-byline">Published by <a href="https://ai-pulse.in/about.html" rel="author">Yash Jain</a> · <a href="https://ai-pulse.in/about.html">About AI Pulse and how each brief is made</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>

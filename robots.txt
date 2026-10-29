@@ -1,0 +1,6 @@
+# AI Pulse – all search engines and AI assistants are welcome to read and cite the site.
+User-agent: *
+Allow: /
+Disallow: /chat-worker/
+
+Sitemap: https://ai-pulse.in/sitemap.xml
