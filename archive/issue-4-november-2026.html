@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 4 November 2026: AMD posts a record $13.4 billion quarter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-header > div { min-width: 0; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .nav-meta { gap: 8px; } .nav-date { font-size: 10px; letter-spacing: 0.04em; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    .footer-note { flex-basis: 100%; font-family: 'Carlito', sans-serif; font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-top: 4px; }
+  </style>
+  <link rel="icon" href="https://ai-pulse.in/favicon.ico" sizes="32x32">
+  <link rel="icon" href="https://ai-pulse.in/assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="https://ai-pulse.in/assets/icons/apple-touch-icon.png">
+  <meta property="og:site_name" content="AI Pulse">
+  <meta property="og:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <script src="https://ai-pulse.in/assets/js/chat.js?v=5" defer></script>
+  <!-- AIPULSE-SEO:START (generated by tools/seo_build.py; do not edit by hand) -->
+  <meta name="description" content="AMD expects about $17 billion in quarterly revenue as its data center sales nearly double, enterprise AI spending reaches an estimated $176.8 billion, Drax plans an AI campus that could top £20bn, China moves to speed up AI legislation, and fal doubles its valuation to $16 billion…">
+  <link rel="canonical" href="https://ai-pulse.in/archive/issue-4-november-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ai-pulse.in/archive/issue-4-november-2026.html">
+  <meta property="og:title" content="AI Pulse – 4 November 2026: AMD posts a record $13.4 billion quarter">
+  <meta property="og:description" content="AMD expects about $17 billion in quarterly revenue as its data center sales nearly double, enterprise AI spending reaches an estimated $176.8 billion, Drax plans an AI campus that could top £20bn, China moves to speed up AI legislation, and fal doubles its valuation to $16 billion…">
+  <meta name="twitter:title" content="AI Pulse – 4 November 2026: AMD posts a record $13.4 billion quarter">
+  <meta name="twitter:description" content="AMD expects about $17 billion in quarterly revenue as its data center sales nearly double, enterprise AI spending reaches an estimated $176.8 billion, Drax plans an AI campus that could top £20bn, China moves to speed up AI legislation, and fal doubles its valuation to $16 billion…">
+  <style>.story{scroll-margin-top:96px}.footer-byline{flex-basis:100%;font-family:'Carlito',sans-serif;font-size:13px;line-height:1.6;color:var(--text-muted);margin-top:-16px}.footer-byline a{color:var(--text-secondary);text-decoration:underline;text-decoration-color:var(--border-strong);text-underline-offset:3px;transition:color .2s ease}.footer-byline a:hover{color:var(--accent)}</style>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"NewsMediaOrganization","@id":"https://ai-pulse.in/#org","name":"AI Pulse","url":"https://ai-pulse.in/","logo":{"@type":"ImageObject","url":"https://ai-pulse.in/assets/icons/icon-512.png","width":512,"height":512},"description":"Daily AI market intelligence: the stories that matter, the numbers behind them, and what to do next.","publishingPrinciples":"https://ai-pulse.in/about.html#how-each-brief-is-made","correctionsPolicy":"https://ai-pulse.in/about.html#corrections"},{"@type":"WebSite","@id":"https://ai-pulse.in/#website","url":"https://ai-pulse.in/","name":"AI Pulse","inLanguage":"en","publisher":{"@id":"https://ai-pulse.in/#org"}},{"@type":"WebPage","@id":"https://ai-pulse.in/archive/issue-4-november-2026.html","url":"https://ai-pulse.in/archive/issue-4-november-2026.html","name":"AI Pulse – 4 November 2026: AMD posts a record $13.4 billion quarter","description":"AMD expects about $17 billion in quarterly revenue as its data center sales nearly double, enterprise AI spending reaches an estimated $176.8 billion, Drax plans an AI campus that could top £20bn, China moves to speed up AI legislation, and fal doubles its valuation to $16 billion…","inLanguage":"en","isPartOf":{"@id":"https://ai-pulse.in/#website"},"publisher":{"@id":"https://ai-pulse.in/#org"},"datePublished":"2026-11-04","primaryImageOfPage":"https://ai-pulse.in/assets/images/og-image.png","mainEntity":{"@type":"ItemList","numberOfItems":5,"itemListElement":[{"@type":"ListItem","position":1,"url":"https://ai-pulse.in/archive/issue-4-november-2026.html#amd-posts-a-record-13-4-billion-quarter-as-data-center","name":"AMD posts a record $13.4 billion quarter as data center sales nearly double to $8.5 billion, and expects about $17 billion in the fourth quarter"},{"@type":"ListItem","position":2,"url":"https://ai-pulse.in/archive/issue-4-november-2026.html#enterprise-ai-spending-reaches-an-estimated-176-8-billion","name":"Enterprise AI spending reaches an estimated $176.8 billion by September, up from $33 billion in all of 2025, Menlo Ventures says, with coding tools the largest category"},{"@type":"ListItem","position":3,"url":"https://ai-pulse.in/archive/issue-4-november-2026.html#drax-brookfield-and-radiant-plan-gigawatt-scale-ai-data","name":"Drax, Brookfield and Radiant plan gigawatt-scale AI data center capacity at Drax Power Station, with Brookfield estimating total investment could exceed £20bn"},{"@type":"ListItem","position":4,"url":"https://ai-pulse.in/archive/issue-4-november-2026.html#chinas-economic-planner-says-it-will-speed-up-ai","name":"China's economic planner says it will speed up AI legislation and set safety standards covering the full AI life cycle, Bloomberg reports"},{"@type":"ListItem","position":5,"url":"https://ai-pulse.in/archive/issue-4-november-2026.html#ai-inference-platform-fal-raises-1-3-billion-led","name":"AI inference platform fal raises $1.3 billion led by Bessemer, doubling its valuation to $16 billion as demand for running AI models surges"}]},"dateModified":"2026-11-04T03:01:00Z"},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-4-november-2026.html#amd-posts-a-record-13-4-billion-quarter-as-data-center","url":"https://ai-pulse.in/archive/issue-4-november-2026.html#amd-posts-a-record-13-4-billion-quarter-as-data-center","headline":"AMD posts a record $13.4 billion quarter as data center sales nearly double to $8.5 billion, and expects about $17 billion in the fourth quarter","description":"AMD reported third-quarter 2026 revenue of $13.4 billion on 3 November, up 45% from a year earlier and, the company says, above the top of its own guidance. Its Data Center segment, which sells EPYC server processors and Instinct AI accelerators, brought in a record $8.5 billion…","datePublished":"2026-11-04","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-4-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-4-november-2026.html","dateModified":"2026-11-04T03:01:00Z","articleSection":["Hardware & Devices","Operations & Enterprise"],"isBasedOn":{"@type":"CreativeWork","name":"AMD","url":"https://ir.amd.com/news-events/press-releases/detail/1303/amd-reports-third-quarter-2026-financial-results"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-4-november-2026.html#enterprise-ai-spending-reaches-an-estimated-176-8-billion","url":"https://ai-pulse.in/archive/issue-4-november-2026.html#enterprise-ai-spending-reaches-an-estimated-176-8-billion","headline":"Enterprise AI spending reaches an estimated $176.8 billion by September, up from $33 billion in all of 2025, Menlo Ventures says, with coding tools the largest category","description":"Venture firm Menlo Ventures published its 2026 State of Enterprise AI report on 3 November, estimating that companies spent $176.8 billion on AI by September 2026, compared with $33 billion in 2025 – a 5.4x increase after 3.9x growth the year before. The totals are Menlo's own estimates from a…","datePublished":"2026-11-04","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-4-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-4-november-2026.html","dateModified":"2026-11-04T03:01:00Z","articleSection":["Operations & Enterprise","Venture Capital"],"isBasedOn":{"@type":"CreativeWork","name":"Menlo Ventures (via GlobeNewswire)","url":"https://globenewswire.com/news-release/2026/11/03/3394279/0/en/menlo-ventures-2026-state-of-enterprise-ai-report-enterprise-ai-spending-hits-177b-up-5-4x-in-one-year-as-agents-take-over.html"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-4-november-2026.html#drax-brookfield-and-radiant-plan-gigawatt-scale-ai-data","url":"https://ai-pulse.in/archive/issue-4-november-2026.html#drax-brookfield-and-radiant-plan-gigawatt-scale-ai-data","headline":"Drax, Brookfield and Radiant plan gigawatt-scale AI data center capacity at Drax Power Station, with Brookfield estimating total investment could exceed £20bn","description":"UK power generator Drax and Radiant, Brookfield's UK-headquartered AI infrastructure platform, announced a partnership on 3 November to develop, deliver and operate gigawatt-scale data center capacity at Drax Power Station in North Yorkshire…","datePublished":"2026-11-04","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-4-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-4-november-2026.html","dateModified":"2026-11-04T03:01:00Z","articleSection":["Energy & Utilities","Hardware & Devices"],"isBasedOn":{"@type":"CreativeWork","name":"The Energyst","url":"https://theenergyst.com/drax-brookfield-and-radiant-announce-20bn-partnership-to-deliver-gw-scale-data-centre-capacity-at-drax-power-station/"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-4-november-2026.html#chinas-economic-planner-says-it-will-speed-up-ai","url":"https://ai-pulse.in/archive/issue-4-november-2026.html#chinas-economic-planner-says-it-will-speed-up-ai","headline":"China's economic planner says it will speed up AI legislation and set safety standards covering the full AI life cycle, Bloomberg reports","description":"China plans to accelerate laws governing AI from development through deployment, a senior official at the National Development and Reform Commission (NDRC), the country's economic planner, said at a briefing in Beijing on Tuesday, according to Bloomberg News as reported by PYMNTS. The official…","datePublished":"2026-11-04","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-4-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-4-november-2026.html","dateModified":"2026-11-04T03:01:00Z","articleSection":["Policy & Regulation","Operations & Enterprise"],"isBasedOn":{"@type":"CreativeWork","name":"PYMNTS, citing Bloomberg News","url":"https://www.pymnts.com/news/artificial-intelligence/2026/china-prepares-to-impose-new-safety-standards-for-ai-firms/"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-4-november-2026.html#ai-inference-platform-fal-raises-1-3-billion-led","url":"https://ai-pulse.in/archive/issue-4-november-2026.html#ai-inference-platform-fal-raises-1-3-billion-led","headline":"AI inference platform fal raises $1.3 billion led by Bessemer, doubling its valuation to $16 billion as demand for running AI models surges","description":"Fal, a San Francisco company that hosts and runs AI video, image and audio models, has raised $1.3 billion in a Series F round led by Bessemer Venture Partners, with Nvidia, Sound Ventures and T. Rowe Price also taking part, TechCrunch reported on 3 November. Citing Bloomberg…","datePublished":"2026-11-04","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-4-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-4-november-2026.html","dateModified":"2026-11-04T03:01:00Z","articleSection":["Venture Capital","Hardware & Devices"],"isBasedOn":{"@type":"CreativeWork","name":"TechCrunch","url":"https://techcrunch.com/2026/11/03/ai-inference-startup-fal-doubles-its-valuation-to-16b-as-demand-surges/"}}]}
+  </script>
+  <!-- AIPULSE-SEO:END -->
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+      <div class="nav-meta">
+        <span class="nav-date">4 November 2026</span>
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+          <span>Back to archive</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get key AI stories delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 4 November 2026
+        </div>
+        <h1>AMD expects about $17 billion in quarterly revenue as its data center sales nearly double, enterprise AI spending reaches an estimated $176.8 billion, Drax plans an AI campus that could top £20bn, China moves to speed up AI legislation, and fal doubles its valuation to $16 billion, as <em>the money behind AI keeps compounding while rules and power supply try to keep up</em>.</h1>
+        <p class="hero-sub">Developments reported between 2:28 PM IST on 1 November and 8:31 AM IST on 4 November 2026. Five verified stories on what AMD's record quarter and fourth-quarter outlook say about demand for AI chips beyond a single supplier, what Menlo Ventures' estimate of $176.8 billion in enterprise AI spending reveals about budgets, coding tools and model providers, why Drax, Brookfield and Radiant want to turn a North Yorkshire power station into gigawatt-scale AI capacity, what China's plan to accelerate AI legislation and full life-cycle safety standards means for companies building or using its models, and why AI inference platform fal has doubled its valuation to $16 billion since April. Each is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on it.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" developments">5 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="5" data-count-suffix=" verticals">5 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="14" data-count-suffix=" minutes">14 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="venture">Venture Capital</button>
+          <button class="chip" data-sector-filter="energy">Energy &amp; Utilities</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">5</strong> of 5 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · AMD data center +97%"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Enterprise AI spend $176.8B"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · Drax £20bn+ AI campus"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · China speeds AI laws"></button>
+    <button class="story-nav-dot" data-story-target="4" data-label="05 · fal valued at $16B"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" id="amd-posts-a-record-13-4-billion-quarter-as-data-center" data-sectors="hardware,operations" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>AMD posts a record $13.4 billion quarter as data center sales nearly double to $8.5 billion, and expects about $17 billion in the fourth quarter</h2>
+            <div class="plain-text">
+              <p>AMD reported third-quarter 2026 revenue of $13.4 billion on 3 November, up 45% from a year earlier and, the company says, above the top of its own guidance. Its Data Center segment, which sells EPYC server processors and Instinct AI accelerators, brought in a record $8.5 billion, up 97% year on year. AMD credits strong demand for EPYC chips and the launch of its Instinct MI450 Series GPUs. Gross margin was 54% on a GAAP basis and 56% on a non-GAAP basis, and GAAP net income was $2.4 billion. Not every business grew: Gaming revenue fell 40% to $773 million.</p>
+              <p>For the fourth quarter, AMD expects revenue of about $17 billion, plus or minus 3%, which it says would be roughly 66% higher than a year earlier and about 27% above the third quarter. The company says Anthropic, Meta, Microsoft, OpenAI and Oracle Cloud Infrastructure are already running models and workloads on its first Helios rack-scale systems, which pair MI450 GPUs with its 6th Gen EPYC processors. AMD also disclosed agreements to acquire World Labs, for model research expertise, and Taalas, for specialized inference chip technology. Chair and CEO Lisa Su said the company expects "growth to accelerate further in the fourth quarter" as it ramps up production of Helios and its Venice products.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The list of named Helios customers shows that the largest AI labs and cloud providers are now running production work on a second source of rack-scale AI systems, not just testing chips. For buyers, that means more room to negotiate on price and delivery for AI capacity. The outlook also suggests that spending on AI hardware was still climbing into the end of 2026, which matters for anyone planning 2027 budgets on the assumption that capacity will get cheaper or easier to secure.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$13.4B</div>
+                  <div class="indicator-desc">AMD third-quarter 2026 revenue, a company record</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">+45%</div>
+                  <div class="indicator-desc">Year-on-year growth in total revenue</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$8.5B</div>
+                  <div class="indicator-desc">Record Data Center segment revenue in the quarter</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">+97%</div>
+                  <div class="indicator-desc">Year-on-year growth in Data Center revenue</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$17B</div>
+                  <div class="indicator-desc">Fourth-quarter revenue outlook, plus or minus 3%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">56%</div>
+                  <div class="indicator-desc">Non-GAAP gross margin in the third quarter</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs and infrastructure procurement leads buying AI capacity</div>
+                <p>In the next 60 days, ask your cloud provider or server vendor for pricing and delivery dates on MI450-based Helios capacity as a second quote alongside your current GPU supplier, before you lock in 2027 capacity contracts.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs approving 2027 AI infrastructure budgets</div>
+                <p>Before the budget is signed off this quarter, ask teams to cost at least two accelerator platforms, so that your plan is not tied to a single vendor's pricing and allocation decisions.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For heads of ML platform and engineering</div>
+                <p>Over the next quarter, test whether your main training and inference workloads run on AMD accelerators as well as your current hardware, so you can take capacity wherever it becomes available in 2027.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://ir.amd.com/news-events/press-releases/detail/1303/amd-reports-third-quarter-2026-financial-results" target="_blank" rel="noopener">AMD</a>
+              <span class="source-meta">· 3 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="enterprise-ai-spending-reaches-an-estimated-176-8-billion" data-sectors="operations,venture" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Venture Capital</span>
+            </div>
+            <h2>Enterprise AI spending reaches an estimated $176.8 billion by September, up from $33 billion in all of 2025, Menlo Ventures says, with coding tools the largest category</h2>
+            <div class="plain-text">
+              <p>Venture firm Menlo Ventures published its 2026 State of Enterprise AI report on 3 November, estimating that companies spent $176.8 billion on AI by September 2026, compared with $33 billion in 2025 – a 5.4x increase after 3.9x growth the year before. The totals are Menlo's own estimates from a bottom-up model that draws on a survey of nearly 400 US enterprise decision-makers, public filings and third-party reports. The share of enterprises paying for AI rose from 55% to 65%, which Menlo reads as growth coming mostly from existing buyers spending more. Applications accounted for about $77 billion, led by coding at $34 billion and AI assistants and productivity tools at $25 billion.</p>
+              <p>Among model providers, Menlo estimates that Anthropic's share of enterprise LLM API spending rose from 40% to 55% and OpenAI's from 27% to 31%, while Google's fell from 21% to 9%. Menlo discloses that it is an investor in Anthropic and in OpenRouter, whose usage data it drew on for some estimates. The report also says agents now generate 80% of tokens on OpenRouter, that companies spent $1.70 putting AI to work for every dollar spent on model training, and that respondents ended up spending 2.5 times what they had budgeted. Menlo found little sign that businesses are replacing core systems such as CRM or HR software: new budgets funded 55% of the additional AI spending, while 22% came out of existing software budgets.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>If the estimate is close, AI has moved from pilot budgets to one of the largest lines in enterprise technology spending within two years, and most of it is going to tools people use every day, especially for writing code. The finding that buyers overspent their plans by a wide margin points to usage-based pricing that is hard to forecast. The figures come from an investor in two of the companies it measures and are modeled rather than audited, so they are best read as a direction of travel rather than an exact market size.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$176.8B</div>
+                  <div class="indicator-desc">Estimated enterprise AI spending by September 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">5.4x</div>
+                  <div class="indicator-desc">Increase from $33 billion in 2025</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">65%</div>
+                  <div class="indicator-desc">Share of enterprises paying for AI, up from 55%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$34B</div>
+                  <div class="indicator-desc">Estimated spending on AI coding tools, the largest application category</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">55%</div>
+                  <div class="indicator-desc">Anthropic's estimated share of enterprise LLM API spending, up from 40%</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2.5x</div>
+                  <div class="indicator-desc">What surveyed companies spent compared with their AI budgets</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CFOs and FP&amp;A leads owning AI budgets</div>
+                <p>Before 2027 plans close, compare actual AI spend with plan for each business unit and set monthly usage caps or alerts on API and seat-based contracts, since overspending on usage-priced tools appears to be the norm.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For procurement and vendor management leads</div>
+                <p>At the next renewal of any model or AI platform contract, negotiate terms that let you move workloads between model providers, given how quickly provider shares shifted in a single year.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and engineering directors</div>
+                <p>This quarter, measure what AI coding tools are delivering in cycle time and defect rates, and use those numbers to decide where to add or cut seats in the 2027 budget.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://globenewswire.com/news-release/2026/11/03/3394279/0/en/menlo-ventures-2026-state-of-enterprise-ai-report-enterprise-ai-spending-hits-177b-up-5-4x-in-one-year-as-agents-take-over.html" target="_blank" rel="noopener">Menlo Ventures (via GlobeNewswire)</a>
+              <span class="source-meta">· 3 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="drax-brookfield-and-radiant-plan-gigawatt-scale-ai-data" data-sectors="energy,hardware" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Energy &amp; Utilities</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>Drax, Brookfield and Radiant plan gigawatt-scale AI data center capacity at Drax Power Station, with Brookfield estimating total investment could exceed £20bn</h2>
+            <div class="plain-text">
+              <p>UK power generator Drax and Radiant, Brookfield's UK-headquartered AI infrastructure platform, announced a partnership on 3 November to develop, deliver and operate gigawatt-scale data center capacity at Drax Power Station in North Yorkshire, The Energyst reports. Brookfield estimates the total investment could exceed £20bn, including an initial £2.5bn for a first phase that targets up to 100 MW of capacity, operational from the first quarter of 2028. A second phase aims to grow to 500 MW between 2028 and 2031, with further capacity possible after 2031. Backing comes from Brookfield's AI infrastructure joint venture with Qai.</p>
+              <p>The site's main asset is power. The estate covers 1,000 acres with 4 GW of grid access and 2.6 GW of active dispatchable generation, along with cooling systems. The first phase still depends on planning permission, regulatory and network approvals from the government and the system operator, and finding a suitable tenant. Brookfield calls the project an important piece of sovereign AI, and Radiant says it will give British researchers, startups and businesses access to frontier computing at home. The partners plan a voluntary community benefits fund and say a community consultation will start shortly, ahead of a formal planning application. Drax chief executive Will Gardiner described the station as one of the few UK sites "that can provide large-scale reliable power".</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Access to power, not land or chips, is often the slowest part of building an AI data center. Reusing a large power station that already has grid access is one way around that bottleneck, and it gives the UK a possible route to large-scale domestic AI capacity. The project is still a plan: the investment figure is Brookfield's estimate, and the first phase needs planning consent, approvals and a tenant before it can go ahead.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">£20bn+</div>
+                  <div class="indicator-desc">Brookfield's estimate of potential total investment</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">£2.5bn</div>
+                  <div class="indicator-desc">Initial investment in the first phase</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">100 MW</div>
+                  <div class="indicator-desc">First-phase target capacity, operational from Q1 2028</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">500 MW</div>
+                  <div class="indicator-desc">Second-phase capacity ambition between 2028 and 2031</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">4 GW</div>
+                  <div class="indicator-desc">Grid access at the 1,000-acre power station estate</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For UK CIOs and heads of infrastructure needing domestic AI compute</div>
+                <p>Over the next six months, add the Drax site to your long-list of UK-hosted AI capacity options and ask Radiant about first-phase tenancy terms, since securing a tenant is one of the conditions for going ahead.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For strategy teams at power generators with existing grid connections</div>
+                <p>Before 2027 capital plans are set, assess whether your own sites with spare grid access could host data center capacity, using the Drax phasing as a reference for scale and timing.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For infrastructure investors and analysts covering UK power</div>
+                <p>Through 2027, track the community consultation, the planning application and any tenant announcement as the milestones that will show whether the first phase can meet its Q1 2028 target.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://theenergyst.com/drax-brookfield-and-radiant-announce-20bn-partnership-to-deliver-gw-scale-data-centre-capacity-at-drax-power-station/" target="_blank" rel="noopener">The Energyst</a>
+              <span class="source-meta">· 3 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="chinas-economic-planner-says-it-will-speed-up-ai" data-sectors="policy,operations" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>China's economic planner says it will speed up AI legislation and set safety standards covering the full AI life cycle, Bloomberg reports</h2>
+            <div class="plain-text">
+              <p>China plans to accelerate laws governing AI from development through deployment, a senior official at the National Development and Reform Commission (NDRC), the country's economic planner, said at a briefing in Beijing on Tuesday, according to Bloomberg News as reported by PYMNTS. The official, Wang Ruomeng, said the government will "accelerate legislation to support core AI enablers", which it identifies as data, computing power and algorithms. The plans also cover regulating key AI application scenarios and setting safety standards and ethical guidelines across the whole AI life cycle. Bloomberg described them as among the most thorough guidelines yet against a loss of control as AI becomes more powerful, and noted that rules stretching from data to computing power would cover companies such as DeepSeek, Moonshot and Alibaba.</p>
+              <p>Officials also intend to review regularly how the rules are applied and revise outdated guidelines, and to monitor AI's effect on employment, with protections for workers who are displaced. The NDRC paired the tighter oversight with continued encouragement of AI development and called for international cooperation on safeguards, with Wang arguing that no single company, industry or country can handle the problem alone. The reports do not name a specific document, draft text or timetable, so the scope and effective dates of the new rules are not yet known.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>China is home to several of the developers whose models compete with US labs, and many companies outside China now use open models from Chinese developers. Rules that reach from training data to computing power could change how those models are built, documented and released, and how foreign companies deploy AI inside China. Linking AI policy to job protections also signals that workforce effects will be part of compliance, not only a public-relations issue.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">3</div>
+                  <div class="indicator-desc">Core AI enablers the legislation will address: data, computing power and algorithms</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">3</div>
+                  <div class="indicator-desc">Chinese AI companies Bloomberg named as covered: DeepSeek, Moonshot and Alibaba</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">3 Nov</div>
+                  <div class="indicator-desc">Date of the NDRC briefing in Beijing</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For general counsel and compliance leads at companies operating in China</div>
+                <p>Over the next quarter, build an inventory of the AI systems you run in China, including the data and computing resources they use, so you can map them against the life-cycle standards as soon as drafts are published.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs using models from Chinese developers</div>
+                <p>This month, document which production systems rely on models from developers such as DeepSeek, Moonshot or Alibaba, and assign someone to track changes to their licensing, documentation and release practices as the rules take shape.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For HR and workforce planning leads in China operations</div>
+                <p>Before automation programs roll out in 2027, prepare retraining and redeployment plans for affected roles, since the NDRC has signaled that protections for displaced workers will be part of AI oversight.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.pymnts.com/news/artificial-intelligence/2026/china-prepares-to-impose-new-safety-standards-for-ai-firms/" target="_blank" rel="noopener">PYMNTS, citing Bloomberg News</a>
+              <span class="source-meta">· 3 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="ai-inference-platform-fal-raises-1-3-billion-led" data-sectors="venture,hardware" data-story-index="4">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">05</span> / 05</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Venture Capital</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>AI inference platform fal raises $1.3 billion led by Bessemer, doubling its valuation to $16 billion as demand for running AI models surges</h2>
+            <div class="plain-text">
+              <p>Fal, a San Francisco company that hosts and runs AI video, image and audio models, has raised $1.3 billion in a Series F round led by Bessemer Venture Partners, with Nvidia, Sound Ventures and T. Rowe Price also taking part, TechCrunch reported on 3 November. Citing Bloomberg, TechCrunch said the round values fal at $16 billion, double the $8 billion valuation it reached in April. Fal announced the new round together with its earlier Series E, which Sequoia led, and said the two raised $1.65 billion in total.</p>
+              <p>The raise is tied to fast-growing demand for inference – the work of running trained models to produce outputs – particularly from customers using open-source models. Bloomberg reported that fal's annualized revenue passed $800 million earlier this year. Competitors Baseten, Fireworks AI and Modal are also growing quickly and raising large rounds, but TechCrunch, citing several people familiar with the companies' finances, reports that their gross margins remain thin because buying or leasing compute is expensive. Fal was co-founded in 2021 by Burkay Gur and Gorkem Yurtseven.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Investors are now putting very large sums behind the companies that run AI models, not only those that build them, which shows where usage, and spending, is growing. For businesses that rely on these platforms for image, video or audio generation, the thin margins reported across the sector are a reminder that prices and capacity can change quickly when compute costs move. Fal's valuation doubled since April, so expectations for its growth are high.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$1.3B</div>
+                  <div class="indicator-desc">Series F round led by Bessemer Venture Partners</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$16B</div>
+                  <div class="indicator-desc">Valuation after the round, per Bloomberg</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$8B</div>
+                  <div class="indicator-desc">Valuation in April, per Bloomberg</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$1.65B</div>
+                  <div class="indicator-desc">Combined Series E and F raise, according to fal</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$800M+</div>
+                  <div class="indicator-desc">Annualized revenue passed earlier this year, per Bloomberg</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For marketing and creative operations heads using generative image and video tools</div>
+                <p>This quarter, find out which inference platforms your creative tools depend on and get capacity commitments and service levels in writing, since demand for compute is outpacing supply across the sector.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs deciding where to run open-source models</div>
+                <p>Over the next 90 days, benchmark at least two specialist inference providers against your hyperscaler on cost per output and latency before committing 2027 workloads.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For venture and corporate development teams</div>
+                <p>Before backing or acquiring inference companies in 2027, stress-test their gross margins against rising compute costs rather than relying on revenue growth alone.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://techcrunch.com/2026/11/03/ai-inference-startup-fal-doubles-its-valuation-to-16b-as-demand-surges/" target="_blank" rel="noopener">TechCrunch</a>
+              <span class="source-meta">· 3 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>The money flowing into AI is still compounding, from chips to enterprise budgets to the platforms that run models: <em>the harder questions are now about power supply, rules and whether buyers can keep their spending under control</em>.</blockquote>
+      <p>Today's five stories trace the AI spending chain from end to end. AMD reported a record $13.4 billion quarter, with data center sales up 97% to $8.5 billion, and expects about $17 billion in the fourth quarter, with Anthropic, Meta, Microsoft, OpenAI and Oracle Cloud Infrastructure already running work on its Helios systems. On the demand side, Menlo Ventures estimates that enterprises spent $176.8 billion on AI by September, up from $33 billion in 2025, with coding tools the largest category and buyers spending 2.5 times their budgets, although the figures are modeled by an investor in some of the companies it measures. In the middle of the chain, inference platform fal raised $1.3 billion at a $16 billion valuation, double its April level, even as TechCrunch reports that margins across the sector remain thin. The constraints are coming into view as well: in the UK, Drax, Brookfield and Radiant want to use a power station with 4 GW of grid access to host AI capacity that Brookfield says could draw more than £20bn of investment, but the first 100 MW phase still needs planning consent and a tenant, while in Beijing the NDRC said China will speed up AI legislation and set safety standards across the full AI life cycle, without yet publishing a text or timetable. For executives, the practical steps are to get a second supplier quote for AI capacity before 2027 contracts are signed, to put monthly caps and alerts on usage-priced AI tools, to keep model contracts flexible, to confirm capacity commitments with inference providers, to map AI systems and models that could fall under China's coming rules, and, for anyone counting on new UK capacity, to treat power and planning milestones as the real timeline.</p>
+      <span class="editorial-date">4 November 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">4 November 2026 · Issue archived nightly</div>
+      <p class="footer-note">AI Pulse summarizes publicly reported news with links to the original sources; all analysis is our own.</p>
+      <p class="footer-byline"><a href="https://ai-pulse.in/about.html">About AI Pulse and how each brief is made</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>
