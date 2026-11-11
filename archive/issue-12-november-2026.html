@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 12 November 2026: Meta's infrastructure chief Santosh Janardhan will hand the job to former AWS executive Dave Brown in early…</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-header > div { min-width: 0; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .nav-meta { gap: 8px; } .nav-date { font-size: 10px; letter-spacing: 0.04em; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    .footer-note { flex-basis: 100%; font-family: 'Carlito', sans-serif; font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-top: 4px; }
+  </style>
+  <link rel="icon" href="https://ai-pulse.in/favicon.ico" sizes="32x32">
+  <link rel="icon" href="https://ai-pulse.in/assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="https://ai-pulse.in/assets/icons/apple-touch-icon.png">
+  <meta property="og:site_name" content="AI Pulse">
+  <meta property="og:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <script src="https://ai-pulse.in/assets/js/chat.js?v=5" defer></script>
+  <!-- AIPULSE-SEO:START (generated by tools/seo_build.py; do not edit by hand) -->
+  <meta name="description" content="Meta hands its AI infrastructure build-out to a former AWS executive, a senator presses Washington over Nvidia chips reaching China, and J. Crew puts Claude to work as an online stylist.">
+  <link rel="canonical" href="https://ai-pulse.in/archive/issue-12-november-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ai-pulse.in/archive/issue-12-november-2026.html">
+  <meta property="og:title" content="AI Pulse – 12 November 2026: Meta&#x27;s infrastructure chief Santosh Janardhan will hand the job to former AWS executive Dave Brown in early…">
+  <meta property="og:description" content="Meta hands its AI infrastructure build-out to a former AWS executive, a senator presses Washington over Nvidia chips reaching China, and J. Crew puts Claude to work as an online stylist.">
+  <meta name="twitter:title" content="AI Pulse – 12 November 2026: Meta&#x27;s infrastructure chief Santosh Janardhan will hand the job to former AWS executive Dave Brown in early…">
+  <meta name="twitter:description" content="Meta hands its AI infrastructure build-out to a former AWS executive, a senator presses Washington over Nvidia chips reaching China, and J. Crew puts Claude to work as an online stylist.">
+  <style>.story{scroll-margin-top:96px}.footer-byline{flex-basis:100%;font-family:'Carlito',sans-serif;font-size:13px;line-height:1.6;color:var(--text-muted);margin-top:-16px}.footer-byline a{color:var(--text-secondary);text-decoration:underline;text-decoration-color:var(--border-strong);text-underline-offset:3px;transition:color .2s ease}.footer-byline a:hover{color:var(--accent)}</style>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"NewsMediaOrganization","@id":"https://ai-pulse.in/#org","name":"AI Pulse","url":"https://ai-pulse.in/","logo":{"@type":"ImageObject","url":"https://ai-pulse.in/assets/icons/icon-512.png","width":512,"height":512},"description":"Daily AI market intelligence: the stories that matter, the numbers behind them, and what to do next.","publishingPrinciples":"https://ai-pulse.in/about.html#how-each-brief-is-made","correctionsPolicy":"https://ai-pulse.in/about.html#corrections"},{"@type":"WebSite","@id":"https://ai-pulse.in/#website","url":"https://ai-pulse.in/","name":"AI Pulse","inLanguage":"en","publisher":{"@id":"https://ai-pulse.in/#org"}},{"@type":"WebPage","@id":"https://ai-pulse.in/archive/issue-12-november-2026.html","url":"https://ai-pulse.in/archive/issue-12-november-2026.html","name":"AI Pulse – 12 November 2026: Meta's infrastructure chief Santosh Janardhan will hand the job to former AWS executive Dave Brown in early…","description":"Meta hands its AI infrastructure build-out to a former AWS executive, a senator presses Washington over Nvidia chips reaching China, and J. Crew puts Claude to work as an online stylist.","inLanguage":"en","isPartOf":{"@id":"https://ai-pulse.in/#website"},"publisher":{"@id":"https://ai-pulse.in/#org"},"datePublished":"2026-11-12","primaryImageOfPage":"https://ai-pulse.in/assets/images/og-image.png","mainEntity":{"@type":"ItemList","numberOfItems":3,"itemListElement":[{"@type":"ListItem","position":1,"url":"https://ai-pulse.in/archive/issue-12-november-2026.html#metas-infrastructure-chief-santosh-janardhan-will-hand","name":"Meta's infrastructure chief Santosh Janardhan will hand the job to former AWS executive Dave Brown in early 2027, The Next Web reports"},{"@type":"ListItem","position":2,"url":"https://ai-pulse.in/archive/issue-12-november-2026.html#senator-michael-bennet-presses-four-us-officials-over","name":"Senator Michael Bennet presses four US officials over Megaspeed, a Singapore firm reported to have bought at least $4.6 billion of Nvidia chips, and asks for answers by 24 November"},{"@type":"ListItem","position":3,"url":"https://ai-pulse.in/archive/issue-12-november-2026.html#j-crew-launches-style-advisor-an-ai-shopping-assistant","name":"J. Crew launches Style Advisor, an AI shopping assistant that runs on several Anthropic Claude models, Fortune reports"}]},"dateModified":"2026-11-11T19:04:44Z"},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-12-november-2026.html#metas-infrastructure-chief-santosh-janardhan-will-hand","url":"https://ai-pulse.in/archive/issue-12-november-2026.html#metas-infrastructure-chief-santosh-janardhan-will-hand","headline":"Meta's infrastructure chief Santosh Janardhan will hand the job to former AWS executive Dave Brown in early 2027, The Next Web reports","description":"Santosh Janardhan, who runs infrastructure at Meta and is co-head of engineering, will step back from leading the infrastructure team in early 2027, according to The Next Web, which cites an internal Meta memo reported by Bloomberg. His successor is Dave Brown…","datePublished":"2026-11-12","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-12-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-12-november-2026.html","dateModified":"2026-11-11T19:04:44Z","articleSection":["Operations & Enterprise","Hardware & Devices"],"isBasedOn":{"@type":"CreativeWork","name":"The Next Web","url":"https://thenextweb.com/news/meta-infrastructure-chief-santosh-janardhan-steps-down"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-12-november-2026.html#senator-michael-bennet-presses-four-us-officials-over","url":"https://ai-pulse.in/archive/issue-12-november-2026.html#senator-michael-bennet-presses-four-us-officials-over","headline":"Senator Michael Bennet presses four US officials over Megaspeed, a Singapore firm reported to have bought at least $4.6 billion of Nvidia chips, and asks for answers by 24 November","description":"US Senator Michael Bennet of Colorado, a member of the Senate Intelligence Committee, has written to Commerce Secretary Howard Lutnick, Attorney General Todd Blanche, Secretary of State Marco Rubio and Director of National Intelligence Jay Clayton about Megaspeed International…","datePublished":"2026-11-12","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-12-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-12-november-2026.html","dateModified":"2026-11-11T19:04:44Z","articleSection":["Policy & Regulation","Defense & National Security"],"isBasedOn":{"@type":"CreativeWork","name":"Office of US Senator Michael Bennet","url":"https://www.bennet.senate.gov/2026/11/11/bennet-presses-trump-administration-on-failure-to-stop-megaspeeds-apparent-ai-tech-diversion-to-china/"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-12-november-2026.html#j-crew-launches-style-advisor-an-ai-shopping-assistant","url":"https://ai-pulse.in/archive/issue-12-november-2026.html#j-crew-launches-style-advisor-an-ai-shopping-assistant","headline":"J. Crew launches Style Advisor, an AI shopping assistant that runs on several Anthropic Claude models, Fortune reports","description":"J. Crew announced Style Advisor on 11 November 2026, a shopper-facing AI tool that runs on a group of Anthropic's Claude models, according to Fortune. The tool is built on thousands of outfit pairings from the retailer's photo shoots and on its own styling principles…","datePublished":"2026-11-12","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-12-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-12-november-2026.html","dateModified":"2026-11-11T19:04:44Z","articleSection":["Operations & Enterprise"],"isBasedOn":{"@type":"CreativeWork","name":"Fortune","url":"https://fortune.com/2026/11/11/jcrew-anthropic-ai-style-advisor"}}]}
+  </script>
+  <!-- AIPULSE-SEO:END -->
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+      <div class="nav-meta">
+        <span class="nav-date">12 November 2026</span>
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+          <span>Back to archive</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get key AI stories delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 12 November 2026
+        </div>
+        <h1>Meta hands its AI infrastructure build-out to a former AWS executive, a senator presses Washington over Nvidia chips reaching China, and <em>J. Crew puts Claude to work as an online stylist</em>.</h1>
+        <p class="hero-sub">Developments reported between 8:30 PM IST on 11 November and 12:35 AM IST on 12 November 2026. Three verified stories: the planned handover of Meta's infrastructure team from Santosh Janardhan to former AWS executive Dave Brown in early 2027, reported by The Next Web; Senator Michael Bennet's letter to four US officials about Megaspeed, a Singapore firm reported to have bought at least $4.6 billion of Nvidia chips, published by his office; and J. Crew's launch of Style Advisor, an AI shopping assistant built on Anthropic's Claude models, reported by Fortune. Each is written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on it.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="3" data-count-suffix=" developments">3 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" verticals">4 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="7" data-count-suffix=" minutes">7 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="defense">Defense &amp; National Security</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">3</strong> of 3 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Meta infrastructure handover"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Bennet on Megaspeed chips"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · J. Crew Style Advisor"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" id="metas-infrastructure-chief-santosh-janardhan-will-hand" data-sectors="operations,hardware" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 03</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>Meta's infrastructure chief Santosh Janardhan will hand the job to former AWS executive Dave Brown in early 2027, The Next Web reports</h2>
+            <div class="plain-text">
+              <p>Santosh Janardhan, who runs infrastructure at Meta and is co-head of engineering, will step back from leading the infrastructure team in early 2027, according to The Next Web, which cites an internal Meta memo reported by Bloomberg. His successor is Dave Brown, who joined Meta this year after nearly two decades at Amazon Web Services, where he oversaw computing and machine learning services. Janardhan will stay through the first quarter of 2027 to help with the handover and will then become chief technology officer of Meta Compute. The memo did not say why he is moving.</p>
+              <p>Janardhan joined Facebook in 2009 and helped build its data centers, networks and custom chips, and in January he became a co-lead of Meta Compute with Dina Powell McCormick and Daniel Gross. Mark Zuckerberg wrote in the memo that Janardhan had "built a strong team that can carry this work forward." The Next Web puts the change in the context of Meta's spending: the company expects capital spending of up to $145 billion this year, mostly on AI, has about $825 billion in future commitments, mainly for data centers and cloud computing, and has explored renting out spare compute, including talks to lease $10 billion of compute to Anthropic. This is the second senior Meta departure planned for 2027, after policy chief Joel Kaplan.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Meta is one of the largest buyers of AI chips, power and data center capacity, so a change at the top of its infrastructure team in the middle of this build-out matters to every supplier in that chain. Choosing a long-time AWS compute leader while Meta explores renting out spare capacity is a sign that Meta could act more like a cloud provider over time, which would make it a possible seller of compute as well as a buyer. Suppliers and enterprise buyers should watch whether priorities shift once Brown takes over.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$145B</div>
+                  <div class="indicator-desc">Upper end of Meta's expected capital spending this year, mostly on AI, according to The Next Web</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">~$825B</div>
+                  <div class="indicator-desc">Meta's future commitments, mainly for data centers and cloud computing</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">$10B</div>
+                  <div class="indicator-desc">Compute Meta was in talks to lease to Anthropic, as it explores renting out spare capacity</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Q1 2027</div>
+                  <div class="indicator-desc">Janardhan stays through this quarter to help hand over to Dave Brown</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2009</div>
+                  <div class="indicator-desc">Year Janardhan joined Facebook, where he helped build its data centers, networks and custom chips</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For account leads at data center, power, networking and chip suppliers that sell to Meta</div>
+                <p>Over the next 90 days, confirm your contacts and escalation paths in Meta's infrastructure team, and prepare a short briefing on your roadmap in case contracts are reviewed when Dave Brown takes over in early 2027.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs and cloud procurement leads looking for GPU capacity</div>
+                <p>This quarter, add Meta to the list of possible compute suppliers you monitor, given the reported talks to lease capacity to Anthropic, but do not plan around it until Meta publishes terms.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For equity and credit analysts covering AI infrastructure</div>
+                <p>Before Meta's next quarterly results, track whether the handover comes with any change to its capital spending outlook of up to $145 billion or its roughly $825 billion of commitments.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://thenextweb.com/news/meta-infrastructure-chief-santosh-janardhan-steps-down" target="_blank" rel="noopener">The Next Web</a>
+              <span class="source-meta">· 11 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="senator-michael-bennet-presses-four-us-officials-over" data-sectors="policy,defense" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 03</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Defense &amp; National Security</span>
+            </div>
+            <h2>Senator Michael Bennet presses four US officials over Megaspeed, a Singapore firm reported to have bought at least $4.6 billion of Nvidia chips, and asks for answers by 24 November</h2>
+            <div class="plain-text">
+              <p>US Senator Michael Bennet of Colorado, a member of the Senate Intelligence Committee, has written to Commerce Secretary Howard Lutnick, Attorney General Todd Blanche, Secretary of State Marco Rubio and Director of National Intelligence Jay Clayton about Megaspeed International, a Singapore-based company, his office said on 11 November 2026. Drawing on press reports, the letter describes Megaspeed as a possible channel for restricted US technology, including Nvidia AI chips, to reach China. According to the release, Megaspeed's units in Malaysia and Indonesia have reportedly bought at least $4.6 billion of Nvidia chips since 2023, including Blackwell processors that are not approved for export to China, and Nvidia still listed Megaspeed as a cloud partner as of 29 October 2026.</p>
+              <p>The letter cites New York Times reporting that US intelligence concluded Megaspeed executive Alice Huang was a Chinese intelligence asset, and refers to her reported close relationship with Nvidia CEO Jensen Huang. It also says Megaspeed allegedly obtained chips through Aivres, a US-registered subsidiary of the sanctioned Chinese company Inspur, and may have given Chinese clients remote cloud access to restricted hardware. Bennet wants written replies by 24 November 2026, covering the Justice Department's investigation, any Commerce steps to stop Megaspeed buying Nvidia chips, such as adding it to the Entity List, and efforts to close loopholes that let Chinese companies reach chips and cloud computing through Southeast Asia or through US subsidiaries of China-based firms. The release presents these points as reported allegations.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>The letter adds congressional pressure on two routes that matter to anyone who sells or rents AI hardware: resellers and cloud providers in Southeast Asia, and remote access to restricted chips. If the agencies respond with Entity List additions or new licensing demands, distributors, server makers and GPU rental firms in the region could face fresh screening duties at short notice, and enterprise buyers could see some capacity providers disappear from the market.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">$4.6B+</div>
+                  <div class="indicator-desc">Nvidia chips Megaspeed's Malaysian and Indonesian units reportedly bought since 2023</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">4</div>
+                  <div class="indicator-desc">Officials who received the letter: the Commerce Secretary, Attorney General, Secretary of State and Director of National Intelligence</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">24 Nov</div>
+                  <div class="indicator-desc">Deadline Bennet set for written answers, in 2026</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">29 Oct</div>
+                  <div class="indicator-desc">Date in 2026 on which, the release says, Nvidia still listed Megaspeed as a cloud partner</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For export compliance officers at chip distributors, server makers and cloud providers</div>
+                <p>Within 30 days, re-screen Southeast Asian customers and their parent companies, including subsidiaries of China-headquartered firms, against current Entity List and sanctions data, and document the checks.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs and procurement teams renting GPU capacity in Singapore, Malaysia or Indonesia</div>
+                <p>Before your next renewal, ask each provider to confirm its ownership, end users and remote-access controls in writing, and add an exit clause that applies if the provider is named in an enforcement action.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For government affairs leads at AI hardware and cloud companies</div>
+                <p>Track the agencies' replies after the 24 November deadline and, by the end of the year, prepare a response plan for possible new Entity List listings or licensing requirements covering Southeast Asian buyers.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.bennet.senate.gov/2026/11/11/bennet-presses-trump-administration-on-failure-to-stop-megaspeeds-apparent-ai-tech-diversion-to-china/" target="_blank" rel="noopener">Office of US Senator Michael Bennet</a>
+              <span class="source-meta">· 11 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="j-crew-launches-style-advisor-an-ai-shopping-assistant" data-sectors="operations" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 03</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>J. Crew launches Style Advisor, an AI shopping assistant that runs on several Anthropic Claude models, Fortune reports</h2>
+            <div class="plain-text">
+              <p>J. Crew announced Style Advisor on 11 November 2026, a shopper-facing AI tool that runs on a group of Anthropic's Claude models, according to Fortune. The tool is built on thousands of outfit pairings from the retailer's photo shoots and on its own styling principles, and it asks follow-up questions before it suggests a look. Fortune's example is a customer who wants an outfit for a wedding in Miami that is not too formal. J. Crew CIO Danielle Schmelkin says the goal is to offer online the kind of advice a stylist gives in a store. Style Advisor starts on the desktop website, a mobile app version is expected later, and the company plans to use past purchases to personalize suggestions.</p>
+              <p>The work is split across models. Fortune says Claude Fable 5.1 handles complex judgment, Sonnet 5.5 and Haiku 4.5 handle fast back-and-forth replies, and Opus 5.5 was used to build the prototype. J. Crew also built a back-end monitoring layer to keep track of costs. The idea came from a digital product designer who built a prototype before engineers joined, rather than from a mandate by senior executives. Fortune also cites McKinsey data showing that more than 50% of consumers worldwide have used AI to buy goods in the past three months, 56% use AI chat or search tools, and 27% use shopping assistants that retailers have built.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Retail AI is moving from general chatbots to brand-specific advice grounded in a company's own content, which is harder for rivals or platform agents to copy. J. Crew's setup, with routine replies sent to smaller, faster models, a larger model kept for harder judgment, and cost tracking built in from the start, is a practical template for any company putting AI in front of customers, where the cost of each conversation adds up quickly at scale.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">3</div>
+                  <div class="indicator-desc">Claude models that run Style Advisor: Fable 5.1, Sonnet 5.5 and Haiku 4.5, with Opus 5.5 used for the prototype</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">50%+</div>
+                  <div class="indicator-desc">Consumers worldwide who have used AI to buy goods in the past three months, according to McKinsey data cited by Fortune</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">56%</div>
+                  <div class="indicator-desc">Consumers who use AI chat or search tools, in the same McKinsey data</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">27%</div>
+                  <div class="indicator-desc">Consumers who use AI shopping assistants built by retailers</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For heads of e-commerce and digital at retailers and consumer brands</div>
+                <p>This quarter, list the proprietary content you own, such as styling guides, product photography and fit data, that could ground a shopping assistant, before you choose a model vendor.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs and FinOps leads running customer-facing AI</div>
+                <p>Within 60 days, set up cost tracking for each conversation and test sending simple turns to smaller models, so you know your cost per session before any wider launch.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For marketing and customer experience leaders</div>
+                <p>Within 90 days, measure how many of your own shoppers use AI assistants, compare it with the 27% in McKinsey's data, and decide whether to build your own assistant or rely on platform shopping agents.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://fortune.com/2026/11/11/jcrew-anthropic-ai-style-advisor" target="_blank" rel="noopener">Fortune</a>
+              <span class="source-meta">· 11 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>The AI build-out is now a question of <em>who runs it, who supplies it and who is allowed to buy it</em>.</blockquote>
+      <p>Today's three verified stories cover the people, the supply lines and the customer-facing uses of AI. At Meta, infrastructure chief Santosh Janardhan will hand his team to former AWS executive Dave Brown in early 2027, The Next Web reports, at a time when Meta expects capital spending of up to $145 billion this year and has explored renting out spare compute. In Washington, Senator Michael Bennet asked four senior officials to explain by 24 November what they are doing about Megaspeed, a Singapore firm whose units reportedly bought at least $4.6 billion of Nvidia chips since 2023, adding to pressure for tighter control of chip resellers and remote cloud access in Southeast Asia. And at the point of sale, J. Crew launched Style Advisor on a mix of Claude models, with simple replies routed to smaller models and costs tracked from day one, Fortune reports. For executives, the practical steps are to confirm supplier contacts at large AI buyers going through leadership changes, to re-screen Southeast Asian chip and GPU rental partners before new rules arrive, and to build cost tracking and model routing into any customer-facing AI before it scales.</p>
+      <span class="editorial-date">12 November 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">12 November 2026 · Issue archived nightly</div>
+      <p class="footer-note">AI Pulse summarizes publicly reported news with links to the original sources; all analysis is our own.</p>
+      <p class="footer-byline"><a href="https://ai-pulse.in/about.html">About AI Pulse and how each brief is made</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>
