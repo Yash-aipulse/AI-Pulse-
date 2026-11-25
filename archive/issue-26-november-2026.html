@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pulse – 26 November 2026: Jensen Huang's return to Nvidia intensifies the fight in Washington over China's access to advanced chips</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090A;
+      --bg-soft: #0E1012;
+      --bg-card: #14171A;
+      --bg-elev: #181B1F;
+      --text: #F4F6F7;
+      --text-secondary: #B8BEC3;
+      --text-muted: #7A8189;
+      --text-dim: #4A5159;
+      --accent: #5EEAD4;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --accent-glow: rgba(94, 234, 212, 0.35);
+      --accent-bright: #7DF0DD;
+      --border: #1E2227;
+      --border-strong: #2A2F36;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Carlito', 'Calibri', 'Segoe UI', sans-serif;
+      font-weight: 400; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; overflow-x: hidden;
+      cursor: none;
+    }
+    @media (max-width: 720px) { body { cursor: auto; } }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .cursor-dot, .cursor-trail {
+      position: fixed; pointer-events: none;
+      border-radius: 50%; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-dot.expanded { width: 40px; height: 40px; background: rgba(94,234,212,0.2); box-shadow: 0 0 30px var(--accent-glow); }
+    .cursor-trail { width: 36px; height: 36px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); opacity: 0.6; transition: opacity 0.3s ease; }
+    .cursor-trail.expanded { opacity: 0; }
+    @media (max-width: 720px) { .cursor-dot, .cursor-trail { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .cursor-dot, .cursor-trail { display: none; } body { cursor: auto; } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 1000; transition: width 0.1s linear; box-shadow: 0 0 12px var(--accent-glow); }
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; position: sticky; top: 0; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 100; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s ease; }
+    .brand:hover { color: var(--accent); }
+    .brand-mark { width: 28px; height: 28px; background: var(--accent); position: relative; flex-shrink: 0; transition: transform 0.5s var(--ease-out-expo), box-shadow 0.4s ease; box-shadow: 0 0 0 0 var(--accent-glow); }
+    .brand:hover .brand-mark { transform: rotate(45deg); box-shadow: 0 0 24px var(--accent-glow); }
+    .brand-mark::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 10px; height: 10px; background: var(--bg); border-radius: 50%; }
+    .nav-meta { display: flex; align-items: center; gap: 16px; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .back-link {
+  font-family: 'Carlito', sans-serif; font-weight: 700;
+  font-size: 13px;
+  padding: 9px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.3s var(--ease-out-quart);
+  display: inline-flex; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+  background: transparent;
+}
+.back-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-quart);
+}
+.back-link span, .back-link svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.back-link:hover::before { transform: translateY(0); }
+.back-link svg {
+  width: 12px; height: 12px;
+  transition: transform 0.3s var(--ease-out-quart);
+}
+.back-link:hover svg { transform: translateX(-3px); }
+    .subscribe-btn { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .subscribe-btn::before { background: rgba(94,234,212,0.15) !important; }
+    .subscribe-btn:hover { border-color: var(--accent) !important; color: var(--text) !important; background: var(--accent) !important; box-shadow: 0 0 24px var(--accent-glow) !important; }
+    .subscribe-btn:hover::before { background: var(--accent) !important; }
+    .hero { padding: 100px 0 80px; border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(94,234,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle, rgba(94,234,212,0.15) 0%, transparent 60%); pointer-events: none; transform: translate(-50%,-50%); transition: left 0.8s var(--ease-out-expo), top 0.8s var(--ease-out-expo); left: 30%; top: 50%; filter: blur(20px); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: end; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: slideInLeft 0.8s var(--ease-out-expo) both; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); animation: lineGrow 1s var(--ease-out-expo) 0.2s both; transform-origin: left; box-shadow: 0 0 8px var(--accent-glow); }
+    .live-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 var(--accent-glow); animation: pulse 2s ease-in-out infinite; }
+    .hero h1 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; max-width: 960px; animation: heroReveal 1.2s var(--ease-out-expo) 0.1s both; }
+    .hero h1 em { font-style: italic; color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 720px; line-height: 1.65; animation: heroReveal 1.2s var(--ease-out-expo) 0.3s both; }
+    .hero-stats { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); animation: heroReveal 1.2s var(--ease-out-expo) 0.5s both; box-shadow: 0 0 40px rgba(94,234,212,0.05); }
+    .hero-stat { padding: 22px 28px; border-bottom: 1px solid var(--border); transition: background 0.3s var(--ease-out-quart); }
+    .hero-stat:last-child { border-bottom: none; }
+    .hero-stat:hover { background: var(--bg-elev); }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .hero-stat-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .signup-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+    .signup-overlay.active { display: flex; }
+    .signup-modal { background: var(--bg-card); border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; padding: 40px 32px; max-width: 420px; width: 100%; position: relative; animation: slideUp 0.4s var(--ease-out-expo); box-shadow: 0 -8px 32px rgba(0,0,0,0.6); }
+    @media (max-width: 720px) { .signup-modal { padding: 32px 20px; border-radius: 12px 12px 0 0; } }
+    .signup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; transition: color 0.3s ease; font-weight: 300; }
+    .signup-close:hover { color: var(--accent); }
+    .signup-header { margin-bottom: 28px; }
+    .signup-header h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 10px; letter-spacing: -0.015em; }
+    .signup-header p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+    .signup-form { display: flex; flex-direction: column; gap: 12px; }
+    .signup-form input { padding: 12px 16px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Carlito', sans-serif; font-size: 15px; transition: all 0.3s ease; }
+    .signup-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(94,234,212,0.2); background: var(--bg); }
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-submit { padding: 12px 16px; background: var(--accent); border: 1px solid var(--accent); border-radius: 6px; color: var(--bg); font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+    .signup-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(94,234,212,0.3); }
+    .signup-submit:active { transform: translateY(0); }
+    .signup-legal { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .filter-band { padding: 22px 0; border-bottom: 1px solid var(--border); position: sticky; top: 65px; background: rgba(8,9,10,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); z-index: 90; }
+    .filter-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: 'Carlito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); cursor: none; transition: all 0.3s var(--ease-out-quart); }
+    .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 0 20px var(--accent-glow); }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+    .filter-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+    .filter-count strong { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .story-nav { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 14px; padding: 14px 8px; }
+    .story-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); cursor: none; border: none; padding: 0; transition: all 0.4s var(--ease-out-expo); position: relative; }
+    .story-nav-dot::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%) translateX(8px); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--bg-card); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease-out-quart); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .story-nav-dot:hover { background: var(--accent); transform: scale(1.4); box-shadow: 0 0 12px var(--accent-glow); }
+    .story-nav-dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .story-nav-dot.active { background: var(--accent); width: 24px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow); }
+    .stories { padding: 80px 0 32px; }
+    .story { padding: 64px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+    .story.in-view { opacity: 1; transform: translateY(0); }
+    .story.filter-hidden { opacity: 0; transform: scale(0.96) translateY(20px); pointer-events: none; max-height: 0; overflow: hidden; padding: 0; border: none; transition: all 0.5s var(--ease-out-expo); }
+    .story-header { display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 32px; align-items: start; }
+    .story-header > div { min-width: 0; }
+    .story-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; padding-top: 12px; font-weight: 500; position: sticky; top: 140px; }
+    .story-num .num-current { color: var(--accent); }
+    .story-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid currentColor; font-weight: 500; transition: all 0.3s ease; color: var(--text-muted); }
+    .tag:hover { transform: translateY(-2px); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .story h2 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.18; letter-spacing: -0.015em; color: var(--text); margin-bottom: 28px; max-width: 940px; transition: color 0.3s ease; }
+    .story:hover h2 { color: var(--accent-bright); }
+    .plain-text { max-width: 880px; margin-bottom: 28px; }
+    .plain-text p { font-size: 17px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+    .plain-text p:last-child { margin-bottom: 0; }
+    .why-matters { max-width: 880px; padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); margin-bottom: 44px; font-size: 15px; line-height: 1.7; color: var(--text); transition: all 0.4s var(--ease-out-quart); position: relative; overflow: hidden; }
+    .why-matters::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, var(--accent-soft) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.8s var(--ease-out-quart); pointer-events: none; }
+    .why-matters:hover { transform: translateX(2px); border-color: var(--accent); box-shadow: 0 0 24px rgba(94,234,212,0.08); }
+    .why-matters:hover::after { transform: translateX(100%); }
+    .why-matters strong { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; display: inline-block; margin-right: 10px; vertical-align: 2px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); max-width: 920px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent-glow); }
+    .indicators-block { margin-bottom: 44px; }
+    .indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 920px; perspective: 1200px; }
+    .indicator { background: var(--bg-card); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; cursor: none; }
+    .indicator::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-soft) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .indicator::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.6s var(--ease-out-expo); box-shadow: 0 0 8px var(--accent-glow); }
+    .indicator:hover { border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(94,234,212,0.1); }
+    .indicator:hover::before { opacity: 1; }
+    .indicator:hover::after { width: 100%; }
+    .indicator-value { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 30px; color: var(--text); letter-spacing: -0.025em; line-height: 1.1; font-variant-numeric: tabular-nums; transform: translateZ(20px); transition: color 0.3s ease; }
+    .indicator:hover .indicator-value { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+    .indicator-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; }
+    .indicator-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); transform: translateZ(10px); }
+    .indicator:hover .indicator-desc { color: var(--text-secondary); }
+    .impact-block { margin-bottom: 44px; }
+    .impact-card { max-width: 920px; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--text-dim); margin-bottom: 12px; transition: all 0.4s var(--ease-out-quart); }
+    .impact-card:hover { transform: translateX(6px); border-color: var(--border-strong); border-left-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .impact-audience { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+    .impact-audience::before { content: '→'; font-size: 13px; transition: transform 0.3s var(--ease-out-quart); color: var(--accent); }
+    .impact-card:hover .impact-audience::before { transform: translateX(4px); }
+    .impact-card p { font-size: 15px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 10px; }
+    .impact-card p:last-child { margin-bottom: 0; }
+    .source-block { max-width: 920px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .source-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .source-block a { color: var(--text); text-decoration: none; font-size: 14px; position: relative; padding-bottom: 2px; transition: color 0.3s ease; }
+    .source-block a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent); transform-origin: right; transform: scaleX(0.3); transition: transform 0.4s var(--ease-out-quart); box-shadow: 0 0 6px var(--accent-glow); }
+    .source-block a:hover { color: var(--accent); }
+    .source-block a:hover::after { transform-origin: left; transform: scaleX(1); }
+    .source-meta { font-size: 13px; color: var(--text-muted); }
+    .editorial { padding: 120px 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .editorial::before { content: '"'; position: absolute; top: 30px; left: 5%; font-family: 'Carlito', serif; font-style: italic; font-size: 360px; line-height: 1; font-weight: 700; color: var(--accent); opacity: 0.06; pointer-events: none; }
+    .editorial-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+    .editorial-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 40px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+    .editorial-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .editorial blockquote { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.3; color: var(--text); letter-spacing: -0.018em; margin-bottom: 32px; max-width: 880px; font-style: italic; }
+    .editorial blockquote em { color: var(--accent); }
+    .editorial p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 760px; margin-bottom: 18px; }
+    .editorial-date { display: inline-block; margin-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 500; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 100px; }
+    footer { background: var(--bg); color: var(--text-muted); padding: 64px 0 48px; position: relative; overflow: hidden; border-top: 1px solid var(--border); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow: 0 0 12px var(--accent-glow); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand-block { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .footer-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 100px 20px; color: var(--text-muted); display: none; }
+    .empty-state h3 { font-family: 'Carlito', sans-serif; font-weight: 700; font-size: 28px; color: var(--text); margin-bottom: 12px; font-style: italic; }
+    a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: none; }
+    @media (max-width: 720px) { a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot { cursor: pointer; } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 10px transparent; } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 1100px) { .story-nav { display: none; } }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 720px) { .nav-meta { gap: 8px; } .nav-date { font-size: 10px; letter-spacing: 0.04em; } }
+    @media (max-width: 720px) { .container { padding: 0 22px; } .hero { padding: 64px 0 48px; } .filter-band { top: 61px; } .filter-inner { flex-direction: column; align-items: flex-start; gap: 14px; } .story { padding: 44px 0; } .story-header { grid-template-columns: 1fr; gap: 16px; } .story-num { padding-top: 0; position: static; } .impact-card { padding: 20px 22px; } .editorial { padding: 80px 0; } .editorial::before { font-size: 200px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    .footer-note { flex-basis: 100%; font-family: 'Carlito', sans-serif; font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-top: 4px; }
+  </style>
+  <link rel="icon" href="https://ai-pulse.in/favicon.ico" sizes="32x32">
+  <link rel="icon" href="https://ai-pulse.in/assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="https://ai-pulse.in/assets/icons/apple-touch-icon.png">
+  <meta property="og:site_name" content="AI Pulse">
+  <meta property="og:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ai-pulse.in/assets/images/og-image.png">
+  <script src="https://ai-pulse.in/assets/js/chat.js?v=5" defer></script>
+  <!-- AIPULSE-SEO:START (generated by tools/seo_build.py; do not edit by hand) -->
+  <meta name="description" content="Jensen Huang&#x27;s return sharpens Washington&#x27;s fight over China&#x27;s chip access, Amazon and Meta reportedly negotiate over the Muse shopping agent, India says its AI regulation papers are nearly done, and IQM sells a 54-qubit quantum computer to a Seoul quantum-AI data center.">
+  <link rel="canonical" href="https://ai-pulse.in/archive/issue-26-november-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ai-pulse.in/archive/issue-26-november-2026.html">
+  <meta property="og:title" content="AI Pulse – 26 November 2026: Jensen Huang&#x27;s return to Nvidia intensifies the fight in Washington over China&#x27;s access to advanced chips">
+  <meta property="og:description" content="Jensen Huang&#x27;s return sharpens Washington&#x27;s fight over China&#x27;s chip access, Amazon and Meta reportedly negotiate over the Muse shopping agent, India says its AI regulation papers are nearly done, and IQM sells a 54-qubit quantum computer to a Seoul quantum-AI data center.">
+  <meta name="twitter:title" content="AI Pulse – 26 November 2026: Jensen Huang&#x27;s return to Nvidia intensifies the fight in Washington over China&#x27;s access to advanced chips">
+  <meta name="twitter:description" content="Jensen Huang&#x27;s return sharpens Washington&#x27;s fight over China&#x27;s chip access, Amazon and Meta reportedly negotiate over the Muse shopping agent, India says its AI regulation papers are nearly done, and IQM sells a 54-qubit quantum computer to a Seoul quantum-AI data center.">
+  <style>.story{scroll-margin-top:96px}.footer-byline{flex-basis:100%;font-family:'Carlito',sans-serif;font-size:13px;line-height:1.6;color:var(--text-muted);margin-top:-16px}.footer-byline a{color:var(--text-secondary);text-decoration:underline;text-decoration-color:var(--border-strong);text-underline-offset:3px;transition:color .2s ease}.footer-byline a:hover{color:var(--accent)}</style>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"NewsMediaOrganization","@id":"https://ai-pulse.in/#org","name":"AI Pulse","url":"https://ai-pulse.in/","logo":{"@type":"ImageObject","url":"https://ai-pulse.in/assets/icons/icon-512.png","width":512,"height":512},"description":"Daily AI market intelligence: the stories that matter, the numbers behind them, and what to do next.","publishingPrinciples":"https://ai-pulse.in/about.html#how-each-brief-is-made","correctionsPolicy":"https://ai-pulse.in/about.html#corrections"},{"@type":"WebSite","@id":"https://ai-pulse.in/#website","url":"https://ai-pulse.in/","name":"AI Pulse","inLanguage":"en","publisher":{"@id":"https://ai-pulse.in/#org"}},{"@type":"WebPage","@id":"https://ai-pulse.in/archive/issue-26-november-2026.html","url":"https://ai-pulse.in/archive/issue-26-november-2026.html","name":"AI Pulse – 26 November 2026: Jensen Huang's return to Nvidia intensifies the fight in Washington over China's access to advanced chips","description":"Jensen Huang's return sharpens Washington's fight over China's chip access, Amazon and Meta reportedly negotiate over the Muse shopping agent, India says its AI regulation papers are nearly done, and IQM sells a 54-qubit quantum computer to a Seoul quantum-AI data center.","inLanguage":"en","isPartOf":{"@id":"https://ai-pulse.in/#website"},"publisher":{"@id":"https://ai-pulse.in/#org"},"datePublished":"2026-11-26","primaryImageOfPage":"https://ai-pulse.in/assets/images/og-image.png","mainEntity":{"@type":"ItemList","numberOfItems":4,"itemListElement":[{"@type":"ListItem","position":1,"url":"https://ai-pulse.in/archive/issue-26-november-2026.html#jensen-huangs-return-to-nvidia-intensifies-the-fight","name":"Jensen Huang's return to Nvidia intensifies the fight in Washington over China's access to advanced chips, with three bills pending and Democrats taking both chambers on 3 January, Reuters reports"},{"@type":"ListItem","position":2,"url":"https://ai-pulse.in/archive/issue-26-november-2026.html#amazon-and-meta-are-reportedly-in-talks-to-let-metas-muse","name":"Amazon and Meta are reportedly in talks to let Meta's Muse AI shopping agent buy directly from Amazon's store, two months after Amazon blocked it, TechCrunch reports, citing Fortune"},{"@type":"ListItem","position":3,"url":"https://ai-pulse.in/archive/issue-26-november-2026.html#indias-it-secretary-s-krishnan-says-the-governments-ai","name":"India's IT Secretary S Krishnan says the government's AI regulation papers are in their final stages, at the launch of Chariot-1, a home-grown model covering English and 10 Indian languages, ANI reports"},{"@type":"ListItem","position":4,"url":"https://ai-pulse.in/archive/issue-26-november-2026.html#iqm-wins-an-order-worth-eur-8-million-to-eur-10-million","name":"IQM wins an order worth EUR 8 million to EUR 10 million for a 54-qubit quantum computer from QAI, a South Korean quantum-AI data center company, for installation in Seoul by the end of 2027"}]},"dateModified":"2026-11-25T19:01:46Z"},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-26-november-2026.html#jensen-huangs-return-to-nvidia-intensifies-the-fight","url":"https://ai-pulse.in/archive/issue-26-november-2026.html#jensen-huangs-return-to-nvidia-intensifies-the-fight","headline":"Jensen Huang's return to Nvidia intensifies the fight in Washington over China's access to advanced chips, with three bills pending and Democrats taking both chambers on 3 January, Reuters reports","description":"Jensen Huang's reinstatement as Nvidia's chief executive on Monday has sharpened a debate in Washington over how far China should be able to obtain advanced American chips, Reuters reports. Investors cheered the move…","datePublished":"2026-11-26","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-26-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-26-november-2026.html","dateModified":"2026-11-25T19:01:46Z","articleSection":["Policy & Regulation","Hardware & Devices"],"isBasedOn":{"@type":"CreativeWork","name":"Reuters via BNN Bloomberg","url":"https://www.bnnbloomberg.ca/business/artificial-intelligence/2026/11/25/jensen-huangs-return-to-nvidia-fuels-washington-fight-over-chinas-chip-access/"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-26-november-2026.html#amazon-and-meta-are-reportedly-in-talks-to-let-metas-muse","url":"https://ai-pulse.in/archive/issue-26-november-2026.html#amazon-and-meta-are-reportedly-in-talks-to-let-metas-muse","headline":"Amazon and Meta are reportedly in talks to let Meta's Muse AI shopping agent buy directly from Amazon's store, two months after Amazon blocked it, TechCrunch reports, citing Fortune","description":"Amazon may be rethinking its block on Muse, the AI shopping agent built by Meta. TechCrunch, citing a Wednesday report from Fortune that relies on people familiar with the discussions…","datePublished":"2026-11-26","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-26-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-26-november-2026.html","dateModified":"2026-11-25T19:01:46Z","articleSection":["Operations & Enterprise"],"isBasedOn":{"@type":"CreativeWork","name":"TechCrunch","url":"https://techcrunch.com/2026/11/25/amazon-and-meta-reportedly-in-talks-to-lift-blockade-on-ai-agent-muse/"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-26-november-2026.html#indias-it-secretary-s-krishnan-says-the-governments-ai","url":"https://ai-pulse.in/archive/issue-26-november-2026.html#indias-it-secretary-s-krishnan-says-the-governments-ai","headline":"India's IT Secretary S Krishnan says the government's AI regulation papers are in their final stages, at the launch of Chariot-1, a home-grown model covering English and 10 Indian languages, ANI reports","description":"S Krishnan, secretary of India's Ministry of Electronics and Information Technology (MeitY), said on Wednesday that the government's planned AI regulation papers are nearly finished and will be published soon, ANI reports. \"It's in the final stages. We'll bring it out shortly,\" he said…","datePublished":"2026-11-26","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-26-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-26-november-2026.html","dateModified":"2026-11-25T19:01:46Z","articleSection":["Policy & Regulation","Research & Science"],"isBasedOn":{"@type":"CreativeWork","name":"ANI via The Tribune","url":"https://www.tribuneindia.com/news/ai-models/ai-regulation-papers-in-final-stages-to-be-released-shortly-meity-secretary-at-chariot-1-launch"}},{"@type":"NewsArticle","@id":"https://ai-pulse.in/archive/issue-26-november-2026.html#iqm-wins-an-order-worth-eur-8-million-to-eur-10-million","url":"https://ai-pulse.in/archive/issue-26-november-2026.html#iqm-wins-an-order-worth-eur-8-million-to-eur-10-million","headline":"IQM wins an order worth EUR 8 million to EUR 10 million for a 54-qubit quantum computer from QAI, a South Korean quantum-AI data center company, for installation in Seoul by the end of 2027","description":"Finnish quantum computer maker IQM Quantum Computers said on Wednesday that QAI Co., Ltd., a South Korean company that runs quantum-AI data center and cloud infrastructure, has ordered one of its IQM Radiance R3 systems with 54 qubits. The order covers a complete on-premises setup…","datePublished":"2026-11-26","inLanguage":"en","image":["https://ai-pulse.in/assets/images/og-image.png"],"author":{"@id":"https://ai-pulse.in/#org"},"publisher":{"@id":"https://ai-pulse.in/#org"},"isPartOf":{"@id":"https://ai-pulse.in/archive/issue-26-november-2026.html"},"mainEntityOfPage":"https://ai-pulse.in/archive/issue-26-november-2026.html","dateModified":"2026-11-25T19:01:46Z","articleSection":["Hardware & Devices","Research & Science"],"isBasedOn":{"@type":"CreativeWork","name":"IQM Quantum Computers via GlobeNewswire","url":"https://www.globenewswire.com/news-release/2026/11/25/3410386/0/en/inside-information-iqm-quantum-computers-plc-has-received-a-new-order-for-an-iqm-radiance-54-qubit-quantum-computer-from-qai-a-south-korean-quantum-ai-company.html"}}]}
+  </script>
+  <!-- AIPULSE-SEO:END -->
+</head>
+<body>
+
+  <div class="cursor-trail" id="cursorTrail"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-name">AI Pulse</div>
+      </a>
+      <div class="nav-meta">
+        <span class="nav-date">26 November 2026</span>
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+          <span>Back to archive</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-modal">
+      <button class="signup-close" id="closeSignup">&#215;</button>
+      <div class="signup-header">
+        <h2>Subscribe to AI Pulse</h2>
+        <p>Get key AI stories delivered to your inbox.</p>
+      </div>
+      <form action="https://formspree.io/f/mredppvj" method="POST" class="signup-form" id="emailForm">
+        <input type="email" name="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" class="signup-submit">Subscribe</button>
+        <p class="signup-legal">We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Today's brief · 26 November 2026
+        </div>
+        <h1>Jensen Huang's return <em>sharpens Washington's fight over China's chip access</em>, Amazon and Meta reportedly negotiate over the Muse shopping agent, India says its AI regulation papers are nearly done, and IQM sells a 54-qubit quantum computer to a Seoul quantum-AI data center.</h1>
+        <p class="hero-sub">Developments reported between 6:30 PM IST on 25 November and 12:30 AM IST on 26 November 2026. Four verified stories across policy, hardware, enterprise operations and research, each written in plain language with the key numbers, the sectors most affected, and specific recommendations for the people who will need to act on them. Use the sector filter to focus on what matters to you.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Stories in this brief</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" developments">4 developments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Sectors covered</div>
+          <div class="hero-stat-value" data-count-to="4" data-count-suffix=" verticals">4 verticals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Read time</div>
+          <div class="hero-stat-value" data-count-to="9" data-count-suffix=" minutes">9 minutes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-band">
+    <div class="container filter-inner">
+      <div class="filter-group">
+        <span class="filter-label">Filter by sector</span>
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" data-sector-filter="all">All sectors</button>
+          <button class="chip" data-sector-filter="policy">Policy &amp; Regulation</button>
+          <button class="chip" data-sector-filter="hardware">Hardware &amp; Devices</button>
+          <button class="chip" data-sector-filter="operations">Operations &amp; Enterprise</button>
+          <button class="chip" data-sector-filter="research">Research &amp; Science</button>
+        </div>
+      </div>
+      <div class="filter-count"><strong id="visibleCount">4</strong> of 4 stories visible</div>
+    </div>
+  </div>
+
+  <div class="story-nav" id="storyNav">
+    <button class="story-nav-dot" data-story-target="0" data-label="01 · Chip access fight"></button>
+    <button class="story-nav-dot" data-story-target="1" data-label="02 · Amazon–Meta Muse talks"></button>
+    <button class="story-nav-dot" data-story-target="2" data-label="03 · India AI rules near"></button>
+    <button class="story-nav-dot" data-story-target="3" data-label="04 · IQM quantum order"></button>
+  </div>
+
+  <main class="stories">
+    <div class="container">
+
+      <article class="story" id="jensen-huangs-return-to-nvidia-intensifies-the-fight" data-sectors="policy,hardware" data-story-index="0">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">01</span> / 04</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Hardware &amp; Devices</span>
+            </div>
+            <h2>Jensen Huang's return to Nvidia intensifies the fight in Washington over China's access to advanced chips, with three bills pending and Democrats taking both chambers on 3 January, Reuters reports</h2>
+            <div class="plain-text">
+              <p>Jensen Huang's reinstatement as Nvidia's chief executive on Monday has sharpened a debate in Washington over how far China should be able to obtain advanced American chips, Reuters reports. Investors cheered the move, but some US officials were uneasy and lawmakers from both parties called for tighter controls. According to Reuters, Nvidia brought Huang back under pressure from President Trump after he had resigned over revelations of extramarital affairs, including one with Alice Huang, a former executive at Singapore-based Megaspeed, a company accused of ties to Chinese intelligence. On Monday the Commerce Department put Megaspeed and several other firms on a trade blacklist that stops US companies from selling them chips and other technology, and Huang is due to be interviewed in Congress next week.</p>
+              <p>Reuters points out that policy had already started moving. Trump approved sales of Nvidia's H200 AI chips to China last December, but in recent weeks US authorities have tightened licensing rules for some chip shipments and for overseas data centers that serve Chinese companies. Three bills now before Congress – the AI Overwatch Act, the Chip Security Act and the Match Act – would narrow China's access to semiconductors further, and Democrats will hold large majorities in both the House and the Senate after 3 January. Senator Tom Cotton, the Republican who chairs the Senate Intelligence Committee, wrote that the Nvidia and Megaspeed affair "is just the tip of the iceberg", and Princeton professor Aaron Friedberg told Reuters he expects the episode to result in tighter rules rather than a change of course.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Whatever happens to Huang personally, the direction of US policy is toward stricter control of who gets advanced AI hardware and where it is hosted. Companies that buy, resell or run Nvidia systems with any link to China, or to markets seen as diversion routes, should treat export compliance as a board-level risk, and a new Congress with Democratic majorities could turn pending bills into law during 2027.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">3 bills</div>
+                  <div class="indicator-desc">AI Overwatch Act, Chip Security Act and Match Act, all aimed at tightening China's chip access</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">3 January</div>
+                  <div class="indicator-desc">Date after which Democrats will control large majorities in both the House and the Senate</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Next week</div>
+                  <div class="indicator-desc">When Jensen Huang is due to be interviewed in Congress</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">H200</div>
+                  <div class="indicator-desc">Nvidia AI chip whose sale to China Trump approved last December</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For export compliance officers at chip distributors and cloud providers</div>
+                <p>Within 30 days, rescreen every customer and intermediary against the updated Entity List, including Megaspeed and the other firms added on Monday, and keep written end-use checks for each advanced GPU shipment.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For government affairs leads at semiconductor and AI companies</div>
+                <p>Before Huang's congressional interview next week, brief leadership on the AI Overwatch Act, the Chip Security Act and the Match Act, and prepare positions for the Congress that takes over after 3 January.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For procurement heads buying AI servers for Asian operations</div>
+                <p>This quarter, ask suppliers to confirm in writing that every GPU system you order carries the licenses it needs and passes through no restricted parties, and build delivery buffers into 2027 plans in case licensing slows shipments.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.bnnbloomberg.ca/business/artificial-intelligence/2026/11/25/jensen-huangs-return-to-nvidia-fuels-washington-fight-over-chinas-chip-access/" target="_blank" rel="noopener">Reuters via BNN Bloomberg</a>
+              <span class="source-meta">· 25 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="amazon-and-meta-are-reportedly-in-talks-to-let-metas-muse" data-sectors="operations" data-story-index="1">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">02</span> / 04</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Operations &amp; Enterprise</span>
+            </div>
+            <h2>Amazon and Meta are reportedly in talks to let Meta's Muse AI shopping agent buy directly from Amazon's store, two months after Amazon blocked it, TechCrunch reports, citing Fortune</h2>
+            <div class="plain-text">
+              <p>Amazon may be rethinking its block on Muse, the AI shopping agent built by Meta. TechCrunch, citing a Wednesday report from Fortune that relies on people familiar with the discussions, says the two companies have held multiple rounds of talks about a deal that would let Muse connect directly to Amazon's store. That would be a sharp turn from two months ago, when Muse users found they could not complete purchases on Amazon and ran into an error at checkout.</p>
+              <p>Two questions are reportedly on the table: how search results would be presented and how advertising would be handled. According to the reports, Amazon's concern is the effect that outside shopping agents could have on its advertising business and on its direct relationship with shoppers; in October, Amazon chief executive Andy Jassy argued that few customers were buying through such agents. Fortune reported that any agreement would need approval from the chief executives of both companies. Neither Meta nor Amazon had answered TechCrunch's requests for comment.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>If the largest US online store opens its checkout to a rival's AI agent, agent-led shopping stops being an experiment and becomes a sales channel. The terms being negotiated – who controls how results are ranked and who keeps the advertising revenue – are likely to become a template for how retailers, brands and platforms split value when software, not people, does the browsing.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">Multiple</div>
+                  <div class="indicator-desc">Rounds of talks between Amazon and Meta, per Fortune as cited by TechCrunch</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2 issues</div>
+                  <div class="indicator-desc">Under negotiation: how search results appear and how advertising is handled</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2 months</div>
+                  <div class="indicator-desc">Time since Muse users first hit checkout errors on Amazon</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Both CEOs</div>
+                  <div class="indicator-desc">Would need to approve any deal, Fortune reported</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For e-commerce and marketplace heads at retailers</div>
+                <p>Over the next quarter, settle your policy on third-party AI agents – block, allow or negotiate terms – and define technical rules for agent checkout, order confirmation and returns.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For brand marketing and retail media leaders</div>
+                <p>Before 2027 budgets close, model how your Amazon advertising returns would change if a share of purchases came through AI agents that bypass sponsored listings, and ask retail media partners how they will price agent traffic.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For customer service and seller operations managers</div>
+                <p>Within 60 days, write procedures for orders placed by AI agents, covering wrong items, disputed purchases and refunds, because errors made by agents are likely to land on the retailer and the seller.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://techcrunch.com/2026/11/25/amazon-and-meta-reportedly-in-talks-to-lift-blockade-on-ai-agent-muse/" target="_blank" rel="noopener">TechCrunch</a>
+              <span class="source-meta">· 25 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="indias-it-secretary-s-krishnan-says-the-governments-ai" data-sectors="policy,research" data-story-index="2">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">03</span> / 04</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Policy &amp; Regulation</span>
+              <span class="tag">Research &amp; Science</span>
+            </div>
+            <h2>India's IT Secretary S Krishnan says the government's AI regulation papers are in their final stages, at the launch of Chariot-1, a home-grown model covering English and 10 Indian languages, ANI reports</h2>
+            <div class="plain-text">
+              <p>S Krishnan, secretary of India's Ministry of Electronics and Information Technology (MeitY), said on Wednesday that the government's planned AI regulation papers are nearly finished and will be published soon, ANI reports. "It's in the final stages. We'll bring it out shortly," he said, without giving a date or details of what the papers will contain.</p>
+              <p>Krishnan was speaking at the launch of the Chariot-1 foundation models, which ANI says were built from scratch in India by Chariot Artificial Intelligence Pvt Ltd, one of the first four teams picked under the IndiaAI Mission to develop sovereign foundation models. The models work in English and 10 Indian languages. Co-founder Parth Sarthi said they bring text generation, text-to-speech and speech recognition together in a single architecture, and that the IndiaAI Mission helped the team get access to GPUs and infrastructure. ANI reports that the model achieved over 97% verbalisation accuracy on the Async Text-to-Speech Pronunciation Benchmark, and Krishnan said the launch vindicated the mission's faith in young Indian talent.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>India is close to setting out how it intends to govern AI, while funding domestic models in parallel. Companies that build or deploy AI in India should expect formal guidance soon, and should note that the government is backing multilingual, voice-capable models that could become credible alternatives to foreign providers for customer-facing services.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">Final stages</div>
+                  <div class="indicator-desc">Status of MeitY's AI regulation papers, with release promised shortly and no date given</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">10</div>
+                  <div class="indicator-desc">Indian languages supported by Chariot-1, in addition to English</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">4</div>
+                  <div class="indicator-desc">Chariot was among the first four teams selected under the IndiaAI Mission to build sovereign foundation models</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">Over 97%</div>
+                  <div class="indicator-desc">Verbalisation accuracy on the Async Text-to-Speech Pronunciation Benchmark, as reported by ANI</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For compliance and legal heads at companies running AI in India</div>
+                <p>Within 30 days, name an owner to review MeitY's AI regulation papers the day they appear, and build an inventory of your AI systems in India so they can be mapped against the guidance quickly.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For customer experience leaders at Indian banks, insurers and telecoms</div>
+                <p>This quarter, pilot voice-based service in at least two Indian languages on a domestically built model, and compare pronunciation accuracy and cost with your current provider.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For CIOs and AI platform owners at Indian enterprises</div>
+                <p>Within 90 days, add models built under the IndiaAI Mission to your evaluation list, testing them on the languages and regions your business actually serves.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.tribuneindia.com/news/ai-models/ai-regulation-papers-in-final-stages-to-be-released-shortly-meity-secretary-at-chariot-1-launch" target="_blank" rel="noopener">ANI via The Tribune</a>
+              <span class="source-meta">· 25 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story" id="iqm-wins-an-order-worth-eur-8-million-to-eur-10-million" data-sectors="hardware,research" data-story-index="3">
+        <div class="story-header">
+          <div class="story-num"><span class="num-current">04</span> / 04</div>
+          <div>
+            <div class="story-meta">
+              <span class="tag">Hardware &amp; Devices</span>
+              <span class="tag">Research &amp; Science</span>
+            </div>
+            <h2>IQM wins an order worth EUR 8 million to EUR 10 million for a 54-qubit quantum computer from QAI, a South Korean quantum-AI data center company, for installation in Seoul by the end of 2027</h2>
+            <div class="plain-text">
+              <p>Finnish quantum computer maker IQM Quantum Computers said on Wednesday that QAI Co., Ltd., a South Korean company that runs quantum-AI data center and cloud infrastructure, has ordered one of its IQM Radiance R3 systems with 54 qubits. The order covers a complete on-premises setup, meaning the machine itself plus associated services, to be delivered and installed at QAI's data center in Seoul by the end of 2027.</p>
+              <p>IQM said the total order value is between EUR 8 million and EUR 10 million and that it expects to recognize the revenue in 2027. The company, founded in 2018, is headquartered in Finland with major operations in Munich and employs over 450 people. It describes itself as the first publicly listed European quantum company on the Nasdaq Stock Market, and it disclosed the order as inside information. The release did not name individual customers that QAI plans to serve.</p>
+            </div>
+            <div class="why-matters">
+              <strong>Why it matters</strong>Data center operators are beginning to buy quantum machines to sit next to their AI computing rather than renting access remotely. The sums are small beside GPU spending, but a 2027 delivery gives an early test of whether combined quantum and AI facilities can attract paying enterprise and research customers.
+            </div>
+            <div class="indicators-block">
+              <div class="section-label">Key numbers</div>
+              <div class="indicators">
+                <div class="indicator">
+                  <div class="indicator-value mono">54 qubits</div>
+                  <div class="indicator-desc">Size of the IQM Radiance R3 system QAI has ordered</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">EUR 8–10M</div>
+                  <div class="indicator-desc">Total order value range disclosed by IQM</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">2027</div>
+                  <div class="indicator-desc">Year IQM expects to recognize the revenue and the system to be installed in Seoul</div>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-value mono">450+</div>
+                  <div class="indicator-desc">IQM employees, per the company</div>
+                </div>
+              </div>
+            </div>
+            <div class="impact-block">
+              <div class="section-label">Sector impact and what to actually do</div>
+              <div class="impact-card">
+                <div class="impact-audience">For CTOs and research heads in pharma, materials and finance</div>
+                <p>Over the next six months, pick one or two simulation or optimization problems that could be trialed on on-premises quantum systems once they arrive in 2027, and set aside a pilot budget.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For data center strategy leads at colocation and cloud providers</div>
+                <p>In this planning cycle, assess the floor space, cooling and power that hosting a quantum system beside AI clusters would need, using QAI's Seoul installation as a reference case.</p>
+              </div>
+              <div class="impact-card">
+                <div class="impact-audience">For analysts covering quantum and AI infrastructure</div>
+                <p>Track whether IQM books this order as revenue in 2027 as planned, as a signal of how quickly quantum orders turn into income compared with GPU cluster deals.</p>
+              </div>
+            </div>
+            <div class="source-block">
+              <span class="source-label">Source</span>
+              <a href="https://www.globenewswire.com/news-release/2026/11/25/3410386/0/en/inside-information-iqm-quantum-computers-plc-has-received-a-new-order-for-an-iqm-radiance-54-qubit-quantum-computer-from-qai-a-south-korean-quantum-ai-company.html" target="_blank" rel="noopener">IQM Quantum Computers via GlobeNewswire</a>
+              <span class="source-meta">· 25 November 2026</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <div class="empty-state" id="emptyState">
+        <h3>No stories tagged for this sector today.</h3>
+        <p>Try another sector or return to the full view.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="editorial">
+    <div class="container editorial-inner">
+      <div class="editorial-eyebrow">Editor's note</div>
+      <blockquote>Four stories, one thread: <em>the terms for AI are being set in negotiating rooms as much as in markets.</em></blockquote>
+      <p>Washington is renegotiating who gets American AI hardware: Reuters reports that Jensen Huang's return to Nvidia has strengthened calls from both parties for tighter limits on China's chip access, with three bills pending and Democratic majorities arriving on 3 January. Platforms are renegotiating who gets the customer: TechCrunch, citing Fortune, says Amazon and Meta are discussing terms that would let Meta's Muse agent shop on Amazon, with search presentation and advertising the sticking points. New Delhi is close to setting its own terms, with MeitY Secretary S Krishnan telling ANI that India's AI regulation papers are in their final stages as a home-grown model for English and 10 Indian languages launched. And buyers are placing early bets on what comes after GPUs, as QAI ordered a 54-qubit IQM system worth EUR 8 million to EUR 10 million for its Seoul quantum-AI data center. For executives, the lesson is that access – to chips, to shoppers and to markets – is now being decided by rules and contracts, so compliance, partnership and procurement teams need a seat at the AI planning table.</p>
+
+      <span class="editorial-date">26 November 2026</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand-block">
+        <div class="brand-mark"></div>
+        AI Pulse
+      </div>
+      <div class="footer-date">26 November 2026 · Issue archived nightly</div>
+      <p class="footer-note">AI Pulse summarizes publicly reported news with links to the original sources; all analysis is our own.</p>
+      <p class="footer-byline"><a href="https://ai-pulse.in/about.html">About AI Pulse and how each brief is made</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorTrail = document.getElementById('cursorTrail');
+    let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
+
+    if (window.matchMedia('(min-width: 720px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      });
+      function animateTrail() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        cursorTrail.style.left = trailX + 'px';
+        cursorTrail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+      const interactiveSelectors = 'a, button, .chip, .indicator, .why-matters, .impact-card, .story-nav-dot, .hero-stat';
+      document.querySelectorAll(interactiveSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => { cursorDot.classList.add('expanded'); cursorTrail.classList.add('expanded'); });
+        el.addEventListener('mouseleave', () => { cursorDot.classList.remove('expanded'); cursorTrail.classList.remove('expanded'); });
+      });
+    }
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+
+    const heroGlow = document.getElementById('heroGlow');
+    const hero = document.querySelector('.hero');
+    if (hero && heroGlow && window.matchMedia('(min-width: 720px)').matches) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        heroGlow.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+        heroGlow.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.indicator').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${((y-cy)/cy)*-8}deg) rotateY(${((x-cx)/cx)*8}deg) translateZ(8px)`;
+        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
+        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.story').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.countTo);
+          const prefix = el.dataset.countPrefix || '';
+          const suffix = el.dataset.countSuffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toLocaleString() + suffix;
+          }
+          requestAnimationFrame(tick);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
+
+    const navDots = document.querySelectorAll('.story-nav-dot');
+    const stories = document.querySelectorAll('.story');
+    const storyNavObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = entry.target.dataset.storyIndex;
+          navDots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.story-nav-dot[data-story-target="${idx}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-30% 0px -50% 0px' });
+    stories.forEach(s => storyNavObserver.observe(s));
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = stories[parseInt(dot.dataset.storyTarget)];
+        if (target) window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+      });
+    });
+
+    const chips = document.querySelectorAll('[data-sector-filter]');
+    const emptyState = document.getElementById('emptyState');
+    const visibleCount = document.getElementById('visibleCount');
+    function applyFilter(sector) {
+      let visible = 0;
+      stories.forEach(story => {
+        const sectors = (story.dataset.sectors || '').split(',');
+        const matches = sector === 'all' || sectors.includes(sector);
+        story.classList.toggle('filter-hidden', !matches);
+        if (matches) visible++;
+      });
+      visibleCount.textContent = visible;
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.sectorFilter);
+      });
+    });
+
+    const signupBtn = document.getElementById('signupBtn');
+    const footerSignupBtn = document.getElementById('footerSignupBtn');
+    const signupOverlay = document.getElementById('signupOverlay');
+    const closeSignup = document.getElementById('closeSignup');
+    signupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    footerSignupBtn.addEventListener('click', () => signupOverlay.classList.add('active'));
+    closeSignup.addEventListener('click', () => signupOverlay.classList.remove('active'));
+    signupOverlay.addEventListener('click', (e) => { if (e.target === signupOverlay) signupOverlay.classList.remove('active'); });
+    document.getElementById('emailForm').addEventListener('submit', () => {
+      setTimeout(() => signupOverlay.classList.remove('active'), 1000);
+    });
+  </script>
+</body>
+</html>
